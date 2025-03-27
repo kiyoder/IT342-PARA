@@ -1,4 +1,4 @@
-package com.example.para;
+package com.it342.para;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
