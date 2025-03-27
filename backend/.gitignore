@@ -19,6 +19,10 @@ target/
 *.iml
 *.ipr
 
+.idea/compiler.xml
+.idea/encodings.xml
+.idea/misc.xml
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
