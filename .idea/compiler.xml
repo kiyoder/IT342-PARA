@@ -10,6 +10,9 @@
         <module name="para" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="PARA-web" target="23" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
