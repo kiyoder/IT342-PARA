@@ -6,9 +6,9 @@ import TopSearchBar from "../components/TopSearchBar";
 const Home = () => {
   return (
     <div>
-      <TopSearchBar />
       <MapView />
       <SearchBox />
+      <TopSearchBar />
     </div>
   );
 };

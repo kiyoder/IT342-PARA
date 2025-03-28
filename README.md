@@ -17,8 +17,11 @@ Through advanced GPS technology, cloud-based data synchronization, and an intuit
 
 <h1><b>Links</b></h1>
 <b>Figma</b><br> 
-https://www.figma.com/design/P2lSM8OZz61vgEt0W6xfLQ/PARA?node-id=0-1&t=mIdVZschc0j1x816-1<br>
+&emsp;<i>https://www.figma.com/design/P2lSM8OZz61vgEt0W6xfLQ/PARA?node-id=0-1&t=mIdVZschc0j1x816-1</i><br>
+<b>OneDrive Document Repository</b><br>
+&emsp;<i>https://cebuinstituteoftechnology-my.sharepoint.com/:f:/g/personal/nickcarter_lacanglacang_cit_edu/EvpmZhImu8VNmYrXWA53KQIBjK3qVTvh_47b7q5A_ZR2uQ</i><br>
 
+<br>
 <h1><b>Developers' Profile</b></h1>
 <b>KYONO, Yoshinori L.  </b><br>  
 &emsp;23 years old  <br>  

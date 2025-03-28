@@ -2,87 +2,97 @@
   position: absolute;
   bottom: 5%;
   right: 2%;
-  background: white;
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  width: 400px;
-  text-align: center;
+  background-color: white;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
   z-index: 999;
 }
 
 h2 {
-  font-size: 20px;
   color: #ff4500;
-  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
-/* Input Section */
 .input-container {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  margin-bottom: 20px;
+  position: relative;
 }
 
 .inputs {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   flex: 1;
 }
 
-.input-box {
+.input-row {
   display: flex;
   align-items: center;
-  background: #f3f3f3;
-  padding: 12px;
-  border-radius: 12px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.icon {
+.icon-container {
+  margin-right: 12px;
+  position: relative;
+}
+
+.location-icon {
   color: #ff4500;
-  margin-right: 8px;
+  font-size: 20px;
 }
 
 input {
+  background-color: #f5f5f5;
   border: none;
-  background: transparent;
+  border-radius: 50px;
+  padding: 12px 16px;
   outline: none;
   width: 100%;
   font-size: 14px;
-  color: #000;
 }
 
-/* Swap Button */
 .swap-btn {
-  background: white;
-  border: 3px solid #ff4500;
+  background-color: white;
+  border: 2px solid #ff4500;
   color: #ff4500;
-  padding: 12px;
+
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
 }
 
-/* Search Button */
 .search-btn {
-  background: none;
+  background-color: white;
   border: 2px solid #ff4500;
   color: #ff4500;
-  padding: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 50px;
   font-weight: bold;
-  border-radius: 30px;
-  cursor: pointer;
-  margin-top: 15px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  font-size: 16px;
+  cursor: pointer;
 }
 
 .search-icon {

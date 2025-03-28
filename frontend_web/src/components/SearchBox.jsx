@@ -1,6 +1,6 @@
-import React from "react";
+import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import "../styles/SearchBox.css";
-import { FaSearch, FaMapMarkerAlt, FaExchangeAlt } from "react-icons/fa";
 
 const SearchBox = () => {
   return (
@@ -9,19 +9,23 @@ const SearchBox = () => {
 
       <div className="input-container">
         <div className="inputs">
-          <div className="input-box">
-            <FaMapMarkerAlt className="icon" />
+          <div className="input-row">
+            <div className="icon-container">
+              <FaMapMarkerAlt className="location-icon" />
+            </div>
             <input type="text" placeholder="Current location or choose..." />
           </div>
 
-          <div className="input-box">
-            <FaMapMarkerAlt className="icon" />
+          <div className="input-row">
+            <div className="icon-container">
+              <FaMapMarkerAlt className="location-icon" />
+            </div>
             <input type="text" placeholder="Destination" />
           </div>
         </div>
 
         <button className="swap-btn">
-          <FaExchangeAlt />
+          <FaArrowRightArrowLeft />
         </button>
       </div>
 
