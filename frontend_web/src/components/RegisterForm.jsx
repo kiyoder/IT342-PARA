@@ -1,32 +1,157 @@
-"use client";
-
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 function RegisterForm({ onRegisterSuccess }) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState("");
   const [error, setError] = useState("");
+  const [usernameValid, setUsernameValid] = useState(null);
+  const [emailValid, setEmailValid] = useState(null);
+  const [passwordValid, setPasswordValid] = useState(null);
+  const [confirmPasswordValid, setConfirmPasswordValid] = useState(null);
+  const [showPasswordPopup, setShowPasswordPopup] = useState(false);
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+  const passwordTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    if (username) {
+      checkUsername(username);
+    } else {
+      setUsernameValid(null);
+    }
+  }, [username]);
+
+  useEffect(() => {
+    if (email && validateEmail(email)) {
+      checkEmail(email);
+    } else {
+      setEmailValid(null);
+    }
+  }, [email]);
+
+  useEffect(() => {
+    // Clear the timeout when the component unmounts
+    return () => {
+      if (passwordTimeoutRef.current) {
+        clearTimeout(passwordTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateUsername = (username) => {
+    return username.length > 0;
+  };
+
+  const validatePassword = (password) => {
+    return checkPasswordStrength(password) === "Strong";
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setPasswordStrength(checkPasswordStrength(newPassword));
+    // Re-validate confirm password when password changes
+    setConfirmPasswordValid(
+      newPassword === confirmPassword && confirmPassword !== ""
+    );
+  };
+
+  const handlePasswordFocus = () => {
+    passwordTimeoutRef.current = setTimeout(() => {
+      setShowPasswordPopup(true);
+    }, 500); // Reduced from 4000ms to 500ms for better UX
+  };
+
+  const handlePasswordBlur = () => {
+    setShowPasswordPopup(false);
+    if (passwordTimeoutRef.current) {
+      clearTimeout(passwordTimeoutRef.current);
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const newConfirmPassword = e.target.value;
+    setConfirmPassword(newConfirmPassword);
+    setConfirmPasswordValid(
+      newConfirmPassword === password && newConfirmPassword !== ""
+    );
+  };
+
+  const checkPasswordStrength = (password) => {
+    let strength = "Weak";
+    const regexes = [/[a-z]/, /[A-Z]/, /\d/, /[!,.@#$%^&+=]/];
+    let passed = 0;
+    regexes.forEach((regex) => {
+      if (regex.test(password)) passed++;
+    });
+    if (password.length >= 8 && passed >= 3) strength = "Medium";
+    if (password.length >= 8 && passed === 4) strength = "Strong";
+    setPasswordValid(strength === "Strong");
+    return strength;
+  };
+
+  const getBarColor = (strength, index) => {
+    if (
+      strength === "Strong" ||
+      (strength === "Medium" && index < 2) ||
+      (strength === "Weak" && index < 1)
+    ) {
+      if (strength === "Strong") return "green";
+      if (strength === "Medium") return "orange";
+      if (strength === "Weak") return "red";
+    }
+    return "lightgray";
+  };
+
+  const checkUsername = async (username) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/users/check-username?username=${username}`
+      );
+      setUsernameValid(!response.data.exists);
+    } catch (error) {
+      console.error("Failed to check username:", error);
+      setUsernameValid(false);
+    }
+  };
+
+  const checkEmail = async (email) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/users/check-email?email=${email}`
+      );
+      setEmailValid(!response.data.exists);
+    } catch (error) {
+      console.error("Failed to check email:", error);
+      setEmailValid(false);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate passwords match
-    if (formData.password !== formData.confirmPassword) {
+    if (!validateUsername(username) || !usernameValid) {
+      setError("Invalid or existing username");
+      return;
+    }
+    if (!validateEmail(email) || !emailValid) {
+      setError("Invalid or existing email");
+      return;
+    }
+    if (!validatePassword(password)) {
+      setError("Password must be strong");
+      return;
+    }
+    if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
@@ -35,22 +160,44 @@ function RegisterForm({ onRegisterSuccess }) {
       const response = await axios.post(
         "http://localhost:8080/api/users/register",
         {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
+          username,
+          email,
+          password,
+          name,
         }
       );
-
       console.log("Registration successful:", response.data);
-      onRegisterSuccess(response.data.token);
+      // Use the onRegisterSuccess prop instead of directly navigating
+      if (response.data && response.data.token) {
+        onRegisterSuccess(response.data.token);
+      } else {
+        // If no token is returned, still call onRegisterSuccess with null
+        // This allows the parent component to handle navigation to login
+        onRegisterSuccess(null);
+      }
     } catch (error) {
       console.error("Registration failed:", error);
       setError(error.response ? error.response.data : "Registration failed");
     }
   };
+
+  const renderCriteria = (criteria, isMet) => (
+    <li>
+      {isMet ? (
+        <span className="check-mark">✓</span>
+      ) : (
+        <span className="x-mark">✗</span>
+      )}{" "}
+      {criteria}
+    </li>
+  );
+
+  // Check if password meets specific criteria
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSpecialChar = /[!,.@#$%^&+=]/.test(password);
+  const hasMinLength = password.length >= 8;
 
   return (
     <>
@@ -61,50 +208,129 @@ function RegisterForm({ onRegisterSuccess }) {
       <form onSubmit={handleSubmit} className="register-form">
         <div className="form-group">
           <input
-            id="name"
+            id="username"
             type="text"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Full Name"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
             required
-            className="form-input"
+            className={`form-input ${
+              usernameValid === true
+                ? "valid-input"
+                : usernameValid === false
+                ? "invalid-input"
+                : ""
+            }`}
           />
+          {usernameValid === false && (
+            <div className="validation-message error">
+              Username already exists
+            </div>
+          )}
         </div>
 
         <div className="form-group">
           <input
             id="email"
             type="email"
-            value={formData.email}
-            onChange={handleChange}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             required
-            className="form-input"
+            className={`form-input ${
+              emailValid === true
+                ? "valid-input"
+                : emailValid === false
+                ? "invalid-input"
+                : ""
+            }`}
           />
+          {emailValid === false && (
+            <div className="validation-message error">Email already exists</div>
+          )}
         </div>
 
-        <div className="form-group">
+        <div className="form-group" style={{ position: "relative" }}>
           <input
             id="password"
             type={showPassword ? "text" : "password"}
-            value={formData.password}
-            onChange={handleChange}
+            value={password}
+            onChange={handlePasswordChange}
+            onFocus={handlePasswordFocus}
+            onBlur={handlePasswordBlur}
             placeholder="Password"
             required
             className="form-input"
           />
+
+          {password && (
+            <>
+              <div className="progress-bar">
+                <div
+                  className="progress-segment"
+                  style={{ backgroundColor: getBarColor(passwordStrength, 0) }}
+                ></div>
+                <div
+                  className="progress-segment"
+                  style={{ backgroundColor: getBarColor(passwordStrength, 1) }}
+                ></div>
+                <div
+                  className="progress-segment"
+                  style={{ backgroundColor: getBarColor(passwordStrength, 2) }}
+                ></div>
+              </div>
+              <div className="password-strength-text">
+                <span
+                  style={{
+                    color:
+                      passwordStrength === "Strong"
+                        ? "green"
+                        : passwordStrength === "Medium"
+                        ? "orange"
+                        : "red",
+                  }}
+                >
+                  {passwordStrength}
+                </span>
+              </div>
+            </>
+          )}
+
+          {showPasswordPopup && (
+            <div className="password-popup">
+              <p>Password must contain:</p>
+              <ul>
+                {renderCriteria("At least 8 characters", hasMinLength)}
+                {renderCriteria("One lowercase letter", hasLowerCase)}
+                {renderCriteria("One uppercase letter", hasUpperCase)}
+                {renderCriteria("One number", hasNumber)}
+                {renderCriteria("One special character", hasSpecialChar)}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div className="form-group">
           <input
             id="confirmPassword"
             type={showPassword ? "text" : "password"}
-            value={formData.confirmPassword}
-            onChange={handleChange}
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
             placeholder="Confirm Password"
             required
-            className="form-input"
+            className={`form-input ${
+              confirmPasswordValid === true
+                ? "valid-input"
+                : confirmPasswordValid === false
+                ? "invalid-input"
+                : ""
+            }`}
           />
+          {confirmPasswordValid === false && (
+            <div className="validation-message error">
+              Passwords do not match
+            </div>
+          )}
         </div>
 
         <div className="show-password">
@@ -118,14 +344,23 @@ function RegisterForm({ onRegisterSuccess }) {
           <label htmlFor="showPassword">Show Password</label>
         </div>
 
-        <button type="submit" className="register-button">
+        <button
+          type="submit"
+          className="register-button"
+          disabled={
+            !usernameValid ||
+            !emailValid ||
+            !passwordValid ||
+            !confirmPasswordValid
+          }
+        >
           Create Account
         </button>
       </form>
 
       <div className="account-options">
         <span>Already have an account?</span>
-        <Link to="/" className="login-link">
+        <Link to="/login" className="login-link">
           Sign In
         </Link>
       </div>
