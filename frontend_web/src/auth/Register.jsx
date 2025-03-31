@@ -62,6 +62,8 @@ function Register() {
         const newPassword = e.target.value;
         setPassword(newPassword);
         setPasswordStrength(checkPasswordStrength(newPassword));
+        // Re-validate confirm password when password changes
+        setConfirmPasswordValid(newPassword === confirmPassword && confirmPassword !== '');
     };
 
     const handlePasswordFocus = () => {
