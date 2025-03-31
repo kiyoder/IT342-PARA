@@ -57,7 +57,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> {
                     authorize
-                            .requestMatchers("/api/users/register", "/api/users/login").permitAll()
+                            .requestMatchers("/api/users/register", "/api/users/login","/api/users/check-username", "/api/users/check-email").permitAll()
                             .anyRequest().authenticated();
                     logger.info("Authorization rules configured");
                 })

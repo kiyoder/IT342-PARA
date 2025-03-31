@@ -27,6 +27,7 @@ public class UserService implements UserDetailsService {
             if (user.getRole() == null || user.getRole().isEmpty()) {
                 user.setRole("USER");
             }
+            validatePasswordStrength(user.getPassword());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         } catch (Exception e) {
@@ -39,6 +40,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email);
     }
 
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -47,4 +52,14 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
+
+    private void validatePasswordStrength(String password) {
+        if (password.length() < 8 || !password.matches(".*\\d.*") || !password.matches(".*[a-z].*")
+                || !password.matches(".*[A-Z].*") || !password.matches(".*[@#$%^&+=].*")) {
+            throw new IllegalArgumentException("Password must be at least 8 characters long, contain at least one digit, one lower case letter, one upper case letter, and one special character.");
+        }
+    }
+
+
+
 }
