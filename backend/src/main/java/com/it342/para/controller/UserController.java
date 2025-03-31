@@ -45,10 +45,15 @@ public class UserController {
         try {
             User savedUser = userService.save(user);
             return ResponseEntity.ok(savedUser);
+        } catch (IllegalArgumentException e) {
+            logger.error("Registration failed: {}", e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Registration failed: " + e.getMessage());
         } catch (Exception e) {
             logger.error("Registration failed", e);
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Registration failed: " + e.getMessage());
         }
     }
