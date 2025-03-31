@@ -1,7 +1,7 @@
-import React from "react";
 import MapView from "../components/MapView";
 import SearchBox from "../components/SearchBox";
 import TopSearchBar from "../components/TopSearchBar";
+import ProfileMenu from "../components/ProfileMenu";
 import { LocationProvider } from "../components/LocationContext";
 
 const Home = () => {
@@ -11,6 +11,7 @@ const Home = () => {
       <LocationProvider>
         <TopSearchBar />
         <SearchBox />
+        <ProfileMenu />
       </LocationProvider>
     </div>
   );

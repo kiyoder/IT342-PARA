@@ -11,15 +11,15 @@ function App() {
       <div className="App">
         <Routes>
           <Route
-            path="/"
+            path="/login"
             element={
               <ErrorBoundary>
                 <Login />
               </ErrorBoundary>
             }
           />
-          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
         </Routes>
       </div>
