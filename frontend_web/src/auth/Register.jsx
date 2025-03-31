@@ -15,6 +15,8 @@ function Register() {
     const [emailValid, setEmailValid] = useState(null);
     const [passwordValid, setPasswordValid] = useState(null);
     const [confirmPasswordValid, setConfirmPasswordValid] = useState(null);
+    const [showPasswordPopup, setShowPasswordPopup] = useState(false); // State for password popup
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,6 +52,16 @@ function Register() {
         const newPassword = e.target.value;
         setPassword(newPassword);
         setPasswordStrength(checkPasswordStrength(newPassword));
+    };
+
+    const handlePasswordFocus = () => {
+        setTimeout(() => {
+            setShowPasswordPopup(true);
+        }, 4000);
+    };
+
+    const handlePasswordBlur = () => {
+        setShowPasswordPopup(false);
     };
 
     const handleConfirmPasswordChange = (e) => {
@@ -138,6 +150,12 @@ function Register() {
         }
     };
 
+    const renderCriteria = (criteria, isMet) => (
+        <li>
+            {isMet ? <span className="check-mark">✔</span> : <span className="x-mark">✖</span>} {criteria}
+        </li>
+    );
+
     return (
         <div>
             <h2>Register</h2>
@@ -163,12 +181,14 @@ function Register() {
                     />
                     {emailValid === null ? '' : emailValid ? <span className="check-mark">✔</span> : <span className="x-mark">✖</span>}
                 </div>
-                <div>
+                <div style={{ position: 'relative' }}>
                     <label>Password</label>
                     <input
                         type={showPassword ? "text" : "password"} // Toggle input type
                         value={password}
                         onChange={handlePasswordChange}
+                        onFocus={handlePasswordFocus}
+                        onBlur={handlePasswordBlur}
                         required
                     />
                     {passwordValid === null ? '' : passwordValid ? <span className="check-mark">✔</span> : <span className="x-mark">✖</span>}
@@ -180,6 +200,18 @@ function Register() {
                         />
                         <label>Show Password</label>
                     </div>
+                    {showPasswordPopup && (
+                        <div className="password-popup">
+                            <p>Password must contain:</p>
+                            <ul>
+                                {renderCriteria('At least 8 characters', password.length >= 8)}
+                                {renderCriteria('At least one lowercase letter', /[a-z]/.test(password))}
+                                {renderCriteria('At least one uppercase letter', /[A-Z]/.test(password))}
+                                {renderCriteria('At least one number', /\d/.test(password))}
+                                {renderCriteria('At least one special character (@#$%^&+=)', /[@#$%^&+=]/.test(password))}
+                            </ul>
+                        </div>
+                    )}
                     <div className="progress-bar">
                         <div className="progress-segment" style={{ backgroundColor: getBarColor(passwordStrength, 0) }}></div>
                         <div className="progress-segment" style={{ backgroundColor: getBarColor(passwordStrength, 1) }}></div>

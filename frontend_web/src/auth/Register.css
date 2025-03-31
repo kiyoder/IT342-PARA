@@ -35,3 +35,25 @@
     color: red;
     margin-left: 10px;
 }
+
+.password-popup {
+    position: absolute;
+    background-color: #a39898;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 250px;
+    top: 0; /* Adjust as needed */
+    left: 110%; /* Position to the right of the input */
+}
+
+.password-popup ul {
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+.password-popup p {
+    margin: 0;
+    font-weight: bold;
+}
