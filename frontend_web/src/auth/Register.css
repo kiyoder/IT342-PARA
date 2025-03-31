@@ -25,3 +25,13 @@
     text-align: center;
     font-weight: bold;
 }
+
+.check-mark {
+    color: green;
+    margin-left: 10px;
+}
+
+.x-mark {
+    color: red;
+    margin-left: 10px;
+}
