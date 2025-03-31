@@ -54,8 +54,10 @@ function Register() {
         setPasswordStrength(checkPasswordStrength(newPassword));
     };
 
+    const passwordTimeoutRef = useRef(null);
+
     const handlePasswordFocus = () => {
-        setTimeout(() => {
+        passwordTimeoutRef.current = setTimeout(() => {
             setShowPasswordPopup(true);
         }, 4000);
     };
