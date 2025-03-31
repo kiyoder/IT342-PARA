@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Register.css'; // Import the CSS file for styling
@@ -17,6 +17,7 @@ function Register() {
     const [confirmPasswordValid, setConfirmPasswordValid] = useState(null);
     const [showPasswordPopup, setShowPasswordPopup] = useState(false); // State for password popup
 
+    const passwordTimeoutRef = useRef(null); // Ref for password timeout
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -35,6 +36,15 @@ function Register() {
         }
     }, [email]);
 
+    useEffect(() => {
+        // Clear the timeout when the component unmounts
+        return () => {
+            if (passwordTimeoutRef.current) {
+                clearTimeout(passwordTimeoutRef.current);
+            }
+        };
+    }, []);
+
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
@@ -52,9 +62,9 @@ function Register() {
         const newPassword = e.target.value;
         setPassword(newPassword);
         setPasswordStrength(checkPasswordStrength(newPassword));
+        // Re-validate confirm password when password changes
+        setConfirmPasswordValid(newPassword === confirmPassword && confirmPassword !== '');
     };
-
-    const passwordTimeoutRef = useRef(null);
 
     const handlePasswordFocus = () => {
         passwordTimeoutRef.current = setTimeout(() => {
@@ -64,6 +74,9 @@ function Register() {
 
     const handlePasswordBlur = () => {
         setShowPasswordPopup(false);
+        if (passwordTimeoutRef.current) {
+            clearTimeout(passwordTimeoutRef.current);
+        }
     };
 
     const handleConfirmPasswordChange = (e) => {
