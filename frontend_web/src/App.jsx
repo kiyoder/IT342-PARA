@@ -1,23 +1,26 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Register from "./auth/Register";
-import Login from "./auth/Login";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
-            <Route path="/register" element={
-                <ErrorBoundary>
-                    <Register />
-                </ErrorBoundary>
-            } />
-
+          <Route
+            path="/login"
+            element={
+              <ErrorBoundary>
+                <Login />
+              </ErrorBoundary>
+            }
+          />
+          <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </div>
     </Router>

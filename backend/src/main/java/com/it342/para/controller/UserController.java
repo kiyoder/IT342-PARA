@@ -15,6 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST,
+        RequestMethod.OPTIONS })
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -77,9 +79,7 @@ public class UserController {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
-            );
+                            loginRequest.getPassword()));
 
             logger.info("Authentication successful for: {}", loginRequest.getUsername());
 
@@ -121,4 +121,29 @@ public class UserController {
         boolean exists = userService.findByEmail(email) != null;
         return ResponseEntity.ok(Collections.singletonMap("exists", exists));
     }
+
+    @GetMapping("/fetch-username")
+    public ResponseEntity<?> fetchUsername() {
+        try {
+            // Get the authentication object from the security context
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            // Fetch the username from the authentication object
+            String username = null;
+            if (authentication != null && authentication.isAuthenticated() &&
+                    authentication.getPrincipal() instanceof UserDetails) {
+                username = ((UserDetails) authentication.getPrincipal()).getUsername();
+            }
+
+            if (username != null) {
+                return ResponseEntity.ok(Collections.singletonMap("username", username));
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User not authenticated");
+            }
+        } catch (Exception e) {
+            logger.error("Error fetching username", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching username");
+        }
+    }
+
 }

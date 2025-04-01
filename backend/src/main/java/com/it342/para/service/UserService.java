@@ -55,11 +55,10 @@ public class UserService implements UserDetailsService {
 
     private void validatePasswordStrength(String password) {
         if (password.length() < 8 || !password.matches(".*\\d.*") || !password.matches(".*[a-z].*")
-                || !password.matches(".*[A-Z].*") || !password.matches(".*[@#$%^&+=].*")) {
-            throw new IllegalArgumentException("Password must be at least 8 characters long, contain at least one digit, one lower case letter, one upper case letter, and one special character.");
+                || !password.matches(".*[A-Z].*") || !password.matches(".*[!.,@#$%^&+=].*")) {
+            throw new IllegalArgumentException(
+                    "Password must be at least 8 characters long, contain at least one digit, one lower case letter, one upper case letter, and one special character.");
         }
     }
-
-
 
 }

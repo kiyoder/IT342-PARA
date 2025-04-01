@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 "use client";
 
 import { createContext, useState, useContext, useEffect } from "react";
