@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300;1,400;1,500&display=swap");
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  align-self: center;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 100;
+  margin-top: 5px;
+  width: 35%;
+  border: 2px solid #ff5733;
+}
+
+.search-results ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-results li {
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s;
+  color: black;
+}
+
+.search-results li:hover {
+  background-color: #fff0ee;
+}
+
+.search-results li:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.location-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+}
+
+.location-main-text {
+  color: #ff5733;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: "Poppins", sans-serif;
+}
+
+.location-secondary-text {
+  color: #070100;
+  font-style: italic; /* Italic applied correctly */
+  font-size: 14px;
+  font-family: "Poppins", sans-serif; /* Correct way to reference Poppins */
+}
+
+.location-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff5733;
+}
+
+.loading {
+  padding: 16px;
+  text-align: center;
+  color: #666;
+}
+
+.no-results {
+  padding: 16px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+/* Style for the "use current location" option */
+.use-current-location {
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s;
+  color: black;
+  border-top: 1px solid #f0f0f0;
+}
+
+.use-current-location:hover {
+  background-color: #fff0ee;
+}
+
+.current-location-icon {
+  color: #ff5733;
+}
+
+/* Style for the current location item */
+.current-location-item {
+  background-color: #fff8f7;
+}

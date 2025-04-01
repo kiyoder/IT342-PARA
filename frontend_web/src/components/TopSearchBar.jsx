@@ -3,6 +3,7 @@
 import "../styles/TopSearchBar.css";
 import { Search } from "lucide-react";
 import { useLocation } from "./LocationContext";
+import SearchResults from "./SearchResults";
 
 const TopSearchBar = () => {
   const { searchQuery, setSearchQuery } = useLocation();
@@ -19,6 +20,9 @@ const TopSearchBar = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button className="search-button">&gt;</button>
+
+        {/* Add the search results dropdown */}
+        <SearchResults />
       </div>
     </div>
   );

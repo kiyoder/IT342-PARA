@@ -1,15 +1,18 @@
 "use client";
 
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import "../styles/ProfileMenu.css";
 
 const ProfileMenu = () => {
   const [isRotating, setIsRotating] = useState(false);
+  const [rotationDirection, setRotationDirection] = useState("clockwise");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuClosing, setIsMenuClosing] = useState(false);
   const [user, setUser] = useState({ username: "", profileImage: null });
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
+  const actionIntentRef = useRef(null); // To track whether we're opening or closing
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -22,12 +25,10 @@ const ProfileMenu = () => {
         }
 
         return await axios.get(
-            "http://localhost:8080/api/users/fetch-username",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
+          "http://localhost:8080/api/users/fetch-username",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -36,82 +37,129 @@ const ProfileMenu = () => {
     };
 
     fetchUser()
-        .then(response => {
-          if (response) {
-            setUser({
-              username: response.data.username,
-              profileImage: response.data.profileImage,
-            });
-          }
-        })
-        .catch(err => {
-          console.error("Failed to fetch user:", err);
-        });
+      .then((response) => {
+        if (response) {
+          setUser({
+            username: response.data.username,
+            profileImage: response.data.profileImage,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch user:", err);
+      });
   }, []);
 
   const handleClick = () => {
+    // Set the action intent based on current menu state
+    if (isMenuOpen && !isMenuClosing) {
+      actionIntentRef.current = "close";
+    } else if (!isMenuOpen && !isRotating) {
+      actionIntentRef.current = "open";
+    } else {
+      // If we're in the middle of an animation, don't do anything
+      return;
+    }
+
     setIsRotating(true);
+    setRotationDirection(isMenuOpen ? "counterclockwise" : "clockwise");
+
+    if (isMenuOpen) {
+      // Start closing animation
+      setIsMenuClosing(true);
+    }
   };
 
-  const handleLogout = () => {
-    // Implement logout functionality here
-    console.log("Logging out...");
-    // Clear local storage, cookies, etc.
-    localStorage.removeItem("token");
-    // Redirect to login page
-    window.location.href = "/login";
+  // Start closing the menu with rotation
+  const closeMenuWithRotation = () => {
+    actionIntentRef.current = "close";
+    setRotationDirection("counterclockwise");
+    setIsRotating(true);
+    setIsMenuClosing(true);
   };
 
-  const handleSavedRoutes = () => {
-    // Navigate to saved routes page
-    console.log("Navigating to saved routes...");
-    // Implement navigation logic here
-  };
+  // Handle rotation and menu opening
+  useEffect(() => {
+    let rotationTimer;
+    let menuTimer;
 
-  const handleProfilePage = () => {
-    // Navigate to saved routes page
-    console.log("Navigating to saved routes...");
-    // Implement navigation logic here
-  };
+    if (isRotating) {
+      // For opening: Start showing menu halfway through rotation
+      if (actionIntentRef.current === "open" && !isMenuOpen && !isMenuClosing) {
+        menuTimer = setTimeout(() => {
+          setIsMenuOpen(true);
+        }, 500); // Start showing menu after 500ms (halfway through rotation)
+      }
 
-  // Close menu when clicking outside
+      // Complete the rotation after 1 second
+      rotationTimer = setTimeout(() => {
+        setIsRotating(false);
+      }, 1000);
+    }
+
+    return () => {
+      clearTimeout(rotationTimer);
+      clearTimeout(menuTimer);
+    };
+  }, [isRotating, isMenuOpen, isMenuClosing]);
+
+  // Handle menu closing animation
+  useEffect(() => {
+    let timer;
+    if (isMenuClosing) {
+      timer = setTimeout(() => {
+        setIsMenuOpen(false);
+        setIsMenuClosing(false);
+        // Reset the action intent after closing is complete
+        actionIntentRef.current = null;
+      }, 500); // Match this with the CSS animation duration
+    }
+    return () => clearTimeout(timer);
+  }, [isMenuClosing]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         isMenuOpen &&
+        !isMenuClosing &&
+        !isRotating &&
         menuRef.current &&
         !menuRef.current.contains(event.target) &&
         buttonRef.current &&
         !buttonRef.current.contains(event.target)
       ) {
-        setIsMenuOpen(false);
+        // Close menu with rotation when clicking outside
+        closeMenuWithRotation();
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isMenuOpen]);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMenuOpen, isMenuClosing, isRotating]);
 
-  // Handle rotation animation and menu opening
-  useEffect(() => {
-    let timer;
-    if (isRotating) {
-      timer = setTimeout(() => {
-        setIsRotating(false);
-        setIsMenuOpen(true); // Open menu after rotation completes
-      }, 1000); // Stop rotating after 1 second
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [isRotating]);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
+
+  const handleSavedRoutes = () => {
+    // Navigate to saved routes
+    console.log("Navigating to saved routes...");
+  };
+
+  const handleProfilePage = () => {
+    // Navigate to saved routes
+    console.log("Navigating to saved routes...");
+  };
 
   return (
     <div className="profile-menu-container">
-      {isMenuOpen && (
-        <div className="profile-menu" ref={menuRef}>
+      {(isMenuOpen || isMenuClosing) && (
+        <div
+          className={`profile-menu ${
+            isMenuClosing ? "menu-closing" : "menu-opening"
+          }`}
+          ref={menuRef}
+        >
           <div className="profile-header">
             <div className="profile-avatar">
               {user.profileImage ? (
@@ -127,15 +175,14 @@ const ProfileMenu = () => {
                   fill="#FF3B10"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    opacity="0.4"
-                    d="M31.5 63C48.8968 63 63 48.8971 63 31.5C63 14.103 48.8968 0 31.5 0C14.103 0 0 14.103 0 31.5C0 48.8971 14.103 63 31.5 63Z"
+                  <circle
+                    cx="31.5"
+                    cy="31.5"
+                    r="31.5"
                     fill="#FF3B10"
+                    opacity="0.4"
                   />
-                  <path
-                    d="M31.5 15.5292C24.9795 15.5292 19.6875 20.8212 19.6875 27.3416C19.6875 33.7361 24.696 38.9336 31.3425 39.1226H31.626H31.8465H31.9095C38.2725 38.9021 43.281 33.7361 43.3125 27.3416C43.3125 20.8212 38.0205 15.5292 31.5 15.5292Z"
-                    fill="white"
-                  />
+                  <circle cx="31.5" cy="27.5" r="11.5" fill="white" />
                   <path
                     d="M52.8595 54.6525C47.2525 59.8185 39.7555 63 31.5025 63C23.2495 63 15.7525 59.8185 10.1455 54.6525C10.9015 51.786 12.949 49.1715 15.9415 47.1555C24.541 41.4225 38.527 41.4225 47.0635 47.1555C50.0875 49.1715 52.1035 51.786 52.8595 54.6525Z"
                     fill="white"
@@ -210,9 +257,14 @@ const ProfileMenu = () => {
           </ul>
         </div>
       )}
-
       <button
-        className={`profile-button ${isRotating ? "rotate" : ""}`}
+        className={`profile-button ${
+          isRotating
+            ? rotationDirection === "clockwise"
+              ? "rotate"
+              : "rotate-counter"
+            : ""
+        }`}
         onClick={handleClick}
         aria-label="Profile Menu"
         ref={buttonRef}
