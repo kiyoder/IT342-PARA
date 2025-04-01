@@ -20,7 +20,14 @@ function RegisterForm({ onRegisterSuccess }) {
 
   useEffect(() => {
     if (username) {
-      checkUsername(username);
+      checkUsername(username)
+          .then(response => {
+            setUsernameValid(!response.exists);
+          })
+          .catch(error => {
+            console.error("Failed to check username:", error);
+            setUsernameValid(false);
+          });
     } else {
       setUsernameValid(null);
     }
@@ -28,7 +35,14 @@ function RegisterForm({ onRegisterSuccess }) {
 
   useEffect(() => {
     if (email && validateEmail(email)) {
-      checkEmail(email);
+      checkEmail(email)
+          .then(response => {
+            setEmailValid(!response.exists);
+          })
+          .catch(error => {
+            console.error("Failed to check email:", error);
+            setEmailValid(false);
+          });
     } else {
       setEmailValid(null);
     }
@@ -118,10 +132,10 @@ function RegisterForm({ onRegisterSuccess }) {
       const response = await axios.get(
         `http://localhost:8080/api/users/check-username?username=${username}`
       );
-      setUsernameValid(!response.data.exists);
+      return response.data;
     } catch (error) {
       console.error("Failed to check username:", error);
-      setUsernameValid(false);
+      return { exists: false}
     }
   };
 
@@ -130,10 +144,10 @@ function RegisterForm({ onRegisterSuccess }) {
       const response = await axios.get(
         `http://localhost:8080/api/users/check-email?email=${email}`
       );
-      setEmailValid(!response.data.exists);
+      return response.data;
     } catch (error) {
       console.error("Failed to check email:", error);
-      setEmailValid(false);
+      return { exists: false}
     }
   };
 
