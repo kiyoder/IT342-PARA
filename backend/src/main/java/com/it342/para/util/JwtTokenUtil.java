@@ -18,8 +18,6 @@ public class JwtTokenUtil {
 
     private static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    //final private String secret = "pZW9qYRGDprFsmK8T4qwN1UyhcV8Bm2JEA3Lr9ZQpTg=";
-
     // Use a SecretKey instead of a plain String for the secret key
     final private SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
@@ -46,6 +44,7 @@ public class JwtTokenUtil {
     // Check if the token has expired
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
+        System.out.println("Token expiration date: " + expiration);
         return expiration.before(new Date());
     }
 

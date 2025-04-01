@@ -131,7 +131,7 @@ public class UserController {
         try {
             // Get the authentication object from the security context
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+            logger.debug("Authentication object: {}", authentication);
             // Fetch the username from the authentication object
             String username = null;
             if (authentication != null && authentication.isAuthenticated() &&
