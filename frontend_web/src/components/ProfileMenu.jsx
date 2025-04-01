@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import "../styles/ProfileMenu.css";
 
@@ -14,32 +14,39 @@ const ProfileMenu = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token"); // Retrieve token
+        const token = localStorage.getItem("token");
         if (!token) {
           console.error("No token found, redirecting to login...");
           window.location.href = "/login";
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:8080/api/users/fetch-username",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        return await axios.get(
+            "http://localhost:8080/api/users/fetch-username",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
         );
-
-        setUser({
-          username: response.data.username, // Assuming response contains { username, profileImage }
-          profileImage: response.data.profileImage,
-        });
       } catch (error) {
         console.error("Error fetching user data:", error);
+        throw error;
       }
     };
 
-    fetchUser();
+    fetchUser()
+        .then(response => {
+          if (response) {
+            setUser({
+              username: response.data.username,
+              profileImage: response.data.profileImage,
+            });
+          }
+        })
+        .catch(err => {
+          console.error("Failed to fetch user:", err);
+        });
   }, []);
 
   const handleClick = () => {
