@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import "../styles/SearchResults.css";
 import { useLocation } from "./LocationContext";
 import { fetchPlaces } from "./apis/Nominatim";
-import { MapPin } from "lucide-react"; // Import location icon
+import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
 const SearchResults = ({ accessToken }) => {
   const {
@@ -13,8 +13,8 @@ const SearchResults = ({ accessToken }) => {
     finalFocused,
     updateInitialLocation,
     updateFinalDestination,
-    setHoveredLocation,
     setSelectedLocation,
+    setPinnedLocation,
   } = useLocation();
 
   const [results, setResults] = useState([]);
@@ -22,6 +22,25 @@ const SearchResults = ({ accessToken }) => {
   const [noResults, setNoResults] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [loadingCurrentLocation, setLoadingCurrentLocation] = useState(false);
+  const [userPosition, setUserPosition] = useState(null);
+
+  // Get user's position when component mounts
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserPosition({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error("Error getting user position:", error);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    }
+  }, []);
 
   useEffect(() => {
     if (!searchQuery.trim()) {
@@ -34,14 +53,69 @@ const SearchResults = ({ accessToken }) => {
     setNoResults(false);
 
     const fetchLocations = async () => {
-      // Add "Cebu" to the search query if not already present
-      let enhancedQuery = searchQuery;
-      if (!searchQuery.toLowerCase().includes("cebu")) {
-        enhancedQuery = `${searchQuery}, Cebu, Philippines`;
+      let enhancedQuery = searchQuery.trim().replace(/\.+/g, ""); // Remove excessive dots
+
+      if (!enhancedQuery.toLowerCase().includes("cebu")) {
+        enhancedQuery = `${enhancedQuery}, Cebu, Philippines`;
       }
 
-      const places = await fetchPlaces(enhancedQuery);
-      setResults(places);
+      // Fetch initial set of places
+      const places = await fetchPlaces(enhancedQuery, {
+        lat: userPosition?.latitude,
+        lon: userPosition?.longitude,
+        radius: 5000, // 5km radius
+      });
+
+      // If no results, attempt some alternative queries
+      if (places.length === 0) {
+        const altQueries = [
+          enhancedQuery.replace(/\bst\b/gi, "street"), // Convert "st" to "street"
+          enhancedQuery.replace(/\bave\b/gi, "avenue"), // Convert "ave" to "avenue"
+          enhancedQuery.split(" ").reverse().join(" "), // Reverse order (e.g., "A. Lopez" -> "Lopez A.")
+          enhancedQuery.replace(/\b([a-z])\./gi, "$1"), // Remove dots in abbreviations ("A. Lopez" -> "A Lopez")
+        ];
+
+        for (const altQuery of altQueries) {
+          const altPlaces = await fetchPlaces(altQuery);
+          if (altPlaces.length > 0) {
+            // Optionally, you could also run fuzzy matching here
+            setResults(altPlaces);
+            setLoading(false);
+            return;
+          }
+        }
+      }
+
+      // If user position is available, calculate distance for each place
+      if (userPosition) {
+        places.forEach((place) => {
+          place.distance = calculateDistance(
+            userPosition.latitude,
+            userPosition.longitude,
+            place.latitude,
+            place.longitude
+          );
+        });
+      }
+
+      // Use Fuse.js for fuzzy matching/ranking
+      if (places.length > 0) {
+        const fuseOptions = {
+          keys: ["name", "details.road"],
+          threshold: 0.3, // adjust threshold as needed (lower is stricter)
+        };
+        const fuse = new Fuse(places, fuseOptions);
+        const fuseResults = fuse.search(searchQuery);
+        if (fuseResults.length > 0) {
+          setResults(fuseResults.map((result) => result.item));
+        } else {
+          // fallback to original order if fuzzy search gives no results
+          setResults(places);
+        }
+      } else {
+        setResults([]);
+      }
+
       setNoResults(places.length === 0);
       setLoading(false);
     };
@@ -52,10 +126,38 @@ const SearchResults = ({ accessToken }) => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchQuery, accessToken]);
+  }, [searchQuery, accessToken, userPosition]);
+
+  // Calculate distance between two coordinates in meters
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    // Convert coordinates from degrees to radians
+    const toRad = (value) => (value * Math.PI) / 180;
+
+    const R = 6371e3; // Earth's radius in meters
+    const φ1 = toRad(lat1);
+    const φ2 = toRad(lat2);
+    const Δφ = toRad(lat2 - lat1);
+    const Δλ = toRad(lon2 - lon1);
+
+    const a =
+      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c;
+
+    return distance;
+  };
+
+  // Format distance for display
+  const formatDistance = (meters) => {
+    if (meters < 1000) {
+      return `${Math.round(meters)}m away`;
+    } else {
+      return `${(meters / 1000).toFixed(1)}km away`;
+    }
+  };
 
   const handleSelectLocation = (place) => {
-    // Create a formatted location string
     const locationName = place.name;
 
     if (initialFocused) {
@@ -70,8 +172,8 @@ const SearchResults = ({ accessToken }) => {
       });
     }
 
-    // Set the selected location for the map pin
-    setSelectedLocation({
+    // Update the pinned location
+    setPinnedLocation({
       latitude: place.latitude,
       longitude: place.longitude,
       name: locationName,
@@ -90,6 +192,12 @@ const SearchResults = ({ accessToken }) => {
         (position) => {
           const { latitude, longitude } = position.coords;
 
+          // Update user position state
+          setUserPosition({
+            latitude: latitude,
+            longitude: longitude,
+          });
+
           // Reverse geocode to get address from coordinates
           fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
@@ -99,7 +207,6 @@ const SearchResults = ({ accessToken }) => {
           )
             .then((response) => response.json())
             .then((data) => {
-              // Create a location object similar to search results
               const locationObj = {
                 name: data.display_name,
                 latitude: latitude,
@@ -113,22 +220,19 @@ const SearchResults = ({ accessToken }) => {
                   postcode: data.address?.postcode || "6000",
                   housenumber: data.address?.house_number || "",
                 },
+                distance: 0, // Current location is always 0m away
               };
 
               setCurrentLocation(locationObj);
-
-              // Set the selected location for the map pin
               setSelectedLocation({
                 latitude: latitude,
                 longitude: longitude,
                 name: data.display_name,
               });
-
               setLoadingCurrentLocation(false);
             })
             .catch((error) => {
               console.error("Error getting location name:", error);
-              // Use coordinates as fallback
               const locationObj = {
                 name: `Current Location (${latitude.toFixed(
                   6
@@ -141,11 +245,10 @@ const SearchResults = ({ accessToken }) => {
                   city: "Cebu City",
                   postcode: "6000",
                 },
+                distance: 0,
               };
 
               setCurrentLocation(locationObj);
-
-              // Set the selected location for the map pin
               setSelectedLocation({
                 latitude: latitude,
                 longitude: longitude,
@@ -153,7 +256,6 @@ const SearchResults = ({ accessToken }) => {
                   6
                 )}, ${longitude.toFixed(6)})`,
               });
-
               setLoadingCurrentLocation(false);
             });
         },
@@ -207,24 +309,10 @@ const SearchResults = ({ accessToken }) => {
     }
 
     parts.push(cityPart.join(" "));
-
     // Add province
     parts.push("Cebu");
 
     return parts.filter(Boolean).join(", ");
-  };
-
-  // Handle mouse enter/leave for location hovering
-  const handleLocationHover = (place, isHovering) => {
-    if (isHovering) {
-      setHoveredLocation({
-        latitude: place.latitude,
-        longitude: place.longitude,
-        name: place.name,
-      });
-    } else {
-      setHoveredLocation(null);
-    }
   };
 
   // Only render if we have results, are loading, or have no results but user is searching
@@ -253,8 +341,6 @@ const SearchResults = ({ accessToken }) => {
               <li
                 key="current-location"
                 onClick={() => handleSelectLocation(currentLocation)}
-                onMouseEnter={() => handleLocationHover(currentLocation, true)}
-                onMouseLeave={() => handleLocationHover(currentLocation, false)}
                 className="current-location-item"
               >
                 <div className="location-icon">📍</div>
@@ -270,24 +356,26 @@ const SearchResults = ({ accessToken }) => {
             )}
 
             {/* Show search results */}
-            {results.map((place, index) => (
-              <li
-                key={index}
-                onClick={() => handleSelectLocation(place)}
-                onMouseEnter={() => handleLocationHover(place, true)}
-                onMouseLeave={() => handleLocationHover(place, false)}
-              >
-                <div className="location-icon">📍</div>
-                <div className="location-details">
-                  <div className="location-main-text">
-                    {place.details.road || place.name.split(",")[0]}
+            {results &&
+              results.map((place, index) => (
+                <li key={index} onClick={() => handleSelectLocation(place)}>
+                  <div className="location-icon">📍</div>
+                  <div className="location-details">
+                    <div className="location-main-text">
+                      {place.details.road || place.name.split(",")[0]}
+                      {place.distance !== undefined && (
+                        <span className="distance-text">
+                          {" "}
+                          {formatDistance(place.distance)}
+                        </span>
+                      )}
+                    </div>
+                    <div className="location-secondary-text">
+                      {formatDetailedAddress(place)}
+                    </div>
                   </div>
-                  <div className="location-secondary-text">
-                    {formatDetailedAddress(place)}
-                  </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              ))}
           </ul>
 
           {/* Always show the "use current location" option */}
@@ -296,11 +384,11 @@ const SearchResults = ({ accessToken }) => {
               className="use-current-location"
               onClick={handleUseCurrentLocation}
             >
-              <div className="location-icon">
-                <MapPin size={16} className="current-location-icon" />
-              </div>
               <div className="location-details">
-                <div className="location-secondary-text">
+                <div
+                  className="location-secondary-text"
+                  style={{ paddingLeft: "20px" }}
+                >
                   or use current location
                 </div>
               </div>

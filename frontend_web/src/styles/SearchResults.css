@@ -104,3 +104,11 @@
 .current-location-item {
   background-color: #fff8f7;
 }
+
+/* Style for the distance text */
+.distance-text {
+  font-size: 14px;
+  color: #666;
+  font-weight: normal;
+  margin-left: 5px;
+}

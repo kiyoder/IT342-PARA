@@ -7,8 +7,8 @@ import { LocationProvider } from "../components/LocationContext";
 const Home = () => {
   return (
     <div>
-      <MapView />
       <LocationProvider>
+        <MapView />
         <TopSearchBar />
         <SearchBox />
         <ProfileMenu />
