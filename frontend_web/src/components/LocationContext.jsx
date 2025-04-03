@@ -12,13 +12,19 @@ export function LocationProvider({ children }) {
   const [finalDestination, setFinalDestination] = useState("");
   const [initialFocused, setInitialFocused] = useState(false);
   const [finalFocused, setFinalFocused] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [pinnedLocation, setPinnedLocation] = useState(null);
+
+  // Added state to control confirmation modal visibility
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
   // Store selected location coordinates for mapping
   const [selectedLocations, setSelectedLocations] = useState({
     initial: { lat: null, lon: null },
     final: { lat: null, lon: null },
   });
+
+  // Store locations for map pins
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [pinnedLocation, setPinnedLocation] = useState(null);
 
   // Update search query based on focus and input values
   useEffect(() => {
@@ -27,8 +33,8 @@ export function LocationProvider({ children }) {
     } else if (finalFocused) {
       setSearchQuery(finalDestination);
     } else {
-      // Clear search query when no input is focused
-      setSearchQuery("");
+      // Keep search query when not focused on inputs
+      // This allows TopSearchBar to maintain its own search state
     }
   }, [initialLocation, finalDestination, initialFocused, finalFocused]);
 
@@ -40,12 +46,6 @@ export function LocationProvider({ children }) {
         ...prev,
         initial: { lat: coordinates.latitude, lon: coordinates.longitude },
       }));
-      // Update pinnedLocation if initial is the one being updated
-      setPinnedLocation({
-        latitude: coordinates.latitude,
-        longitude: coordinates.longitude,
-        name: location,
-      });
     }
   };
 
@@ -56,12 +56,6 @@ export function LocationProvider({ children }) {
         ...prev,
         final: { lat: coordinates.latitude, lon: coordinates.longitude },
       }));
-      // Update pinnedLocation if final is the one being updated
-      setPinnedLocation({
-        latitude: coordinates.latitude,
-        longitude: coordinates.longitude,
-        name: destination,
-      });
     }
   };
 
@@ -89,8 +83,8 @@ export function LocationProvider({ children }) {
                 updateFinalDestination(locationName, { latitude, longitude });
               }
 
-              // Also update the pinned location
-              setPinnedLocation({
+              // Set the selected location for the map pin
+              setSelectedLocation({
                 latitude,
                 longitude,
                 name: locationName,
@@ -98,6 +92,7 @@ export function LocationProvider({ children }) {
             })
             .catch((error) => {
               console.error("Error getting location name:", error);
+              // Use coordinates as fallback
               const locationName = `${latitude.toFixed(6)}, ${longitude.toFixed(
                 6
               )}`;
@@ -108,8 +103,8 @@ export function LocationProvider({ children }) {
                 updateFinalDestination(locationName, { latitude, longitude });
               }
 
-              // Also update the pinned location
-              setPinnedLocation({
+              // Set the selected location for the map pin
+              setSelectedLocation({
                 latitude,
                 longitude,
                 name: locationName,
@@ -129,7 +124,7 @@ export function LocationProvider({ children }) {
     }
   };
 
-  // Focus handlers remain unchanged
+  // Focus handlers
   const handleInitialFocus = () => {
     setInitialFocused(true);
     setFinalFocused(false);
@@ -148,7 +143,7 @@ export function LocationProvider({ children }) {
     setFinalFocused(false);
   };
 
-  // Swap locations (if needed)
+  // Swap locations
   const swapLocations = () => {
     const tempLocation = initialLocation;
     const tempCoordinates = selectedLocations.initial;
@@ -179,11 +174,13 @@ export function LocationProvider({ children }) {
         initialFocused,
         finalFocused,
         selectedLocations,
+        setCurrentLocationAsSource,
         selectedLocation,
         setSelectedLocation,
-        setCurrentLocationAsSource,
         pinnedLocation,
         setPinnedLocation,
+        showConfirmationModal,
+        setShowConfirmationModal,
       }}
     >
       {children}
@@ -191,7 +188,7 @@ export function LocationProvider({ children }) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
+// Custom hook to use the location context
 export function useLocation() {
   return useContext(LocationContext);
 }

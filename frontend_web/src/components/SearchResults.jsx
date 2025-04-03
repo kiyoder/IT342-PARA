@@ -6,16 +6,8 @@ import { useLocation } from "./LocationContext";
 import { fetchPlaces } from "./apis/Nominatim";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
-const SearchResults = ({ accessToken }) => {
-  const {
-    searchQuery,
-    initialFocused,
-    finalFocused,
-    updateInitialLocation,
-    updateFinalDestination,
-    setSelectedLocation,
-    setPinnedLocation,
-  } = useLocation();
+const SearchResults = ({ onLocationSelected }) => {
+  const { searchQuery, setSelectedLocation } = useLocation();
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -43,7 +35,8 @@ const SearchResults = ({ accessToken }) => {
   }, []);
 
   useEffect(() => {
-    if (!searchQuery.trim()) {
+    // Add a null check before calling trim()
+    if (!searchQuery || !searchQuery.trim()) {
       setResults([]);
       setNoResults(false);
       return;
@@ -126,7 +119,7 @@ const SearchResults = ({ accessToken }) => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchQuery, accessToken, userPosition]);
+  }, [searchQuery, userPosition]);
 
   // Calculate distance between two coordinates in meters
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -148,40 +141,18 @@ const SearchResults = ({ accessToken }) => {
     return distance;
   };
 
-  // Format distance for display
-  const formatDistance = (meters) => {
-    if (meters < 1000) {
-      return `${Math.round(meters)}m away`;
-    } else {
-      return `${(meters / 1000).toFixed(1)}km away`;
-    }
-  };
-
   const handleSelectLocation = (place) => {
-    const locationName = place.name;
-
-    if (initialFocused) {
-      updateInitialLocation(locationName, {
-        latitude: place.latitude,
-        longitude: place.longitude,
-      });
-    } else if (finalFocused) {
-      updateFinalDestination(locationName, {
-        latitude: place.latitude,
-        longitude: place.longitude,
-      });
-    }
-
-    // Update the pinned location
-    setPinnedLocation({
+    // Set the selected location for the map pin temporarily
+    setSelectedLocation({
       latitude: place.latitude,
       longitude: place.longitude,
-      name: locationName,
+      name: place.name,
     });
 
-    setResults([]);
-    setNoResults(false);
-    setCurrentLocation(null);
+    // Call the parent component's handler to show confirmation
+    if (onLocationSelected) {
+      onLocationSelected(place);
+    }
   };
 
   const handleUseCurrentLocation = () => {
@@ -224,11 +195,12 @@ const SearchResults = ({ accessToken }) => {
               };
 
               setCurrentLocation(locationObj);
-              setSelectedLocation({
-                latitude: latitude,
-                longitude: longitude,
-                name: data.display_name,
-              });
+
+              // Call the parent component's handler to show confirmation
+              if (onLocationSelected) {
+                onLocationSelected(locationObj);
+              }
+
               setLoadingCurrentLocation(false);
             })
             .catch((error) => {
@@ -249,13 +221,12 @@ const SearchResults = ({ accessToken }) => {
               };
 
               setCurrentLocation(locationObj);
-              setSelectedLocation({
-                latitude: latitude,
-                longitude: longitude,
-                name: `Current Location (${latitude.toFixed(
-                  6
-                )}, ${longitude.toFixed(6)})`,
-              });
+
+              // Call the parent component's handler to show confirmation
+              if (onLocationSelected) {
+                onLocationSelected(locationObj);
+              }
+
               setLoadingCurrentLocation(false);
             });
         },
@@ -362,11 +333,13 @@ const SearchResults = ({ accessToken }) => {
                   <div className="location-icon">📍</div>
                   <div className="location-details">
                     <div className="location-main-text">
-                      {place.details.road || place.name.split(",")[0]}
+                      {place.name.split(",")[0]}
                       {place.distance !== undefined && (
                         <span className="distance-text">
                           {" "}
-                          {formatDistance(place.distance)}
+                          {place.distance < 1000
+                            ? `${Math.round(place.distance)}m away`
+                            : `${(place.distance / 1000).toFixed(1)}km away`}
                         </span>
                       )}
                     </div>
@@ -396,7 +369,8 @@ const SearchResults = ({ accessToken }) => {
           )}
 
           {/* Show no results message if needed */}
-          {searchQuery.trim() &&
+          {searchQuery &&
+            searchQuery.trim() &&
             noResults &&
             results.length === 0 &&
             !currentLocation && (
