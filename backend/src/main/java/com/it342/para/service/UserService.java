@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,6 +63,34 @@ public class UserService implements UserDetailsService {
                 || !password.matches(".*[A-Z].*") || !password.matches(".*[!.,@#$%^&+=].*")) {
             throw new IllegalArgumentException(
                     "Password must be at least 8 characters long, contain at least one digit, one lower case letter, one upper case letter, and one special character.");
+        }
+    }
+
+    @Transactional
+    public User processOAuthPostLogin(OAuth2User oAuth2User) {
+        String email = oAuth2User.getAttribute("email");
+        logger.info("Processing OAuth post login for email: {}", email);
+
+        try {
+            User existUser = userRepository.findByEmail(email);
+            if (existUser == null) {
+                logger.info("User not found. Creating a new user for email: {}", email);
+                User newUser = new User(
+                        oAuth2User.getAttribute("name"),
+                        email,
+                        "", // No password for OAuth user
+                        "USER"
+                );
+                User savedUser = userRepository.save(newUser);
+                logger.info("New user created: {}", savedUser);
+                return savedUser;
+            } else {
+                logger.info("User found for email: {}", email);
+                return existUser;
+            }
+        } catch (Exception e) {
+            logger.error("Error processing OAuth post login for email: {}", email, e);
+            throw e;
         }
     }
 

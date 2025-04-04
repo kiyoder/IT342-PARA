@@ -150,4 +150,14 @@ public class UserController {
         }
     }
 
+    @PostMapping("/saveUsername")
+    public String saveUsername(User user) {
+        User existUser = userService.findByEmail(user.getEmail());
+        if (existUser != null) {
+            existUser.setUsername(user.getUsername());
+            userService.save(existUser);
+        }
+        return "redirect:/";
+    }
+
 }

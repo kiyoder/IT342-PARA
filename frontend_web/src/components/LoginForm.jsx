@@ -32,6 +32,10 @@ function LoginForm({ onLoginSuccess }) {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  };
+
   return (
     <>
       <h2 className="form-title">Sign-In</h2>
@@ -91,7 +95,7 @@ function LoginForm({ onLoginSuccess }) {
         <span className="divider-line"></span>
       </div>
 
-      <button type="button" className="google-sign-in">
+      <button type="button" className="google-sign-in" onClick={handleGoogleLogin}>
         <svg
           width="20"
           height="20"

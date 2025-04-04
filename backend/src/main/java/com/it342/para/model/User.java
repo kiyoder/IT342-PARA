@@ -33,6 +33,16 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String role;
 
+    public User() {
+    }
+
+    public User(String username, String email, String password, String role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(role));
