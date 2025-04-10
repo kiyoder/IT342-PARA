@@ -1,128 +1,146 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { useAuth } from "../context/AuthContext"
 
-function LoginForm({ onLoginSuccess }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+export default function LoginForm() {
+  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState(null)
+  const { user, signIn, signInWithGoogle } = useAuth()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/api/users/login",
-        {
-          username: username,
-          password: password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+  // Debug logging
+  useEffect(() => {
+    console.log("LoginForm: Auth state:", { isAuthenticated: !!user })
+  }, [user])
 
-      console.log("Login successful:", response.data);
-      onLoginSuccess(response.data.token);
-    } catch (error) {
-      console.error("Login failed:", error);
-      setError(error.response ? error.response.data : "Login failed");
+  const handleEmailLogin = async (e) => {
+    e.preventDefault()
+    setError(null)
+
+    if (!email || !password) {
+      setError("Please enter both email and password")
+      return
     }
-  };
 
-  const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
-  };
+    try {
+      setLoading(true)
+      console.log("Attempting email login")
+      const { error } = await signIn({ email, password })
+
+      if (error) {
+        throw error
+      }
+
+      console.log("Email login successful")
+    } catch (error) {
+      console.error("Login error:", error)
+      setError(error.message || "Failed to sign in")
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      console.log("Initiating Google login")
+      await signInWithGoogle()
+      // No need to handle navigation here - it will happen automatically
+    } catch (error) {
+      console.error("Google login error:", error)
+      setError(error.message || "Failed to sign in with Google")
+      setLoading(false)
+    }
+  }
 
   return (
-    <>
-      <h2 className="form-title">Sign-In</h2>
+      <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
+        <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold">Login to PARA</h1>
+            <p className="mt-2 text-gray-600">Sign in to your account</p>
+          </div>
 
-      {error && <p className="error-message">{error}</p>}
+          {error && <div className="p-4 text-sm text-red-700 bg-red-100 rounded-lg">{error}</div>}
 
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="form-group">
-          <input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            required
-            className="form-input"
-          />
+          <form onSubmit={handleEmailLogin} className="mt-8 space-y-6">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+
+            <div>
+              <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                {loading ? "Signing in..." : "Sign in"}
+              </button>
+            </div>
+          </form>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 text-gray-500 bg-white">Or continue with</span>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <button
+                  onClick={handleGoogleLogin}
+                  disabled={loading}
+                  className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                  <path
+                      d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814c-1.79-1.677-4.184-2.702-6.735-2.702-5.522 0-10 4.478-10 10s4.478 10 10 10c8.396 0 10.249-7.85 9.426-11.748l-9.426 0.082z"
+                      fill="#4285F4"
+                  />
+                </svg>
+                Sign in with Google
+              </button>
+            </div>
+          </div>
+
+          <div className="text-center mt-4">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{" "}
+              <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+                Sign up
+              </a>
+            </p>
+          </div>
         </div>
-
-        <div className="form-group">
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-            className="form-input"
-          />
-        </div>
-
-        <div className="show-password">
-          <input
-            type="checkbox"
-            id="showPassword"
-            checked={showPassword}
-            onChange={() => setShowPassword(!showPassword)}
-            className="checkbox"
-          />
-          <label htmlFor="showPassword">Show Password</label>
-        </div>
-
-        <button type="submit" className="sign-in-button">
-          Sign-In
-        </button>
-      </form>
-
-      <div className="account-options">
-        <Link to="/register" className="create-account-link">
-          Create Account
-        </Link>
       </div>
-
-      <div className="divider">
-        <span className="divider-line"></span>
-        <span className="divider-text">or</span>
-        <span className="divider-line"></span>
-      </div>
-
-      <button type="button" className="google-sign-in" onClick={handleGoogleLogin}>
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M18.1711 8.36788H17.5V8.33329H10V11.6666H14.6422C13.9272 13.6063 12.1133 15 10 15C7.23859 15 5.00001 12.7614 5.00001 10C5.00001 7.23858 7.23859 5 10 5C11.2558 5 12.4033 5.48797 13.2819 6.27331L15.6069 3.90815C14.0819 2.52197 12.1337 1.66671 10 1.66671C5.39764 1.66671 1.66667 5.39767 1.66667 10C1.66667 14.6024 5.39764 18.3334 10 18.3334C14.6024 18.3334 18.3333 14.6024 18.3333 10C18.3333 9.44117 18.2758 8.89588 18.1711 8.36788Z"
-            fill="#FFC107"
-          />
-          <path
-            d="M2.62744 6.12121L5.36078 8.12954C6.10744 6.29454 7.90078 5 10 5C11.2558 5 12.4033 5.48797 13.2819 6.2731L15.6069 3.90815C14.0819 2.52197 12.1337 1.66671 10 1.66671C6.83911 1.66671 4.12578 3.47815 2.62744 6.12121Z"
-            fill="#FF3D00"
-          />
-          <path
-            d="M10 18.3333C12.0842 18.3333 13.9883 17.5089 15.4975 16.17L12.9559 13.9856C12.0985 14.6348 11.0654 15 10 15C7.89745 15 6.09051 13.6176 5.37051 11.6895L2.70184 13.7951C4.18301 16.4915 6.9409 18.3333 10 18.3333Z"
-            fill="#4CAF50"
-          />
-          <path
-            d="M18.1711 8.36788H17.5V8.33329H10V11.6666H14.6422C14.2941 12.5808 13.7167 13.371 12.9547 13.9867L12.9559 13.9855L15.4975 16.17C15.3142 16.3355 18.3333 14.1666 18.3333 9.99996C18.3333 9.44113 18.2758 8.89584 18.1711 8.36788Z"
-            fill="#1976D2"
-          />
-        </svg>
-      </button>
-    </>
-  );
+  )
 }
-
-export default LoginForm;
