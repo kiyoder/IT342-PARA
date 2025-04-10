@@ -69,10 +69,38 @@
   transform: rotate(-45deg) scale(1.2);
 }
 
-/* User location marker style */
+/* User location marker style - KEEPING FOR BACKWARD COMPATIBILITY */
 .marker-pin.user-location {
   background: #ffd700;
   transform: rotate(-45deg) scale(1.2);
+}
+
+/* New circular user location dot */
+.user-location-dot {
+  width: 16px;
+  height: 16px;
+  background: #ff5733;
+  border: 3px solid white;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 rgba(66, 133, 244, 0.4);
+  animation: pulse-dot 1.5s infinite;
+}
+
+/* Pulsing animation for the user location dot */
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 #ff5733;
+  }
+  70% {
+    box-shadow: 0 0 0 20px #4285f400;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(66, 133, 244, 0);
+  }
 }
 
 /* Pulsing animation for hovered markers */

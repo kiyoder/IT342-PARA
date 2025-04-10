@@ -9,7 +9,7 @@
   width: 100%;
   max-width: 420px;
   margin: 0 auto;
-  z-index: 999;
+  z-index: 1;
 }
 
 h2 {

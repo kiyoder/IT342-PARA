@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "./LocationContext";
+import { useRoute } from "./RouteContext";
 import "../styles/MapView.css";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ConfirmationModal from "./ConfirmationModal";
+import JeepneyRoute from "./JeepneyRoute";
 
 const MapView = () => {
   const mapContainerRef = useRef(null);
@@ -16,6 +18,9 @@ const MapView = () => {
   const userMarkerRef = useRef(null);
   const [userPosition, setUserPosition] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+
+  // Get route information from context
+  const { showJeepneyRoute, routeNumber, relationId } = useRoute();
 
   const {
     selectedLocation,
@@ -85,9 +90,17 @@ const MapView = () => {
     const el = document.createElement("div");
     el.className = "marker-wrapper";
 
+    // Special case for user location marker - make it circular
+    if (className === "user-location") {
+      const userDot = document.createElement("div");
+      userDot.className = "user-location-dot";
+      el.appendChild(userDot);
+      return el;
+    }
+
+    // Regular marker pin for other markers
     const pin = document.createElement("div");
     pin.className = `marker-pin ${className}`;
-
     el.appendChild(pin);
     return el;
   };
@@ -341,6 +354,16 @@ const MapView = () => {
           location={selectedLocation}
           onConfirm={handleConfirm}
           onCancel={handleCancel}
+        />
+      )}
+
+      {mapLoaded && showJeepneyRoute && (
+        <JeepneyRoute
+          map={mapRef}
+          mapLoaded={mapLoaded}
+          routeNumber={routeNumber}
+          relationId={relationId}
+          routeColor="#FF7F00"
         />
       )}
     </div>
