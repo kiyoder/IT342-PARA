@@ -15,40 +15,50 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST,
+        RequestMethod.OPTIONS })
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private UserRepository userRepository;
+    public UserController(UserService userService, UserRepository userRepository,
+                          AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
             User savedUser = userService.save(user);
             return ResponseEntity.ok(savedUser);
+        } catch (IllegalArgumentException e) {
+            logger.error("Registration failed: {}", e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Registration failed: " + e.getMessage());
         } catch (Exception e) {
             logger.error("Registration failed", e);
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Registration failed: " + e.getMessage());
         }
     }
@@ -71,11 +81,11 @@ public class UserController {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
-            );
+                            loginRequest.getPassword()));
 
             logger.info("Authentication successful for: {}", loginRequest.getUsername());
+            logger.debug("Authentication details: {}", authentication);
+
 
             // Generate token
             String token = jwtTokenUtil.generateToken(user);
@@ -103,4 +113,41 @@ public class UserController {
                     .body("An error occurred during login");
         }
     }
+
+    @GetMapping("/check-username")
+    public ResponseEntity<?> checkUsername(@RequestParam String username) {
+        boolean exists = userService.findByUsername(username) != null;
+        return ResponseEntity.ok(Collections.singletonMap("exists", exists));
+    }
+
+    @GetMapping("/check-email")
+    public ResponseEntity<?> checkEmail(@RequestParam String email) {
+        boolean exists = userService.findByEmail(email) != null;
+        return ResponseEntity.ok(Collections.singletonMap("exists", exists));
+    }
+
+    @GetMapping("/fetch-username")
+    public ResponseEntity<?> fetchUsername() {
+        try {
+            // Get the authentication object from the security context
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            logger.debug("Authentication object: {}", authentication);
+            // Fetch the username from the authentication object
+            String username = null;
+            if (authentication != null && authentication.isAuthenticated() &&
+                    authentication.getPrincipal() instanceof UserDetails) {
+                username = ((UserDetails) authentication.getPrincipal()).getUsername();
+            }
+
+            if (username != null) {
+                return ResponseEntity.ok(Collections.singletonMap("username", username));
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User not authenticated");
+            }
+        } catch (Exception e) {
+            logger.error("Error fetching username", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching username");
+        }
+    }
+
 }

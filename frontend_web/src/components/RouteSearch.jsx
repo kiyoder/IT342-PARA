@@ -14,74 +14,24 @@ const RouteSearch = () => {
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [searchType, setSearchType] = useState("number"); // "number" or "id"
 
   // Handle route search submission
-  const handleRouteSearch = async (e) => {
+  const handleRouteSearch = (e) => {
     e.preventDefault();
 
     if (!searchInput.trim()) return;
 
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Fetch relation ID directly from database using our API
-      const response = await fetch(
-        `http://localhost:8080/api/routes/lookup?routeNumber=${encodeURIComponent(
-          searchInput.trim()
-        )}`,
-        {
-          credentials: "include", // only needed if you're using cookies/session auth
-        }
-      );
-
-      // Get the response text first to check if it's HTML or JSON
-      const responseText = await response.text();
-
-      // Check if the response looks like HTML
-      if (
-        responseText.trim().toLowerCase().startsWith("<!doctype") ||
-        responseText.trim().toLowerCase().startsWith("<html")
-      ) {
-        throw new Error(
-          "Received HTML instead of JSON. The API endpoint might not exist or there might be a server error."
-        );
-      }
-
-      // Try to parse the response as JSON
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (jsonError) {
-        throw new Error(
-          `Invalid JSON response: ${responseText.substring(0, 50)}...`
-        );
-      }
-
-      // Check if the response contains an error
-      if (!response.ok) {
-        throw new Error(
-          data.error || `Error ${response.status}: ${response.statusText}`
-        );
-      }
-
-      // Update route context with fetched data
-      setRouteNumber(data.routeNumber);
-      setRelationId(data.relationId);
-      setShowJeepneyRoute(true);
-
-      // Close the search panel after submission
-      setIsSearchOpen(false);
-    } catch (err) {
-      console.error("Error during route search:", err);
-      setError(
-        err.message || "An error occurred while searching for the route"
-      );
-    } finally {
-      setIsLoading(false);
+    if (searchType === "number") {
+      setRouteNumber(searchInput.trim().toUpperCase());
+      // You might want to add a mapping of route numbers to relation IDs
+      // For now, we'll keep the existing relation ID
+    } else {
+      setRelationId(searchInput.trim());
     }
+
+    // Close the search panel after submission
+    setIsSearchOpen(false);
   };
 
   return (
@@ -112,11 +62,53 @@ const RouteSearch = () => {
         >
           <form onSubmit={handleRouteSearch}>
             <div style={{ marginBottom: "10px" }}>
+              <div
+                style={{ display: "flex", gap: "10px", marginBottom: "10px" }}
+              >
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="searchType"
+                    value="number"
+                    checked={searchType === "number"}
+                    onChange={() => setSearchType("number")}
+                  />
+                  Route Number
+                </label>
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="searchType"
+                    value="id"
+                    checked={searchType === "id"}
+                    onChange={() => setSearchType("id")}
+                  />
+                  Relation ID
+                </label>
+              </div>
               <input
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Enter route number (e.g. 12D)"
+                placeholder={
+                  searchType === "number"
+                    ? "Enter route number (e.g. 12D)"
+                    : "Enter relation ID (e.g. 3203006)"
+                }
                 style={{
                   width: "100%",
                   padding: "8px 12px",
@@ -126,17 +118,6 @@ const RouteSearch = () => {
                 }}
               />
             </div>
-            {error && (
-              <div
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  marginBottom: "10px",
-                }}
-              >
-                {error}
-              </div>
-            )}
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <button
                 type="button"
@@ -148,7 +129,6 @@ const RouteSearch = () => {
                   backgroundColor: "#f0f0f0",
                   cursor: "pointer",
                 }}
-                disabled={isLoading}
               >
                 Cancel
               </button>
@@ -162,11 +142,9 @@ const RouteSearch = () => {
                   color: "white",
                   fontWeight: "bold",
                   cursor: "pointer",
-                  opacity: isLoading ? 0.7 : 1,
                 }}
-                disabled={isLoading}
               >
-                {isLoading ? "Searching..." : "Search"}
+                Search
               </button>
             </div>
           </form>

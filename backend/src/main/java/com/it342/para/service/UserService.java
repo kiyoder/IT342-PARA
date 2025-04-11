@@ -2,6 +2,8 @@ package com.it342.para.service;
 
 import com.it342.para.model.User;
 import com.it342.para.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -27,16 +31,21 @@ public class UserService implements UserDetailsService {
             if (user.getRole() == null || user.getRole().isEmpty()) {
                 user.setRole("USER");
             }
+            validatePasswordStrength(user.getPassword());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error saving user", e); // Replace printStackTrace() with logging
             throw e;
         }
     }
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
@@ -47,4 +56,13 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
+
+    private void validatePasswordStrength(String password) {
+        if (password.length() < 8 || !password.matches(".*\\d.*") || !password.matches(".*[a-z].*")
+                || !password.matches(".*[A-Z].*") || !password.matches(".*[!.,@#$%^&+=].*")) {
+            throw new IllegalArgumentException(
+                    "Password must be at least 8 characters long, contain at least one digit, one lower case letter, one upper case letter, and one special character.");
+        }
+    }
+
 }
