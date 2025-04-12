@@ -10,7 +10,7 @@
         <module name="para" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="21">
       <module name="PARA-web" target="23" />
     </bytecodeTargetLevel>
   </component>

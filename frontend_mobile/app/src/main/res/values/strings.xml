@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PARA-mobile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="mapbox_access_token">sk.eyJ1IjoianJsbGVqYW5lIiwiYSI6ImNtOWJvM2J3MTBlNTMycnNjcXNvMm5mY3QifQ.2DkN8pA9A8ZekhJIGwQuFA</string>
 </resources>
