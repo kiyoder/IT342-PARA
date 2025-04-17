@@ -29,10 +29,12 @@ const RouteSearch = () => {
     try {
       // Fetch relation ID directly from database using our API
       const response = await fetch(
-        `/api/routes/lookup?routeNumber=${encodeURIComponent(searchInput)}`,
+        `http://localhost:8080/api/routes/lookup?routeNumber=${encodeURIComponent(
+          searchInput
+        )}`,
         {
           method: "GET",
-          credentials: "include", // ← right here in the client
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
         }
       );

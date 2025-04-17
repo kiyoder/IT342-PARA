@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 "use client";
 
 import { createContext, useState, useContext, useEffect } from "react";
@@ -32,10 +33,8 @@ export function LocationProvider({ children }) {
       setSearchQuery(initialLocation);
     } else if (finalFocused) {
       setSearchQuery(finalDestination);
-    } else {
-      // Keep search query when not focused on inputs
-      // This allows TopSearchBar to maintain its own search state
     }
+    // Don't reset search query when neither is focused to maintain the current search
   }, [initialLocation, finalDestination, initialFocused, finalFocused]);
 
   // Update locations
@@ -77,10 +76,14 @@ export function LocationProvider({ children }) {
             .then((data) => {
               const locationName = data.display_name;
 
-              if (initialFocused || (!initialFocused && !finalFocused)) {
+              // Use the current focus state to determine which location to update
+              if (initialFocused) {
                 updateInitialLocation(locationName, { latitude, longitude });
               } else if (finalFocused) {
                 updateFinalDestination(locationName, { latitude, longitude });
+              } else {
+                // Default behavior if neither is focused
+                updateInitialLocation(locationName, { latitude, longitude });
               }
 
               // Set the selected location for the map pin
@@ -97,10 +100,14 @@ export function LocationProvider({ children }) {
                 6
               )}`;
 
-              if (initialFocused || (!initialFocused && !finalFocused)) {
+              // Use the current focus state to determine which location to update
+              if (initialFocused) {
                 updateInitialLocation(locationName, { latitude, longitude });
               } else if (finalFocused) {
                 updateFinalDestination(locationName, { latitude, longitude });
+              } else {
+                // Default behavior if neither is focused
+                updateInitialLocation(locationName, { latitude, longitude });
               }
 
               // Set the selected location for the map pin

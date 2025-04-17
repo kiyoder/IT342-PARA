@@ -1,18 +1,22 @@
 "use client";
 import "../../styles/ConfirmationModal.css";
 
-const ConfirmationModal = ({
-  location,
-  onConfirm,
-  onCancel,
-  title = "Confirm Destination",
-}) => {
+const ConfirmationModal = ({ location, onConfirm, onCancel, title }) => {
   if (!location) return null;
+
+  // Determine the title based on the location properties if not provided
+  const modalTitle =
+    title ||
+    (location.isInitial
+      ? "Confirm Initial Location"
+      : location.isFinal
+      ? "Confirm Final Destination"
+      : "Confirm Destination");
 
   return (
     <div className="modal-overlay">
       <div className="confirmation-modal">
-        <h3>{title}</h3>
+        <h3>{modalTitle}</h3>
         <p>Do you want to set this as your location?</p>
 
         <div className="modal-location-details">

@@ -17,6 +17,8 @@ const TopSearchBar = () => {
     setPinnedLocation,
     pinnedLocation,
     finalDestination,
+    initialFocused,
+    finalFocused,
   } = useLocation();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -24,13 +26,18 @@ const TopSearchBar = () => {
   // Add state to track whether we're searching for initial or final location
   const [searchMode, setSearchMode] = useState("final"); // "final" or "initial"
 
-  // Update search mode when pinnedLocation or finalDestination changes
+  // Update search mode when input focus changes
   useEffect(() => {
-    // If we have a final destination set, switch to initial location mode
-    if (finalDestination && pinnedLocation) {
+    if (initialFocused) {
+      setSearchMode("initial");
+    } else if (finalFocused) {
+      setSearchMode("final");
+    }
+    // Keep the existing logic for when neither is focused
+    else if (finalDestination && pinnedLocation) {
       setSearchMode("initial");
     }
-  }, [finalDestination, pinnedLocation]);
+  }, [initialFocused, finalFocused, finalDestination, pinnedLocation]);
 
   // Handle location selection from search results
   const handleLocationSelected = (location) => {
@@ -41,23 +48,8 @@ const TopSearchBar = () => {
   // Handle confirmation modal responses
   const handleConfirm = () => {
     if (tempLocation) {
-      if (searchMode === "final") {
-        // Update final destination
-        updateFinalDestination(tempLocation.name, {
-          latitude: tempLocation.latitude,
-          longitude: tempLocation.longitude,
-        });
-
-        // Update the pinned location on the map
-        setPinnedLocation({
-          latitude: tempLocation.latitude,
-          longitude: tempLocation.longitude,
-          name: tempLocation.name,
-        });
-
-        // Switch to initial location mode after confirming final destination
-        setSearchMode("initial");
-      } else {
+      // Check if the location has explicit isInitial/isFinal flags
+      if (tempLocation.isInitial) {
         // Update initial location
         updateInitialLocation(tempLocation.name, {
           latitude: tempLocation.latitude,
@@ -70,6 +62,51 @@ const TopSearchBar = () => {
           longitude: tempLocation.longitude,
           name: tempLocation.name,
         });
+      } else if (tempLocation.isFinal) {
+        // Update final destination
+        updateFinalDestination(tempLocation.name, {
+          latitude: tempLocation.latitude,
+          longitude: tempLocation.longitude,
+        });
+
+        // Update the pinned location on the map
+        setPinnedLocation({
+          latitude: tempLocation.latitude,
+          longitude: tempLocation.longitude,
+          name: tempLocation.name,
+        });
+      } else {
+        // Fall back to searchMode if no explicit flags
+        if (searchMode === "final") {
+          // Update final destination
+          updateFinalDestination(tempLocation.name, {
+            latitude: tempLocation.latitude,
+            longitude: tempLocation.longitude,
+          });
+
+          // Update the pinned location on the map
+          setPinnedLocation({
+            latitude: tempLocation.latitude,
+            longitude: tempLocation.longitude,
+            name: tempLocation.name,
+          });
+
+          // Switch to initial location mode after confirming final destination
+          setSearchMode("initial");
+        } else {
+          // Update initial location
+          updateInitialLocation(tempLocation.name, {
+            latitude: tempLocation.latitude,
+            longitude: tempLocation.longitude,
+          });
+
+          // Update the selected location on the map
+          setSelectedLocation({
+            latitude: tempLocation.latitude,
+            longitude: tempLocation.longitude,
+            name: tempLocation.name,
+          });
+        }
       }
     }
 

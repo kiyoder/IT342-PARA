@@ -7,7 +7,8 @@ import { fetchPlaces } from "../../services/api/Nominatim";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
 const SearchResults = ({ onLocationSelected }) => {
-  const { searchQuery, setSelectedLocation } = useLocation();
+  const { searchQuery, setSelectedLocation, initialFocused, finalFocused } =
+    useLocation();
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -147,11 +148,19 @@ const SearchResults = ({ onLocationSelected }) => {
       latitude: place.latitude,
       longitude: place.longitude,
       name: place.name,
+      // Add a property to indicate which field this is for
+      isInitial: initialFocused,
+      isFinal: finalFocused,
     });
 
     // Call the parent component's handler to show confirmation
     if (onLocationSelected) {
-      onLocationSelected(place);
+      // Pass the focus information to the parent
+      onLocationSelected({
+        ...place,
+        isInitial: initialFocused,
+        isFinal: finalFocused,
+      });
     }
   };
 
