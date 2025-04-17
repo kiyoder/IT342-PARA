@@ -38,14 +38,14 @@ out geom;
 
     // Get each way member's geometry as a separate segment.
     const wayMembers = relation.members.filter((m) => m.type === "way");
-    let segments = [];
+    const segments = [];
 
     for (const member of wayMembers) {
       const way = data.elements.find(
         (el) => el.type === "way" && el.id === member.ref
       );
       if (way && way.geometry) {
-        let coords = way.geometry.map((pt) => [pt.lon, pt.lat]);
+        const coords = way.geometry.map((pt) => [pt.lon, pt.lat]);
         if (member.role === "backward") {
           coords.reverse();
         }
@@ -54,12 +54,12 @@ out geom;
     }
 
     // Optional: Merge segments if the end of one equals the beginning of the next.
-    let mergedSegments = [];
+    const mergedSegments = [];
     for (const seg of segments) {
       if (mergedSegments.length === 0) {
         mergedSegments.push(seg);
       } else {
-        let lastSeg = mergedSegments[mergedSegments.length - 1];
+        const lastSeg = mergedSegments[mergedSegments.length - 1];
         const lastCoord = lastSeg[lastSeg.length - 1];
         const firstCoord = seg[0];
         if (lastCoord[0] === firstCoord[0] && lastCoord[1] === firstCoord[1]) {

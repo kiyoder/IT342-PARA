@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "./LocationContext";
-import { useRoute } from "./RouteContext";
-import "../styles/MapView.css";
+import { useLocation } from "../../contexts/LocationContext";
+import { useRoute } from "../../contexts/RouteContext";
+import "../../styles/MapView.css";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import ConfirmationModal from "./ConfirmationModal";
+import ConfirmationModal from "../location/ConfirmationModal";
 import JeepneyRoute from "./JeepneyRoute";
 
 const MapView = () => {

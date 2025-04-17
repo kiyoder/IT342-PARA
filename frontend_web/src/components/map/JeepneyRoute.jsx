@@ -1,23 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { parseOsmRouteData } from "./OSMRouteParser";
+import { parseOsmRouteData } from "../../services/osm/OSMRouteParser";
 import mapboxgl from "mapbox-gl";
 
 /**
- * Component to display Jeepney 13C route on the map using dynamic data from OSM.
+ * Component to display Jeepney routes on the map using dynamic data from OSM.
  * @param {Object} props - Component props
  * @param {Object} props.map - Mapbox map instance reference
  * @param {boolean} props.mapLoaded - Whether the map is loaded
- * @param {string} props.relationId - The OSM relation ID for the route (default "3203006")
- * @param {string} props.routeNumber - Jeepney route number (default "12D")
+ * @param {string} props.relationId - The OSM relation ID for the route
+ * @param {string} props.routeNumber - Jeepney route number
  * @param {string} props.routeColor - Color for the route line (default "#FF7F00")
  */
 const JeepneyRoute = ({
   map,
   mapLoaded,
-  relationId = "3203006",
-  routeNumber = "12D",
+  relationId,
+  routeNumber,
   routeColor = "#FF7F00",
 }) => {
   const [routeId, setRouteId] = useState(`jeepney-${routeNumber}`);
@@ -63,7 +63,7 @@ const JeepneyRoute = ({
       }
     };
 
-    if (mapLoaded) {
+    if (mapLoaded && relationId) {
       fetchRouteData();
     }
   }, [relationId, routeNumber, routeId, map, mapLoaded]);

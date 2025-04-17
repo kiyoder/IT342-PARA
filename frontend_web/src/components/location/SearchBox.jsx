@@ -2,8 +2,8 @@
 
 import { FaSearch } from "react-icons/fa";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
-import "../styles/SearchBox.css";
-import { useLocation } from "./LocationContext";
+import "../../styles/SearchBox.css";
+import { useLocation } from "../../contexts/LocationContext";
 
 const SearchBox = () => {
   const {

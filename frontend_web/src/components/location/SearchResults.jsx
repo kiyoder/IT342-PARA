@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import "../styles/SearchResults.css";
-import { useLocation } from "./LocationContext";
-import { fetchPlaces } from "./apis/Nominatim";
+import "../../styles/SearchResults.css";
+import { useLocation } from "../../contexts/LocationContext";
+import { fetchPlaces } from "../../services/api/Nominatim";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
 const SearchResults = ({ onLocationSelected }) => {

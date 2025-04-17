@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import "../styles/ProfileMenu.css";
+import "../../styles/ProfileMenu.css";
 
 const ProfileMenu = () => {
   const [isRotating, setIsRotating] = useState(false);

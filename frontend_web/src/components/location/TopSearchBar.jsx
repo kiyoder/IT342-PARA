@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import "../styles/TopSearchBar.css";
+import "../../styles/TopSearchBar.css";
 import { Search } from "lucide-react";
-import { useLocation } from "./LocationContext";
+import { useLocation } from "../../contexts/LocationContext";
 import SearchResults from "./SearchResults";
 import ConfirmationModal from "./ConfirmationModal";
 

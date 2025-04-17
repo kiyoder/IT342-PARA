@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -21,13 +23,13 @@ function RegisterForm({ onRegisterSuccess }) {
   useEffect(() => {
     if (username) {
       checkUsername(username)
-          .then(response => {
-            setUsernameValid(!response.exists);
-          })
-          .catch(error => {
-            console.error("Failed to check username:", error);
-            setUsernameValid(false);
-          });
+        .then((response) => {
+          setUsernameValid(!response.exists);
+        })
+        .catch((error) => {
+          console.error("Failed to check username:", error);
+          setUsernameValid(false);
+        });
     } else {
       setUsernameValid(null);
     }
@@ -36,13 +38,13 @@ function RegisterForm({ onRegisterSuccess }) {
   useEffect(() => {
     if (email && validateEmail(email)) {
       checkEmail(email)
-          .then(response => {
-            setEmailValid(!response.exists);
-          })
-          .catch(error => {
-            console.error("Failed to check email:", error);
-            setEmailValid(false);
-          });
+        .then((response) => {
+          setEmailValid(!response.exists);
+        })
+        .catch((error) => {
+          console.error("Failed to check email:", error);
+          setEmailValid(false);
+        });
     } else {
       setEmailValid(null);
     }
@@ -135,7 +137,7 @@ function RegisterForm({ onRegisterSuccess }) {
       return response.data;
     } catch (error) {
       console.error("Failed to check username:", error);
-      return { exists: false}
+      return { exists: false };
     }
   };
 
@@ -147,7 +149,7 @@ function RegisterForm({ onRegisterSuccess }) {
       return response.data;
     } catch (error) {
       console.error("Failed to check email:", error);
-      return { exists: false}
+      return { exists: false };
     }
   };
 

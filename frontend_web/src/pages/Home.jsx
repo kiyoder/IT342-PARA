@@ -1,23 +1,17 @@
-import MapView from "../components/MapView";
-import SearchBox from "../components/SearchBox";
-import TopSearchBar from "../components/TopSearchBar";
-import ProfileMenu from "../components/ProfileMenu";
-import RouteSearch from "../components/RouteSearch";
-import { LocationProvider } from "../components/LocationContext";
-import { RouteProvider } from "../components/RouteContext";
+import MapView from "../components/map/MapView";
+import SearchBox from "../components/location/SearchBox";
+import TopSearchBar from "../components/location/TopSearchBar";
+import ProfileMenu from "../components/layout/ProfileMenu";
+import RouteSearch from "../components/route/RouteSearch";
 
 const Home = () => {
   return (
     <div>
-      <LocationProvider>
-        <RouteProvider>
-          <MapView />
-          <TopSearchBar />
-          <SearchBox />
-          <ProfileMenu />
-          <RouteSearch />
-        </RouteProvider>
-      </LocationProvider>
+      <MapView />
+      <TopSearchBar />
+      <SearchBox />
+      <ProfileMenu />
+      <RouteSearch />
     </div>
   );
 };

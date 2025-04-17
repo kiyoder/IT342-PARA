@@ -1,5 +1,5 @@
 "use client";
-import "../styles/ConfirmationModal.css";
+import "../../styles/ConfirmationModal.css";
 
 const ConfirmationModal = ({
   location,
