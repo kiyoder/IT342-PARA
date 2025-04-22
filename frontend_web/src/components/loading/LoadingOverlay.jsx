@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "../../styles/LoadingOverlay.css";
 
 const LoadingOverlay = ({
@@ -10,44 +10,38 @@ const LoadingOverlay = ({
   onComplete,
   onCancel,
 }) => {
-  const [animationComplete, setAnimationComplete] = useState(false);
-
   useEffect(() => {
-    let timer;
-    if (!isVisible && progress >= 100) {
-      // Add a small delay before triggering the onComplete callback
-      timer = setTimeout(() => {
-        setAnimationComplete(true);
-        if (onComplete) onComplete();
-      }, 500);
+    // Auto-complete when progress reaches 100%
+    if (progress >= 100 && onComplete) {
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 500); // Small delay to show 100% before completing
+      return () => clearTimeout(timer);
     }
-
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [isVisible, progress, onComplete]);
+  }, [progress, onComplete]);
 
   if (!isVisible) return null;
 
-  const handleCancel = () => {
-    if (onCancel) onCancel();
-  };
-
   return (
-    <div className={`loading-overlay ${animationComplete ? "fade-out" : ""}`}>
+    <div className="loading-overlay">
       <div className="loading-content">
-        <div className="loading-text">LOADING...</div>
+        <h2>Searching for Routes</h2>
         <div className="progress-container">
-          <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+          <div className="progress-bar">
+            <div
+              className="progress-fill"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+          <div className="progress-text">{progress}%</div>
         </div>
-        <div className="progress-text">
-          Scanning routes:{" "}
-          {Math.min(Math.floor((progress / 100) * totalRoutes), totalRoutes)} of{" "}
-          {totalRoutes}
-        </div>
-        <div className="cancel-text" onClick={handleCancel}>
+        <p className="status-text">
+          Scanning through {totalRoutes} routes to find the best match for your
+          journey...
+        </p>
+        <p className="cancel-text" onClick={onCancel}>
           Do you want to cancel this process?
-        </div>
+        </p>
       </div>
     </div>
   );

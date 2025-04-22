@@ -6,25 +6,33 @@ import SearchBox from "../components/location/SearchBox";
 import TopSearchBar from "../components/location/TopSearchBar";
 import ProfileMenu from "../components/layout/ProfileMenu";
 import RouteSearch from "../components/route/RouteSearch";
+import RouteResults from "../components/route/RouteResults";
+import { useRoute } from "../contexts/RouteContext";
 
 const Home = () => {
   const [isSearching, setIsSearching] = useState(false);
+  const { showRouteResults } = useRoute();
 
   return (
     <div>
       <MapView />
 
-      {/* Only show these components when not searching */}
-      {!isSearching && (
+      {/* ProfileMenu is always visible except during search */}
+      {!isSearching && <ProfileMenu />}
+
+      {/* TopSearchBar and SearchBox are hidden during search AND when showing route results */}
+      {!isSearching && !showRouteResults && (
         <>
           <TopSearchBar />
-          <ProfileMenu />
           <RouteSearch />
         </>
       )}
 
-      {/* SearchBox handles its own visibility during search */}
-      <SearchBox setIsSearching={setIsSearching} />
+      {/* RouteResults handles its own visibility */}
+      <RouteResults />
+
+      {/* SearchBox handles its own visibility during search, but hide when showing route results */}
+      {!showRouteResults && <SearchBox setIsSearching={setIsSearching} />}
     </div>
   );
 };

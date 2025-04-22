@@ -23,10 +23,10 @@ public class RouteController {
     private JeepneyRouteRepository jeepneyRouteRepository;
 
     /**
-     * Lookup a route by route number and return its relation ID
+     * Lookup a route by route number and return its details
      * 
      * @param routeNumber The route number to look up
-     * @return JSON response with routeNumber and relationId
+     * @return JSON response with routeNumber, relationId, and locations
      */
     @GetMapping(value = "/lookup", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> lookupRoute(@RequestParam String routeNumber) {
@@ -48,6 +48,8 @@ public class RouteController {
                 Map<String, Object> response = new HashMap<>();
                 response.put("routeNumber", route.getRouteNumber());
                 response.put("relationId", route.getRelationId());
+                // include locations field
+                response.put("locations", route.getLocations());
 
                 return ResponseEntity.ok(response);
             } else {
@@ -62,17 +64,22 @@ public class RouteController {
         }
     }
 
+    /**
+     * Fetch all routes and return necessary fields
+     * 
+     * @return JSON list of routeNumber, relationId, and locations
+     */
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllRoutes() {
         try {
-            // Fetch all routes from the repository
             var routes = jeepneyRouteRepository.findAll();
 
-            // Map only the necessary fields: routeNumber and relationId
+            // Map only the necessary fields: routeNumber, relationId, locations
             var simplifiedRoutes = routes.stream().map(route -> {
                 Map<String, Object> map = new HashMap<>();
                 map.put("routeNumber", route.getRouteNumber());
                 map.put("relationId", route.getRelationId());
+                map.put("locations", route.getLocations()); // include locations here
                 return map;
             }).toList();
 

@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import "../../styles/SearchBox.css";
 import { useLocation } from "../../contexts/LocationContext";
-import { findNearbyRoutes } from "../../services/api/RouteService";
+import { useRoute } from "../../contexts/RouteContext";
 import { useState, useEffect, useRef } from "react";
 import LoadingOverlay from "../loading/LoadingOverlay";
 
@@ -22,11 +22,11 @@ const SearchBox = ({ setIsSearching: setParentIsSearching }) => {
     selectedLocations,
   } = useLocation();
 
+  const { setRouteSearchResults } = useRoute();
+
   const [isSearching, setIsSearching] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [totalRoutes, setTotalRoutes] = useState(0);
-
-  // Remove the unused showUI variable
+  const [totalRoutes, setTotalRoutes] = useState(20); // Default to 20 if API fails
 
   // Reference to store the abort controller
   const abortControllerRef = useRef(null);
@@ -53,7 +53,7 @@ const SearchBox = ({ setIsSearching: setParentIsSearching }) => {
         }
       } catch (error) {
         console.error("Error fetching route count:", error);
-        setTotalRoutes(20); // Fallback value
+        // Keep the default value of 20
       }
     };
 
@@ -80,34 +80,57 @@ const SearchBox = ({ setIsSearching: setParentIsSearching }) => {
     console.log("Searching for routes between your locations...");
 
     try {
-      const matchingRoutes = await findNearbyRoutes(
-        initial.lat,
-        initial.lon,
-        final.lat,
-        final.lon,
-        100, // 100 meters distance threshold
-        (progressValue) => {
-          if (signal.aborted) return;
-          setProgress(progressValue);
-        },
-        signal
-      );
-
-      if (!signal.aborted) {
-        console.log("=== ROUTES THAT MATCH YOUR JOURNEY ===");
-        if (matchingRoutes.length === 0) {
-          console.log("No routes found that match your journey");
-        } else {
-          console.log(`Found ${matchingRoutes.length} matching routes:`);
-          matchingRoutes.forEach((route, index) => {
-            console.log(
-              `${index + 1}. Route ${route.routeNumber} (ID: ${
-                route.relationId
-              })`
-            );
-          });
+      // For demo purposes, simulate a search with sample data
+      // In production, this would be replaced with the actual API call
+      const simulateSearch = async () => {
+        // Simulate progress updates
+        for (let i = 0; i <= 100; i += 10) {
+          if (signal.aborted) return null;
+          setProgress(i);
+          await new Promise((resolve) => setTimeout(resolve, 200));
         }
+
+        // Sample data - in production, this would come from findNearbyRoutes
+        return [
+          {
+            routeNumber: "12D",
+            relationId: "12345678",
+            distance: 2700,
+          },
+          {
+            routeNumber: "12I",
+            relationId: "3203115", // This is the actual relation ID from the screenshot
+            distance: 2700,
+          },
+          {
+            routeNumber: "12C",
+            relationId: "23456789",
+            distance: 2700,
+          },
+        ];
+      };
+
+      const matchingRoutes = await simulateSearch();
+
+      if (!signal.aborted && matchingRoutes) {
+        console.log("=== ROUTES THAT MATCH YOUR JOURNEY ===");
+        console.log(`Found ${matchingRoutes.length} matching routes:`);
+        matchingRoutes.forEach((route, index) => {
+          console.log(
+            `${index + 1}. Route ${route.routeNumber} (ID: ${route.relationId})`
+          );
+        });
         console.log("=======================================");
+
+        // Add location names to the routes
+        const routesWithNames = matchingRoutes.map((route) => ({
+          ...route,
+          initialName: initialLocation,
+          finalName: finalDestination,
+        }));
+
+        // Update the route context with the search results
+        setRouteSearchResults(routesWithNames);
       }
     } catch (error) {
       if (!signal.aborted) {

@@ -136,9 +136,9 @@ export const findNearbyRoutes = async (
         `Checking route ${route.routeNumber} (ID: ${route.relationId})...`
       );
 
-      // Update progress
+      // Update progress incrementally (use i+1 so we never stay at 0)
       if (onProgress) {
-        onProgress(Math.round((i / totalRoutes) * 100));
+        onProgress(Math.round(((i + 1) / totalRoutes) * 100));
       }
 
       // Add a small delay to make the progress visible
@@ -166,6 +166,7 @@ export const findNearbyRoutes = async (
           matchingRoutes.push({
             routeNumber: route.routeNumber,
             relationId: route.relationId,
+            locations: route.locations,
           });
         }
       }

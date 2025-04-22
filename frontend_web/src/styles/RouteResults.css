@@ -1,0 +1,128 @@
+/* Route Results Panel Styles */
+.route-results-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 33%; /* Take up a third of the screen */
+  height: 100vh;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.panel-header h2 {
+  margin: 0;
+  color: #ff7f00;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.journey-info {
+  padding: 20px 50px 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #666;
+  border-bottom: 1px solid #eee;
+}
+
+.direction-icon {
+  color: #ff7f00;
+}
+
+.direction-icon span {
+  font-size: 16px;
+  color: #ff7f00;
+}
+
+.loading-state,
+.error-message {
+  padding: 20px;
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+}
+
+.route-list {
+  flex: 1;
+  padding: 20px 50px 20px 50px;
+  overflow-y: auto;
+  align-content: center;
+}
+
+.route-item {
+  color: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  justify-items: center;
+  opacity: 0.85;
+  transition: all 0.2s ease;
+}
+
+.route-item:hover {
+  opacity: 0.95;
+  transform: translateY(-2px);
+}
+
+.route-item.selected {
+  opacity: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.route-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.route-number {
+  font-size: 26px;
+  text-align: center;
+}
+
+.route-distance {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.panel-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.close-button {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: #e0e0e0;
+}
+
+.no-routes-message {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}

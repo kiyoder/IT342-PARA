@@ -1,187 +1,192 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { parseOsmRouteData } from "../../services/osm/OSMRouteParser";
+import { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
+import { parseOsmRouteData } from "../../services/osm/OSMRouteParser";
+import { useRoute } from "../../contexts/RouteContext";
 
-/**
- * Component to display Jeepney routes on the map using dynamic data from OSM.
- * @param {Object} props - Component props
- * @param {Object} props.map - Mapbox map instance reference
- * @param {boolean} props.mapLoaded - Whether the map is loaded
- * @param {string} props.relationId - The OSM relation ID for the route
- * @param {string} props.routeNumber - Jeepney route number
- * @param {string} props.routeColor - Color for the route line (default "#FF7F00")
- */
 const JeepneyRoute = ({
   map,
   mapLoaded,
-  relationId,
   routeNumber,
-  routeColor = "#FF7F00",
+  relationId,
+  onRouteAdded,
 }) => {
-  const [routeId, setRouteId] = useState(`jeepney-${routeNumber}`);
-  const [geometryData, setGeometryData] = useState(null); // Will hold either a LineString or MultiLineString
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const routeLayerRef = useRef(null);
+  const sourceRef = useRef(null);
 
-  // Update routeId when routeNumber changes
-  useEffect(() => {
-    setRouteId(`jeepney-${routeNumber}`);
-  }, [routeNumber]);
+  // Get the route color directly from context to ensure it's always up-to-date
+  const { getRouteColor } = useRoute();
 
-  // Fetch dynamic route data using the relationId.
   useEffect(() => {
-    const fetchRouteData = async () => {
+    if (!map.current || !mapLoaded || !relationId) {
+      console.log("JeepneyRoute: Missing required props", {
+        map: !!map.current,
+        mapLoaded,
+        relationId,
+      });
+      return;
+    }
+
+    // Get the color for this route
+    const routeColor = getRouteColor(routeNumber);
+
+    console.log("JeepneyRoute: Fetching route data", {
+      routeNumber,
+      relationId,
+      routeColor, // Log the color to verify it's being used
+    });
+
+    // Clean up previous layers and sources
+    const cleanup = () => {
+      if (map.current) {
+        if (
+          routeLayerRef.current &&
+          map.current.getLayer(routeLayerRef.current)
+        ) {
+          map.current.removeLayer(routeLayerRef.current);
+        }
+        if (sourceRef.current && map.current.getSource(sourceRef.current)) {
+          map.current.removeSource(sourceRef.current);
+        }
+      }
+      routeLayerRef.current = null;
+      sourceRef.current = null;
+    };
+
+    // Clean up before fetching new data
+    cleanup();
+
+    const fetchAndDisplayRoute = async () => {
       try {
-        setLoading(true);
-        setError(null);
+        // Use the OSMRouteParser to get the route data
+        const routeData = await parseOsmRouteData(relationId);
 
-        // Clear previous route if it exists
-        if (map && map.current && map.current.getLayer(routeId)) {
-          if (map.current.getLayer(`${routeId}-label`)) {
-            map.current.removeLayer(`${routeId}-label`);
-          }
-          map.current.removeLayer(routeId);
-          map.current.removeSource(routeId);
+        if (
+          !routeData ||
+          (Array.isArray(routeData) && routeData.length === 0)
+        ) {
+          console.error("No route data found for relation ID:", relationId);
+          return;
         }
 
-        const parsedCoordinates = await parseOsmRouteData(relationId);
-        // Determine if parsedCoordinates is nested (MultiLineString) or flat (LineString).
-        const geom =
-          parsedCoordinates.length > 0 &&
-          Array.isArray(parsedCoordinates[0]) &&
-          Array.isArray(parsedCoordinates[0][0])
-            ? { type: "MultiLineString", coordinates: parsedCoordinates }
-            : { type: "LineString", coordinates: parsedCoordinates };
-        setGeometryData(geom);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching route data:", err);
-        setError(err.message);
-        setLoading(false);
-      }
-    };
+        console.log("Route data processed:", routeData);
 
-    if (mapLoaded && relationId) {
-      fetchRouteData();
-    }
-  }, [relationId, routeNumber, routeId, map, mapLoaded]);
+        // Generate unique IDs for this route
+        const sourceId = `jeepney-route-${relationId}`;
+        const layerId = `jeepney-route-layer-${relationId}`;
 
-  // Render the route on the map once data is available.
-  useEffect(() => {
-    if (!map || !mapLoaded || !geometryData) return;
+        sourceRef.current = sourceId;
+        routeLayerRef.current = layerId;
 
-    const mapInstance = map.current;
-    if (!mapInstance) return;
+        // Check if we have a single line or multiple segments
+        const isMultiLineString =
+          Array.isArray(routeData[0]) && Array.isArray(routeData[0][0]);
 
-    console.log(
-      `Rendering route ${routeNumber} (ID: ${relationId}) with geometry:`,
-      geometryData
-    );
+        // Create the appropriate GeoJSON structure
+        let geojson;
 
-    if (mapInstance.getSource(routeId)) {
-      mapInstance.getSource(routeId).setData({
-        type: "Feature",
-        properties: {
-          routeNumber: routeNumber,
-        },
-        geometry: geometryData,
-      });
-    } else {
-      mapInstance.addSource(routeId, {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          properties: {
-            routeNumber: routeNumber,
+        if (isMultiLineString) {
+          // Multiple segments - create a MultiLineString
+          geojson = {
+            type: "Feature",
+            properties: {
+              routeNumber: routeNumber,
+            },
+            geometry: {
+              type: "MultiLineString",
+              coordinates: routeData,
+            },
+          };
+          console.log(
+            "Created MultiLineString GeoJSON with",
+            routeData.length,
+            "segments"
+          );
+        } else {
+          // Single continuous line
+          geojson = {
+            type: "Feature",
+            properties: {
+              routeNumber: routeNumber,
+            },
+            geometry: {
+              type: "LineString",
+              coordinates: routeData,
+            },
+          };
+          console.log(
+            "Created LineString GeoJSON with",
+            routeData.length,
+            "coordinates"
+          );
+        }
+
+        // Add the source and layer to the map
+        map.current.addSource(sourceId, {
+          type: "geojson",
+          data: geojson,
+        });
+
+        map.current.addLayer({
+          id: layerId,
+          type: "line",
+          source: sourceId,
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
           },
-          geometry: geometryData,
-        },
-      });
+          paint: {
+            // Use the routeColor from context
+            "line-color": routeColor,
+            "line-width": 10, // Thicker than the direct route
+            "line-opacity": 0.8,
+          },
+        });
 
-      mapInstance.addLayer({
-        id: routeId,
-        type: "line",
-        source: routeId,
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-        },
-        paint: {
-          "line-color": routeColor,
-          "line-width": 6,
-          "line-opacity": 0.8,
-        },
-      });
+        // Fit the map to the route bounds
+        const bounds = new mapboxgl.LngLatBounds();
 
-      // Add route number labels
-      mapInstance.addLayer({
-        id: `${routeId}-label`,
-        type: "symbol",
-        source: routeId,
-        layout: {
-          "symbol-placement": "line",
-          "text-field": routeNumber,
-          "text-size": 12,
-          "text-allow-overlap": false,
-          "symbol-spacing": 500,
-          "text-offset": [0, -1],
-        },
-        paint: {
-          "text-color": "#ffffff",
-          "text-halo-color": routeColor,
-          "text-halo-width": 2,
-        },
-      });
-    }
-
-    // Fit map bounds to the route.
-    const bounds = new mapboxgl.LngLatBounds();
-    if (geometryData.type === "LineString") {
-      geometryData.coordinates.forEach((coord) => bounds.extend(coord));
-    } else if (geometryData.type === "MultiLineString") {
-      geometryData.coordinates.forEach((segment) =>
-        segment.forEach((coord) => bounds.extend(coord))
-      );
-    }
-
-    if (!bounds.isEmpty()) {
-      mapInstance.fitBounds(bounds, { padding: 80, duration: 1000 });
-    }
-
-    return () => {
-      if (mapInstance && mapInstance.getLayer(routeId)) {
-        if (mapInstance.getLayer(`${routeId}-label`)) {
-          mapInstance.removeLayer(`${routeId}-label`);
+        if (isMultiLineString) {
+          // For MultiLineString, extend bounds with all segments
+          routeData.forEach((segment) => {
+            segment.forEach((coord) => {
+              bounds.extend(coord);
+            });
+          });
+        } else {
+          // For LineString, extend bounds with all coordinates
+          routeData.forEach((coord) => {
+            bounds.extend(coord);
+          });
         }
-        mapInstance.removeLayer(routeId);
-        mapInstance.removeSource(routeId);
+
+        map.current.fitBounds(bounds, {
+          padding: 80,
+          duration: 1000,
+        });
+
+        console.log("Route displayed successfully with color:", routeColor);
+
+        // Call the onRouteAdded callback to ensure direct route is on top
+        if (onRouteAdded) {
+          // Add a small delay to ensure the layer is fully added
+          setTimeout(() => {
+            onRouteAdded();
+          }, 100);
+        }
+      } catch (error) {
+        console.error("Error fetching and displaying route:", error);
       }
     };
-  }, [
-    map,
-    mapLoaded,
-    geometryData,
-    routeId,
-    routeNumber,
-    routeColor,
-    relationId,
-  ]);
 
-  if (loading) {
-    console.log(
-      `Loading OSM route data for ${routeNumber} (ID: ${relationId})...`
-    );
-  }
-  if (error) {
-    console.error(
-      `Error loading route ${routeNumber} (ID: ${relationId}):`,
-      error
-    );
-  }
+    fetchAndDisplayRoute();
 
-  return null;
+    // Clean up on unmount or when route changes
+    return cleanup;
+  }, [map, mapLoaded, relationId, routeNumber, getRouteColor, onRouteAdded]);
+
+  return null; // This component doesn't render anything directly
 };
 
 export default JeepneyRoute;

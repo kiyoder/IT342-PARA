@@ -18,6 +18,8 @@ const MapView = () => {
   const userMarkerRef = useRef(null);
   const [userPosition, setUserPosition] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const directRouteLayerId = useRef("direct-route");
+  const directRouteAdded = useRef(false);
 
   // Get route information from context
   const { showJeepneyRoute, routeNumber, relationId } = useRoute();
@@ -191,6 +193,19 @@ const MapView = () => {
     }
   };
 
+  // Function to ensure the direct route is on top
+  const moveDirectRouteToTop = () => {
+    if (mapRef.current && mapRef.current.getLayer(directRouteLayerId.current)) {
+      try {
+        // Move the direct route layer to the top
+        mapRef.current.moveLayer(directRouteLayerId.current);
+        console.log("Direct route moved to top");
+      } catch (error) {
+        console.error("Error moving direct route to top:", error);
+      }
+    }
+  };
+
   // Update markers and route when locations change
   useEffect(() => {
     if (!mapRef.current || !mapLoaded) return;
@@ -239,50 +254,55 @@ const MapView = () => {
         selectedLocations.initial.lon,
         selectedLocations.initial.lat,
       ];
-      const end = [selectedLocations.final.lon, selectedLocations.final.lat];
+      const destination = [
+        selectedLocations.final.lon,
+        selectedLocations.final.lat,
+      ];
 
       // Fetch directions and update the route
-      fetchDirections(start, end).then((coordinates) => {
-        // Check if the route source already exists
-        if (mapRef.current.getSource("route")) {
-          // Update existing source
-          mapRef.current.getSource("route").setData({
+      fetchDirections(start, destination).then((coordinates) => {
+        // Remove existing direct route layer if it exists
+        if (mapRef.current.getLayer(directRouteLayerId.current)) {
+          mapRef.current.removeLayer(directRouteLayerId.current);
+        }
+
+        // Remove existing direct route source if it exists
+        if (mapRef.current.getSource("direct-route-source")) {
+          mapRef.current.removeSource("direct-route-source");
+        }
+
+        // Add new source and layer
+        mapRef.current.addSource("direct-route-source", {
+          type: "geojson",
+          data: {
             type: "Feature",
             properties: {},
             geometry: {
               type: "LineString",
               coordinates: coordinates,
             },
-          });
-        } else {
-          // Add new source and layer
-          mapRef.current.addSource("route", {
-            type: "geojson",
-            data: {
-              type: "Feature",
-              properties: {},
-              geometry: {
-                type: "LineString",
-                coordinates: coordinates,
-              },
-            },
-          });
+          },
+        });
 
-          mapRef.current.addLayer({
-            id: "route",
-            type: "line",
-            source: "route",
-            layout: {
-              "line-join": "round",
-              "line-cap": "round",
-            },
-            paint: {
-              "line-color": "#FF3B10",
-              "line-width": 4,
-              "line-opacity": 0.8,
-            },
-          });
-        }
+        mapRef.current.addLayer({
+          id: directRouteLayerId.current,
+          type: "line",
+          source: "direct-route-source",
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "#FF7F00", // Orange for direct route
+            "line-width": 3, // Thinner than jeepney routes
+            "line-opacity": 0.8,
+          },
+        });
+
+        directRouteAdded.current = true;
+
+        // Ensure the direct route is on top
+        moveDirectRouteToTop();
 
         // Fit map to show the route
         const bounds = new mapboxgl.LngLatBounds();
@@ -299,6 +319,26 @@ const MapView = () => {
       });
     }
   }, [selectedLocations, mapLoaded]);
+
+  // Ensure direct route stays on top when jeepney routes are added
+  useEffect(() => {
+    if (showJeepneyRoute && mapLoaded && directRouteAdded.current) {
+      // Add a small delay to ensure the jeepney route has been added
+      const timer = setTimeout(() => {
+        moveDirectRouteToTop();
+      }, 1000);
+
+      // Also set up an interval to keep checking and moving the direct route to top
+      const interval = setInterval(() => {
+        moveDirectRouteToTop();
+      }, 2000);
+
+      return () => {
+        clearTimeout(timer);
+        clearInterval(interval);
+      };
+    }
+  }, [showJeepneyRoute, mapLoaded]);
 
   // Handle confirmation
   const handleConfirm = () => {
@@ -344,6 +384,16 @@ const MapView = () => {
     }
   };
 
+  // Log for debugging
+  useEffect(() => {
+    if (showJeepneyRoute) {
+      console.log("Showing jeepney route:", {
+        routeNumber,
+        relationId,
+      });
+    }
+  }, [showJeepneyRoute, routeNumber, relationId]);
+
   return (
     <div className="map-wrapper">
       <div ref={mapContainerRef} className="map-container"></div>
@@ -357,13 +407,13 @@ const MapView = () => {
         />
       )}
 
-      {mapLoaded && showJeepneyRoute && (
+      {mapLoaded && showJeepneyRoute && relationId && (
         <JeepneyRoute
           map={mapRef}
           mapLoaded={mapLoaded}
           routeNumber={routeNumber}
           relationId={relationId}
-          routeColor="#FF7F00"
+          onRouteAdded={moveDirectRouteToTop}
         />
       )}
     </div>

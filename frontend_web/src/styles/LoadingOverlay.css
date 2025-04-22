@@ -4,81 +4,69 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.7);
-  z-index: 1500; /* Increased z-index to ensure it's above everything */
+  background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fade-in 0.3s ease-in-out;
-}
-
-.loading-overlay.fade-out {
-  animation: fade-out 0.3s ease-in-out forwards;
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  z-index: 2000;
 }
 
 .loading-content {
+  max-width: 500px;
   text-align: center;
-  padding: 20px;
+  padding: 0 30px;
 }
 
-.loading-text {
-  font-size: 36px;
-  font-weight: bold;
-  color: #ff3b10;
+.loading-content h2 {
+  color: #ff7f00; /* Orange title */
+  margin-top: 0;
   margin-bottom: 20px;
-  font-family: "Poppins", sans-serif;
+  font-size: 32px; /* Larger title */
+  font-weight: bold;
 }
 
 .progress-container {
-  width: 300px;
-  height: 10px;
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  overflow: hidden;
-  margin: 0 auto 10px;
+  margin: 30px 0;
 }
 
 .progress-bar {
+  height: 16px; /* Taller progress bar */
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
   height: 100%;
-  background-color: #ff3b10;
-  border-radius: 5px;
-  transition: width 0.3s ease-in-out;
+  background-color: #ff7f00; /* Orange progress bar */
+  transition: width 0.3s ease;
 }
 
 .progress-text {
-  font-size: 14px;
+  text-align: center;
+  font-size: 18px; /* Larger text */
   color: #333;
-  font-family: "Poppins", sans-serif;
-  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.status-text {
+  margin-bottom: 30px;
+  color: #ff7f00;
+  font-size: 18px; /* Larger text */
+  line-height: 1.5;
 }
 
 .cancel-text {
-  font-size: 14px;
   color: #ff3b10;
-  text-decoration: underline;
+  font-weight: bold;
   cursor: pointer;
-  font-family: "Poppins", sans-serif;
-  margin-top: 15px;
+  margin-top: 30px;
+  text-decoration: underline;
+  font-size: 18px; /* Larger text */
 }
 
 .cancel-text:hover {
-  color: #d32f2f;
+  color: #e03000;
 }
