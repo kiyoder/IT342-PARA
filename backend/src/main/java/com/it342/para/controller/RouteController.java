@@ -1,11 +1,9 @@
+// Update the RouteController to handle CORS properly
 package com.it342.para.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 
 import com.it342.para.model.JeepneyRoute;
@@ -17,6 +15,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/routes")
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", methods = {
+        RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS
+})
 public class RouteController {
 
     @Autowired
@@ -90,5 +91,4 @@ public class RouteController {
             return ResponseEntity.status(500).body(error);
         }
     }
-
 }

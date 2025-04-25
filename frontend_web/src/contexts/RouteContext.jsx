@@ -5,13 +5,12 @@ import {
   useContext,
   useState,
   useCallback,
-  useMemo,
+  useRef,
 } from "react";
 
 const RouteContext = createContext();
 
-// Define colors outside the component to avoid dependency issues
-// Removed orange, using only dark colors
+// Predefined dark-themed palette
 const DEFAULT_COLORS = [
   "#1D8C2E", // Dark Green
   "#8C1D1D", // Maroon
@@ -28,20 +27,22 @@ export const RouteProvider = ({ children }) => {
   const [showJeepneyRoute, setShowJeepneyRoute] = useState(false);
   const [routeNumber, _setRouteNumber] = useState("");
   const [relationId, _setRelationId] = useState("");
-
-  const [routeColors, setRouteColors] = useState({
-    default: "#1D5F8C", // Changed default from orange to dark blue
-  });
-
+  const [routeColors, setRouteColors] = useState({ default: "#1D5F8C" });
   const [matchingRoutes, setMatchingRoutes] = useState([]);
   const [showRouteResults, setShowRouteResults] = useState(false);
 
-  // Use useMemo for functions that don't need to be recreated on every render
-  const generateRandomColor = useMemo(() => {
-    return () => {
-      const idx = Math.floor(Math.random() * DEFAULT_COLORS.length);
-      return DEFAULT_COLORS[idx];
-    };
+  // keep track of which palette index to hand out next
+  const colorIndex = useRef(0);
+
+  const getNextColor = useCallback(() => {
+    const color = DEFAULT_COLORS[colorIndex.current % DEFAULT_COLORS.length];
+    colorIndex.current += 1;
+    return color;
+  }, []);
+
+  const resetRouteColors = useCallback(() => {
+    setRouteColors({ default: "#1D5F8C" });
+    colorIndex.current = 0;
   }, []);
 
   const setRouteNumber = useCallback(
@@ -50,10 +51,10 @@ export const RouteProvider = ({ children }) => {
       _setRouteNumber(key);
       setRouteColors((colors) => {
         if (colors[key]) return colors;
-        return { ...colors, [key]: generateRandomColor() };
+        return { ...colors, [key]: getNextColor() };
       });
     },
-    [generateRandomColor]
+    [getNextColor]
   );
 
   const setRelationId = useCallback((id) => {
@@ -62,22 +63,25 @@ export const RouteProvider = ({ children }) => {
 
   const setRouteSearchResults = useCallback(
     (routes) => {
+      // start fresh on every new result set
+      resetRouteColors();
+
+      // assign a unique color to each route in order
       setRouteColors((colors) => {
         const updated = { ...colors };
         routes.forEach(({ routeNumber }) => {
-          const key = routeNumber?.trim().toUpperCase(); // normalize!
+          const key = routeNumber?.trim().toUpperCase();
           if (key && !updated[key]) {
-            updated[key] = generateRandomColor();
+            updated[key] = getNextColor();
           }
         });
-
         return updated;
       });
 
       setMatchingRoutes(routes);
       setShowRouteResults(true);
     },
-    [generateRandomColor]
+    [getNextColor, resetRouteColors]
   );
 
   const hideRouteResults = useCallback(() => {
@@ -107,10 +111,11 @@ export const RouteProvider = ({ children }) => {
         showJeepneyRoute,
         setShowJeepneyRoute,
 
-        routeColors,
         matchingRoutes,
+        routeColors,
 
         getRouteColor,
+        resetRouteColors,
       }}
     >
       {children}
@@ -118,5 +123,4 @@ export const RouteProvider = ({ children }) => {
   );
 };
 
-const useRoute = () => useContext(RouteContext);
-export { useRoute };
+export const useRoute = () => useContext(RouteContext);

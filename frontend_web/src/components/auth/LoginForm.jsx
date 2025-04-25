@@ -26,6 +26,9 @@ function LoginForm({ onLoginSuccess }) {
 
       console.log("Login successful:", response.data);
       onLoginSuccess(response.data.token);
+      const token = response.data.token;
+      localStorage.setItem("JWT_TOKEN", token);
+      onLoginSuccess(token);
     } catch (error) {
       console.error("Login failed:", error);
       setError(error.response ? error.response.data : "Login failed");

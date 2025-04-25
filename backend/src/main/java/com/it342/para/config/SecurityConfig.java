@@ -34,7 +34,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder,
-                          JwtAuthenticationFilter jwtAuthenticationFilter) {
+            JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
@@ -49,7 +49,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -62,15 +63,17 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
                     authorize
-                            .requestMatchers("/api/users/register", "/api/users/login","/api/users/check-username", "/api/users/check-email").permitAll()
+                            .requestMatchers("/api/users/register", "/api/users/login", "/api/users/check-username",
+                                    "/api/users/check-email")
+                            .permitAll()
                             .anyRequest().authenticated();
                     logger.info("Authorization rules configured");
                 })
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .httpBasic(withDefaults());
+        // .httpBasic(withDefaults())
+        ;
 
         logger.info("Security Filter Chain configured");
         return http.build();

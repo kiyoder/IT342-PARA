@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import { parseOsmRouteData } from "../../services/osm/OSMRouteParser";
 import { useRoute } from "../../contexts/RouteContext";
+import { useLocation } from "../../contexts/LocationContext";
+import { calculateDistance } from "../../services/api/RouteService";
 
 const JeepneyRoute = ({
   map,
@@ -17,6 +19,7 @@ const JeepneyRoute = ({
 
   // Get the route color directly from context to ensure it's always up-to-date
   const { getRouteColor } = useRoute();
+  const { selectedLocations } = useLocation();
 
   useEffect(() => {
     if (!map.current || !mapLoaded || !relationId) {
@@ -83,6 +86,23 @@ const JeepneyRoute = ({
         const isMultiLineString =
           Array.isArray(routeData[0]) && Array.isArray(routeData[0][0]);
 
+        // Extract only the portion of the route that the user will travel on
+        let relevantRouteData;
+
+        if (selectedLocations.initial.lat && selectedLocations.final.lat) {
+          relevantRouteData = extractRelevantRoutePortion(
+            routeData,
+            isMultiLineString,
+            selectedLocations.initial.lat,
+            selectedLocations.initial.lon,
+            selectedLocations.final.lat,
+            selectedLocations.final.lon
+          );
+        } else {
+          // If we don't have both locations, use the full route
+          relevantRouteData = routeData;
+        }
+
         // Create the appropriate GeoJSON structure
         let geojson;
 
@@ -95,12 +115,12 @@ const JeepneyRoute = ({
             },
             geometry: {
               type: "MultiLineString",
-              coordinates: routeData,
+              coordinates: relevantRouteData,
             },
           };
           console.log(
             "Created MultiLineString GeoJSON with",
-            routeData.length,
+            relevantRouteData.length,
             "segments"
           );
         } else {
@@ -112,12 +132,12 @@ const JeepneyRoute = ({
             },
             geometry: {
               type: "LineString",
-              coordinates: routeData,
+              coordinates: relevantRouteData,
             },
           };
           console.log(
             "Created LineString GeoJSON with",
-            routeData.length,
+            relevantRouteData.length,
             "coordinates"
           );
         }
@@ -149,16 +169,30 @@ const JeepneyRoute = ({
 
         if (isMultiLineString) {
           // For MultiLineString, extend bounds with all segments
-          routeData.forEach((segment) => {
+          relevantRouteData.forEach((segment) => {
             segment.forEach((coord) => {
               bounds.extend(coord);
             });
           });
         } else {
           // For LineString, extend bounds with all coordinates
-          routeData.forEach((coord) => {
+          relevantRouteData.forEach((coord) => {
             bounds.extend(coord);
           });
+        }
+
+        // Also include the initial and final locations in the bounds
+        if (selectedLocations.initial.lat && selectedLocations.initial.lon) {
+          bounds.extend([
+            selectedLocations.initial.lon,
+            selectedLocations.initial.lat,
+          ]);
+        }
+        if (selectedLocations.final.lat && selectedLocations.final.lon) {
+          bounds.extend([
+            selectedLocations.final.lon,
+            selectedLocations.final.lat,
+          ]);
         }
 
         map.current.fitBounds(bounds, {
@@ -184,9 +218,116 @@ const JeepneyRoute = ({
 
     // Clean up on unmount or when route changes
     return cleanup;
-  }, [map, mapLoaded, relationId, routeNumber, getRouteColor, onRouteAdded]);
+  }, [
+    map,
+    mapLoaded,
+    relationId,
+    routeNumber,
+    getRouteColor,
+    onRouteAdded,
+    selectedLocations,
+  ]);
 
   return null; // This component doesn't render anything directly
 };
+
+// Helper function to extract only the portion of the route that the user will travel on
+function extractRelevantRoutePortion(
+  routeData,
+  isMultiLineString,
+  initialLat,
+  initialLon,
+  finalLat,
+  finalLon
+) {
+  // If it's a MultiLineString, we need to flatten it first to find the closest points
+  let flattenedRoute = [];
+  const segmentIndices = []; // Keep track of which segment each point belongs to
+
+  if (isMultiLineString) {
+    routeData.forEach((segment, segmentIndex) => {
+      segment.forEach((point) => {
+        flattenedRoute.push(point);
+        segmentIndices.push(segmentIndex);
+      });
+    });
+  } else {
+    flattenedRoute = routeData;
+  }
+
+  // Find the closest points on the route to the initial and final locations
+  let closestInitialIndex = -1;
+  let closestFinalIndex = -1;
+  let minInitialDistance = Number.POSITIVE_INFINITY;
+  let minFinalDistance = Number.POSITIVE_INFINITY;
+
+  for (let i = 0; i < flattenedRoute.length; i++) {
+    const point = flattenedRoute[i];
+    // Note: route coordinates are [lon, lat] in GeoJSON
+    const pointLon = point[0];
+    const pointLat = point[1];
+
+    // Calculate distance to initial location
+    const initialDistance = calculateDistance(
+      initialLat,
+      initialLon,
+      pointLat,
+      pointLon
+    );
+    if (initialDistance < minInitialDistance) {
+      minInitialDistance = initialDistance;
+      closestInitialIndex = i;
+    }
+
+    // Calculate distance to final location
+    const finalDistance = calculateDistance(
+      finalLat,
+      finalLon,
+      pointLat,
+      pointLon
+    );
+    if (finalDistance < minFinalDistance) {
+      minFinalDistance = finalDistance;
+      closestFinalIndex = i;
+    }
+  }
+
+  // Ensure we're going in the right direction
+  const startIndex = Math.min(closestInitialIndex, closestFinalIndex);
+  const endIndex = Math.max(closestInitialIndex, closestFinalIndex);
+
+  // Extract the relevant portion of the route
+  if (isMultiLineString) {
+    // For MultiLineString, we need to reconstruct the segments
+    const relevantSegments = [];
+    let currentSegment = [];
+    let currentSegmentIndex = -1;
+
+    for (let i = startIndex; i <= endIndex; i++) {
+      const segmentIndex = segmentIndices[i];
+
+      // If we're starting a new segment
+      if (segmentIndex !== currentSegmentIndex) {
+        if (currentSegment.length > 0) {
+          relevantSegments.push(currentSegment);
+        }
+        currentSegment = [];
+        currentSegmentIndex = segmentIndex;
+      }
+
+      currentSegment.push(flattenedRoute[i]);
+    }
+
+    // Add the last segment
+    if (currentSegment.length > 0) {
+      relevantSegments.push(currentSegment);
+    }
+
+    return relevantSegments;
+  } else {
+    // For LineString, just slice the array
+    return flattenedRoute.slice(startIndex, endIndex + 1);
+  }
+}
 
 export default JeepneyRoute;

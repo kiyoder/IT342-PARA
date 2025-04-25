@@ -17,6 +17,18 @@ const RouteSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const authFetch = (url, opts = {}) => {
+    const token = localStorage.getItem("JWT_TOKEN");
+    return fetch(url, {
+      ...opts,
+      headers: {
+        "Content-Type": "application/json",
+        ...(opts.headers || {}),
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+  };
+
   // Handle route search submission
   const handleRouteSearch = async (e) => {
     e.preventDefault();
@@ -28,14 +40,12 @@ const RouteSearch = () => {
 
     try {
       // Fetch relation ID directly from database using our API
-      const response = await fetch(
+      const response = await authFetch(
         `http://localhost:8080/api/routes/lookup?routeNumber=${encodeURIComponent(
           searchInput
         )}`,
         {
           method: "GET",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
         }
       );
 

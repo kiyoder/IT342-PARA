@@ -13,17 +13,24 @@
   overflow: hidden;
 }
 
+.close-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
 .panel-header {
   padding: 16px;
   border-bottom: 1px solid #eee;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding: 50px 20px 50px 20px;
 }
 
 .panel-header h2 {
   margin: 0;
   color: #ff7f00;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
   text-align: center;
 }
@@ -32,18 +39,15 @@
   padding: 20px 50px 20px 50px;
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 16px;
   color: #666;
   border-bottom: 1px solid #eee;
 }
 
 .direction-icon {
   color: #ff7f00;
-}
-
-.direction-icon span {
-  font-size: 16px;
-  color: #ff7f00;
+  font-weight: bold;
+  padding: 20px 50px 20px 50px;
 }
 
 .loading-state,
@@ -58,46 +62,55 @@
 
 .route-list {
   flex: 1;
-  padding: 20px 50px 20px 50px;
+  padding: 16px;
   overflow-y: auto;
-  align-content: center;
+  padding: 20px 50px;
 }
 
 .route-item {
   color: white;
   border-radius: 8px;
   padding: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   cursor: pointer;
-  justify-items: center;
-  opacity: 0.85;
   transition: all 0.2s ease;
 }
 
 .route-item:hover {
-  opacity: 0.95;
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .route-item.selected {
-  opacity: 1;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .route-item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 8px;
+
+  justify-content: center;
 }
 
 .route-number {
-  font-size: 26px;
-  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.route-number i {
+  font-size: 18px;
+  font-weight: normal;
+  opacity: 0.9;
 }
 
 .route-distance {
-  font-size: 14px;
-  margin-top: 4px;
+  font-size: 16px;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  text-align: center;
 }
 
 .panel-footer {
@@ -106,23 +119,56 @@
   text-align: center;
 }
 
-.close-button {
-  padding: 8px 16px;
-  background-color: #f0f0f0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
-}
-
-.close-button:hover {
-  background-color: #e0e0e0;
-}
-
 .no-routes-message {
   padding: 20px;
   text-align: center;
   color: #666;
   font-style: italic;
+}
+
+.save-button {
+  transition: transform 0.2s ease;
+  z-index: 10;
+}
+
+.save-button:hover {
+  transform: scale(1.2);
+}
+
+/* Login prompt */
+.login-prompt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1100;
+  text-align: center;
+}
+
+.login-prompt-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.login-prompt-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-button {
+  background-color: #ff7f00;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #eee;
+  color: #333;
 }
