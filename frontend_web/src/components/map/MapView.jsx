@@ -9,7 +9,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import ConfirmationModal from "../location/ConfirmationModal";
 import JeepneyRoute from "./JeepneyRoute";
 
-const MapView = () => {
+const MapView = ({ disableAutoSearch = false }) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const initialMarkerRef = useRef(null);
@@ -210,6 +210,9 @@ const MapView = () => {
   useEffect(() => {
     if (!mapRef.current || !mapLoaded) return;
 
+    // Skip auto-searching if disabled (for SavedRoutes page)
+    if (disableAutoSearch && !showJeepneyRoute) return;
+
     // Clear existing markers
     if (initialMarkerRef.current) {
       initialMarkerRef.current.remove();
@@ -318,7 +321,7 @@ const MapView = () => {
         });
       });
     }
-  }, [selectedLocations, mapLoaded]);
+  }, [selectedLocations, mapLoaded, disableAutoSearch, showJeepneyRoute]);
 
   // Ensure direct route stays on top when jeepney routes are added
   useEffect(() => {
@@ -383,16 +386,6 @@ const MapView = () => {
       });
     }
   };
-
-  // Log for debugging
-  useEffect(() => {
-    if (showJeepneyRoute) {
-      console.log("Showing jeepney route:", {
-        routeNumber,
-        relationId,
-      });
-    }
-  }, [showJeepneyRoute, routeNumber, relationId]);
 
   return (
     <div className="map-wrapper">

@@ -141,9 +141,14 @@ const ProfileMenu = () => {
     window.location.href = "/login";
   };
 
+  const handleHomePage = () => {
+    // Don't remove the token, just navigate to home
+    window.location.href = "/home";
+  };
+
   const handleSavedRoutes = () => {
     // Navigate to saved routes
-    console.log("Navigating to saved routes...");
+    window.location.href = "/saved-routes";
   };
 
   const handleProfilePage = () => {
@@ -194,6 +199,22 @@ const ProfileMenu = () => {
           </div>
           <div className="menu-divider"></div>
           <ul className="menu-options">
+            <li onClick={handleHomePage}>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 18 18"
+                transform="translate(3,0)"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m8.68701 1.26145c-.3855-.36447-.98852-.36447-1.37402 0l-4.84351 4.57934c-.29968.28334-.46948.67756-.46948 1.08997v5.56924c0 .8284.67157 1.5 1.5 1.5h1.5c.82843 0 1.5-.6716 1.5-1.5v-2.5c0-.27611.22386-.49997.5-.49997h2c.27614 0 .5.22386.5.49997v2.5c0 .8284.6716 1.5 1.5 1.5h1.5c.8284 0 1.5-.6716 1.5-1.5v-5.56924c0-.41241-.1698-.80663-.4695-1.08997z"
+                  fill="#FF3B10"
+                />
+              </svg>
+              <span>Home</span>
+            </li>
             <li onClick={handleProfilePage}>
               <svg
                 width="24"
