@@ -260,8 +260,9 @@ const RouteResults = () => {
                   onClick={(e) => handleSaveRoute(e, route)}
                   style={{
                     position: "absolute",
-                    bottom: "10px",
-                    left: "10px",
+                    bottom: "60%",
+                    top: "40%",
+                    right: "20px",
                     cursor: "pointer",
                     opacity: isSaving ? 0.5 : 1,
                   }}

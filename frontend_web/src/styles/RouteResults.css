@@ -97,6 +97,7 @@
 .route-number {
   font-size: 20px;
   font-weight: bold;
+  padding-right: 20px;
 }
 
 .route-number i {
@@ -108,7 +109,7 @@
 .route-distance {
   font-size: 16px;
   margin-top: 8px;
-  padding: 6px 10px;
+  padding: 6px 20px 6px 10px;
   border-radius: 4px;
   text-align: center;
 }
