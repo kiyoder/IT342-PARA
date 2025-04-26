@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../supabaseClient";
-import { useAuth } from "../context/AuthContext";
+import { supabase } from "../../supabaseClient";
+import { useAuth } from "../../context/AuthContext";
 
 const ProfileMenu = () => {
   const navigate = useNavigate();
