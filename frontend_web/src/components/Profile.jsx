@@ -1,12 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { supabase } from "../supabaseClient"
 import { useAuth } from "../context/AuthContext"
 import Navigation from "./Navigation"
+import { profileService } from "../services/profileService"
 
 export default function Profile() {
-    const { user, signOut } = useAuth()
+    const { user } = useAuth()
     const [loading, setLoading] = useState(true)
     const [username, setUsername] = useState("")
     const [updating, setUpdating] = useState(false)
@@ -21,19 +21,14 @@ export default function Profile() {
                 if (!user) return
 
                 console.log("Profile: Fetching profile data for user:", user.id)
-                const { data, error } = await supabase.from("profiles").select("username").eq("id", user.id).single()
-
-                if (error) {
-                    console.error("Profile: Error loading user data:", error)
-                    throw error
-                }
+                const data = await profileService.getProfile(user.id)
 
                 if (data) {
                     console.log("Profile: Found username:", data.username)
                     setUsername(data.username)
                 }
             } catch (error) {
-                console.error("Profile: Exception loading user data:", error.message)
+                console.error("Profile: Exception loading user data:", error)
                 setError("Failed to load profile data. Please try again later.")
             } finally {
                 setLoading(false)
@@ -58,12 +53,7 @@ export default function Profile() {
             }
 
             console.log("Profile: Updating profile with data:", updates)
-            const { error } = await supabase.from("profiles").upsert(updates)
-
-            if (error) {
-                console.error("Profile: Error updating profile:", error)
-                throw error
-            }
+            await profileService.updateProfile(user.id, updates)
 
             setMessage("Profile updated successfully!")
         } catch (error) {
