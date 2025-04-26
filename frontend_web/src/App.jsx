@@ -7,8 +7,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import LoginForm from "./components/LoginForm";
-import RegisterForm from "./components/RegisterForm";
+import LoginForm from "./components/auth/LoginForm";
+import RegisterForm from "./components/auth/RegisterForm";
 import Profile from "./components/Profile";
 import Home from "./pages/Home";
 import UsernameSetup from "./components/UsernameSetup";
