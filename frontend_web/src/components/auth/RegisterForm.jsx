@@ -1,420 +1,214 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../supabaseClient";
 
-function RegisterForm({ onRegisterSuccess }) {
-  const [username, setUsername] = useState("");
+export default function RegisterForm() {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState("");
-  const [error, setError] = useState("");
-  const [usernameValid, setUsernameValid] = useState(null);
-  const [emailValid, setEmailValid] = useState(null);
-  const [passwordValid, setPasswordValid] = useState(null);
-  const [confirmPasswordValid, setConfirmPasswordValid] = useState(null);
-  const [showPasswordPopup, setShowPasswordPopup] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const passwordTimeoutRef = useRef(null);
-
-  useEffect(() => {
-    if (username) {
-      checkUsername(username)
-        .then((response) => {
-          setUsernameValid(!response.exists);
-        })
-        .catch((error) => {
-          console.error("Failed to check username:", error);
-          setUsernameValid(false);
-        });
-    } else {
-      setUsernameValid(null);
-    }
-  }, [username]);
-
-  useEffect(() => {
-    if (email && validateEmail(email)) {
-      checkEmail(email)
-        .then((response) => {
-          setEmailValid(!response.exists);
-        })
-        .catch((error) => {
-          console.error("Failed to check email:", error);
-          setEmailValid(false);
-        });
-    } else {
-      setEmailValid(null);
-    }
-  }, [email]);
-
-  useEffect(() => {
-    // Clear the timeout when the component unmounts
-    return () => {
-      if (passwordTimeoutRef.current) {
-        clearTimeout(passwordTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validateUsername = (username) => {
-    return username.length > 0;
-  };
-
-  const validatePassword = (password) => {
-    return checkPasswordStrength(password) === "Strong";
-  };
-
-  const handlePasswordChange = (e) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
-    setPasswordStrength(checkPasswordStrength(newPassword));
-    // Re-validate confirm password when password changes
-    setConfirmPasswordValid(
-      newPassword === confirmPassword && confirmPassword !== ""
-    );
-  };
-
-  const handlePasswordFocus = () => {
-    passwordTimeoutRef.current = setTimeout(() => {
-      setShowPasswordPopup(true);
-    }, 500); // Reduced from 4000ms to 500ms for better UX
-  };
-
-  const handlePasswordBlur = () => {
-    setShowPasswordPopup(false);
-    if (passwordTimeoutRef.current) {
-      clearTimeout(passwordTimeoutRef.current);
-    }
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    const newConfirmPassword = e.target.value;
-    setConfirmPassword(newConfirmPassword);
-    setConfirmPasswordValid(
-      newConfirmPassword === password && newConfirmPassword !== ""
-    );
-  };
-
-  const checkPasswordStrength = (password) => {
-    let strength = "Weak";
-    const regexes = [/[a-z]/, /[A-Z]/, /\d/, /[!,.@#$%^&+=]/];
-    let passed = 0;
-    regexes.forEach((regex) => {
-      if (regex.test(password)) passed++;
-    });
-    if (password.length >= 8 && passed >= 3) strength = "Medium";
-    if (password.length >= 8 && passed === 4) strength = "Strong";
-    setPasswordValid(strength === "Strong");
-    return strength;
-  };
-
-  const getBarColor = (strength, index) => {
-    if (
-      strength === "Strong" ||
-      (strength === "Medium" && index < 2) ||
-      (strength === "Weak" && index < 1)
-    ) {
-      if (strength === "Strong") return "green";
-      if (strength === "Medium") return "orange";
-      if (strength === "Weak") return "red";
-    }
-    return "lightgray";
-  };
-
-  const checkUsername = async (username) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/users/check-username?username=${username}`
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Failed to check username:", error);
-      return { exists: false };
-    }
-  };
-
-  const checkEmail = async (email) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/users/check-email?email=${email}`
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Failed to check email:", error);
-      return { exists: false };
-    }
-  };
-
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    if (!validateUsername(username) || !usernameValid) {
-      setError("Invalid or existing username");
-      return;
-    }
-    if (!validateEmail(email) || !emailValid) {
-      setError("Invalid or existing email");
-      return;
-    }
-    if (!validatePassword(password)) {
-      setError("Password must be strong");
-      return;
-    }
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+    setLoading(true);
+    setError(null);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/users/register",
-        {
-          username,
-          email,
-          password,
-          name,
-        }
-      );
-      console.log("Registration successful:", response.data);
-      // Use the onRegisterSuccess prop instead of directly navigating
-      if (response.data && response.data.token) {
-        onRegisterSuccess(response.data.token);
-      } else {
-        // If no token is returned, still call onRegisterSuccess with null
-        // This allows the parent component to handle navigation to login
-        onRegisterSuccess(null);
-      }
+      // Sign up the user with email and password
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (signUpError) throw signUpError;
+
+      console.log("Signup response:", data);
+
+      // Immediately sign in after signup
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError) throw signInError;
+
+      console.log("Successfully signed in after registration");
+
+      // Redirect to home page
+      navigate("/");
     } catch (error) {
-      console.error("Registration failed:", error);
-      setError(error.response ? error.response.data : "Registration failed");
+      console.error("Registration error:", error);
+      setError(error.message || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const renderCriteria = (criteria, isMet) => (
-    <li>
-      {isMet ? (
-        <span className="check-mark">✓</span>
-      ) : (
-        <span className="x-mark">✗</span>
-      )}{" "}
-      {criteria}
-    </li>
-  );
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setError(null);
 
-  // Check if password meets specific criteria
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasNumber = /\d/.test(password);
-  const hasSpecialChar = /[!,.@#$%^&+=]/.test(password);
-  const hasMinLength = password.length >= 8;
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) throw error;
+
+      // No need to redirect here as Supabase OAuth will handle redirection
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      setError(error.message || "Google sign-in failed. Please try again.");
+      setLoading(false);
+    }
+  };
 
   return (
-    <>
-      <h2 className="form-title">Create Account</h2>
-
-      {error && <p className="error-message">{error}</p>}
-
-      <form onSubmit={handleSubmit} className="register-form">
-        <div className="form-group">
-          <input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            required
-            className={`form-input ${
-              usernameValid === true
-                ? "valid-input"
-                : usernameValid === false
-                ? "invalid-input"
-                : ""
-            }`}
-          />
-          {usernameValid === false && (
-            <div className="validation-message error">
-              Username already exists
-            </div>
-          )}
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold">Create an Account</h1>
+          <p className="mt-2 text-gray-600">Sign up to get started</p>
         </div>
 
-        <div className="form-group">
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-            className={`form-input ${
-              emailValid === true
-                ? "valid-input"
-                : emailValid === false
-                ? "invalid-input"
-                : ""
-            }`}
-          />
-          {emailValid === false && (
-            <div className="validation-message error">Email already exists</div>
-          )}
-        </div>
+        {error && (
+          <div className="p-4 text-sm text-red-700 bg-red-100 rounded-lg">
+            {error}
+          </div>
+        )}
 
-        <div className="form-group" style={{ position: "relative" }}>
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={handlePasswordChange}
-            onFocus={handlePasswordFocus}
-            onBlur={handlePasswordBlur}
-            placeholder="Password"
-            required
-            className="form-input"
-          />
+        <form onSubmit={handleRegister} className="mt-8 space-y-6">
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
 
-          {password && (
-            <>
-              <div className="progress-bar">
-                <div
-                  className="progress-segment"
-                  style={{ backgroundColor: getBarColor(passwordStrength, 0) }}
-                ></div>
-                <div
-                  className="progress-segment"
-                  style={{ backgroundColor: getBarColor(passwordStrength, 1) }}
-                ></div>
-                <div
-                  className="progress-segment"
-                  style={{ backgroundColor: getBarColor(passwordStrength, 2) }}
-                ></div>
-              </div>
-              <div className="password-strength-text">
-                <span
-                  style={{
-                    color:
-                      passwordStrength === "Strong"
-                        ? "green"
-                        : passwordStrength === "Medium"
-                        ? "orange"
-                        : "red",
-                  }}
-                >
-                  {passwordStrength}
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+              className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              {loading ? (
+                <span className="flex items-center">
+                  <svg
+                    className="w-5 h-5 mr-2 -ml-1 animate-spin"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Creating account...
                 </span>
-              </div>
-            </>
-          )}
+              ) : (
+                "Sign up"
+              )}
+            </button>
+          </div>
+        </form>
 
-          {showPasswordPopup && (
-            <div className="password-popup">
-              <p>Password must contain:</p>
-              <ul>
-                {renderCriteria("At least 8 characters", hasMinLength)}
-                {renderCriteria("One lowercase letter", hasLowerCase)}
-                {renderCriteria("One uppercase letter", hasUpperCase)}
-                {renderCriteria("One number", hasNumber)}
-                {renderCriteria("One special character", hasSpecialChar)}
-              </ul>
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
             </div>
-          )}
-        </div>
-
-        <div className="form-group">
-          <input
-            id="confirmPassword"
-            type={showPassword ? "text" : "password"}
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            placeholder="Confirm Password"
-            required
-            className={`form-input ${
-              confirmPasswordValid === true
-                ? "valid-input"
-                : confirmPasswordValid === false
-                ? "invalid-input"
-                : ""
-            }`}
-          />
-          {confirmPasswordValid === false && (
-            <div className="validation-message error">
-              Passwords do not match
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 text-gray-500 bg-white">
+                Or continue with
+              </span>
             </div>
-          )}
+          </div>
+
+          <div className="mt-6">
+            <button
+              onClick={handleGoogleSignIn}
+              disabled={loading}
+              className="flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                <path
+                  fill="#EA4335"
+                  d="M12.0003 4.75C13.7703 4.75 15.3553 5.36 16.6053 6.61L20.0303 3.18C17.9503 1.2 15.2353 0 12.0003 0C7.31033 0 3.25033 2.69 1.27033 6.61L5.27033 9.61C6.29033 6.82 8.91033 4.75 12.0003 4.75Z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M23.49 12.27C23.49 11.48 23.41 10.73 23.27 10H12V14.51H18.47C18.17 15.99 17.33 17.25 16.07 18.07L19.93 21.06C22.19 19 23.49 15.92 23.49 12.27Z"
+                />
+                <path
+                  fill="#4A90E2"
+                  d="M5.26999 14.39C5.08999 13.63 4.99999 12.84 4.99999 12.01C4.99999 11.17 5.08999 10.39 5.26999 9.64L1.26999 6.64C0.459993 8.27 9.99932e-06 10.08 9.99932e-06 12.01C9.99932e-06 13.94 0.459993 15.75 1.26999 17.38L5.26999 14.39Z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M12.0004 24C15.2404 24 17.9604 22.94 19.9404 21.06L16.0804 18.07C15.0004 18.73 13.6204 19.13 12.0004 19.13C8.91035 19.13 6.29035 17.06 5.27035 14.28L1.27035 17.28C3.25035 21.2 7.31035 24 12.0004 24Z"
+                />
+              </svg>
+              Sign up with Google
+            </button>
+          </div>
         </div>
 
-        <div className="show-password">
-          <input
-            type="checkbox"
-            id="showPassword"
-            checked={showPassword}
-            onChange={() => setShowPassword(!showPassword)}
-            className="checkbox"
-          />
-          <label htmlFor="showPassword">Show Password</label>
+        <div className="text-center mt-6">
+          <p className="text-sm text-gray-600">
+            Already have an account?{" "}
+            <a
+              href="/login"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              Sign in
+            </a>
+          </p>
         </div>
-
-        <button
-          type="submit"
-          className="register-button"
-          disabled={
-            !usernameValid ||
-            !emailValid ||
-            !passwordValid ||
-            !confirmPasswordValid
-          }
-        >
-          Create Account
-        </button>
-      </form>
-
-      <div className="account-options">
-        <span>Already have an account?</span>
-        <Link to="/login" className="login-link">
-          Sign In
-        </Link>
       </div>
-
-      <div className="divider">
-        <span className="divider-line"></span>
-        <span className="divider-text">or</span>
-        <span className="divider-line"></span>
-      </div>
-
-      <button type="button" className="google-sign-in">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M18.1711 8.36788H17.5V8.33329H10V11.6666H14.6422C13.9272 13.6063 12.1133 15 10 15C7.23859 15 5.00001 12.7614 5.00001 10C5.00001 7.23858 7.23859 5 10 5C11.2558 5 12.4033 5.48797 13.2819 6.27331L15.6069 3.90815C14.0819 2.52197 12.1337 1.66671 10 1.66671C5.39764 1.66671 1.66667 5.39767 1.66667 10C1.66667 14.6024 5.39764 18.3334 10 18.3334C14.6024 18.3334 18.3333 14.6024 18.3333 10C18.3333 9.44117 18.2758 8.89588 18.1711 8.36788Z"
-            fill="#FFC107"
-          />
-          <path
-            d="M2.62744 6.12121L5.36078 8.12954C6.10744 6.29454 7.90078 5 10 5C11.2558 5 12.4033 5.48797 13.2819 6.2731L15.6069 3.90815C14.0819 2.52197 12.1337 1.66671 10 1.66671C6.83911 1.66671 4.12578 3.47815 2.62744 6.12121Z"
-            fill="#FF3D00"
-          />
-          <path
-            d="M10 18.3333C12.0842 18.3333 13.9883 17.5089 15.4975 16.17L12.9559 13.9856C12.0985 14.6348 11.0654 15 10 15C7.89745 15 6.09051 13.6176 5.37051 11.6895L2.70184 13.7951C4.18301 16.4915 6.9409 18.3333 10 18.3333Z"
-            fill="#4CAF50"
-          />
-          <path
-            d="M18.1711 8.36788H17.5V8.33329H10V11.6666H14.6422C14.2941 12.5808 13.7167 13.371 12.9547 13.9867L12.9559 13.9855L15.4975 16.17C15.3142 16.3355 18.3333 14.1666 18.3333 9.99996C18.3333 9.44113 18.2758 8.89584 18.1711 8.36788Z"
-            fill="#1976D2"
-          />
-        </svg>
-      </button>
-    </>
+    </div>
   );
 }
-
-export default RegisterForm;

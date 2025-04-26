@@ -20,7 +20,8 @@ Through advanced GPS technology, cloud-based data synchronization, and an intuit
 &emsp;<i>https://www.figma.com/design/P2lSM8OZz61vgEt0W6xfLQ/PARA?node-id=0-1&t=mIdVZschc0j1x816-1</i><br>
 <b>OneDrive Document Repository</b><br>
 &emsp;<i>https://cebuinstituteoftechnology-my.sharepoint.com/:f:/g/personal/nickcarter_lacanglacang_cit_edu/EvpmZhImu8VNmYrXWA53KQIBjK3qVTvh_47b7q5A_ZR2uQ</i><br>
-
+<b>Use Case Diagrams</b><br>
+&emsp;<i>https://online.visual-paradigm.com/share.jsp?id=333537383333302d38</i><br>
 <br>
 <h1><b>Developers' Profile</b></h1>
 <b>KYONO, Yoshinori L.  </b><br>  
