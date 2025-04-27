@@ -41,16 +41,22 @@ export const authService = {
     },
 
     // Register with email and password
-    register: async (email, password) => {
+    register: async (email, password, username) => {
         try {
-            const response = await api.post("/auth/register", { email, password })
-            if (response.data.session) {
-                localStorage.setItem("token", response.data.session.access_token)
-                localStorage.setItem("user", JSON.stringify(response.data.user))
+            const response = await api.post("/auth/signup", { email, password, username });
+            if (response.data.accessToken) {
+                localStorage.setItem("token", response.data.accessToken);
+                localStorage.setItem("user", JSON.stringify(response.data.user));
+                return {
+                    session: {
+                        access_token: response.data.accessToken
+                    },
+                    user: response.data.user
+                };
             }
-            return response.data
+            throw new Error("Registration failed - no token received");
         } catch (error) {
-            throw error.response?.data || { error: "Registration failed" }
+            throw error.response?.data || { error: "Registration failed" };
         }
     },
 
@@ -98,6 +104,20 @@ export const authService = {
     // Check if user is authenticated
     isAuthenticated: () => {
         return !!localStorage.getItem("token")
+    },
+
+    getUserFromToken: async (token) => {
+        try {
+            const response = await api.get("/auth/validate-token", {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            return response.data.user; // Return the user object directly
+        } catch (error) {
+            console.error("Token validation failed:", error);
+            throw error;
+        }
     },
 }
 

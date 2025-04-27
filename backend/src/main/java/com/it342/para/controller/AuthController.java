@@ -175,7 +175,7 @@ public class AuthController {
     }
 
     // Add a debug endpoint to validate tokens
-    @PostMapping("/validate-token")
+    @GetMapping("/validate-token")
     public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");

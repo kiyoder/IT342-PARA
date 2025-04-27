@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import "../styles/Register.css";
+import {useAuth} from "../context/AuthContext.jsx";
 
 // Supabase setup
 const supabase = createClient(
@@ -19,6 +20,7 @@ function RegisterForm({ onRegisterSuccess }) {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { signUp } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,31 +41,21 @@ function RegisterForm({ onRegisterSuccess }) {
       setIsLoading(true);
 
       // Submit registration data to backend
-      const response = await axios.post('http://localhost:8080/api/auth/signup', {
-        email,
-        password,
-        username
-      });
+      const response = await signUp(email, password, username);
 
-      console.log("Registration response:", response.data);
+      console.log("Registration response:", response);
 
       // Check if we received a token
-      if (response.data.accessToken) {
-        // Store token and user data
-        localStorage.setItem("token", response.data.accessToken);
-        localStorage.setItem("username", username);
-        localStorage.setItem("email", email);
 
         // Call the success callback if provided
-        if (onRegisterSuccess) {
-          onRegisterSuccess(response.data.accessToken);
-        }
+      const accessToken = response?.session?.access_token;
+      if (onRegisterSuccess && accessToken) {
+        onRegisterSuccess(accessToken);
+      }
 
         // Navigate to profile page
         navigate("/profile");
-      } else {
-        throw new Error("No access token received from server");
-      }
+
     } catch (error) {
       console.error("Registration error:", error);
 

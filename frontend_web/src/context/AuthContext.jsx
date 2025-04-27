@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react"
 import { authService } from "../services/authService"
-import userService from "../services/UserService.jsx"
+import userService from "../services/supabaseService.jsx";
 
 const AuthContext = createContext()
 
@@ -15,23 +15,28 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         const checkSession = async () => {
             try {
-                setLoading(true)
-                const currentUser = authService.getCurrentUser()
-                if (currentUser) {
-                    setUser(currentUser)
-                    await loadUserProfile(currentUser.token)
+                setLoading(true);
+                const token = localStorage.getItem("token");
+                if (token) {
+                    const userData = await authService.getUserFromToken(token);
+                    if (userData) {
+                        setUser({
+                            id: userData.id,
+                            email: userData.email,
+                            username: userData.username
+                        });
+                        await loadUserProfile(token);
+                    }
                 }
             } catch (error) {
-                console.error("Session check failed:", error)
-                setError(error)
-                authService.logout()
+                console.error("Session check failed:", error);
+                authService.logout();
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
-        }
-
-        checkSession()
-    }, [])
+        };
+        checkSession();
+    }, []);
 
     const loadUserProfile = async (token) => {
         try {
@@ -40,14 +45,16 @@ export function AuthProvider({ children }) {
         } catch (error) {
             console.error("Profile load failed:", error)
             setError(error)
+            return null
+
         }
     }
 
     const signOut = () => {
         authService.logout()
+        localStorage.removeItem("token") // Ensure token is removed
         setUser(null)
         setProfile(null)
-        // Navigation is now handled by components
     }
 
     const value = {
@@ -58,7 +65,9 @@ export function AuthProvider({ children }) {
         signIn: async (email, password) => {
             try {
                 const response = await authService.login(email, password)
-                setUser(response.user)
+                localStorage.setItem("token", response.accessToken) // Store token
+                const userData = await authService.getUserFromToken(response.accessToken)
+                setUser(userData)
                 await loadUserProfile(response.token)
                 return response
             } catch (error) {
@@ -66,22 +75,37 @@ export function AuthProvider({ children }) {
                 throw error
             }
         },
-        signUp: async (email, password) => {
+        signUp: async (email, password, username) => {
             try {
-                const response = await authService.register(email, password)
-                setUser(response.user)
-                return response
+                const response = await authService.register(email, password,username);
+                localStorage.setItem("token", response.session.access_token);
+                const userData = {
+                    id: response.user.id,
+                    email: response.user.email,
+                    username: response.user.username
+                };
+                setUser(userData);
+                await loadUserProfile(response.session.access_token);
+                return response;
             } catch (error) {
-                setError(error)
-                throw error
+                setError(error);
+                throw error;
             }
         },
         signOut,
-        refreshProfile: () => user?.token && loadUserProfile(user.token),
+        refreshProfile: async () => {
+            const token = localStorage.getItem("token")
+            if (token) {
+                return await loadUserProfile(token)
+            }
+            return null
+        },
         updateProfile: async (updates) => {
-            if (!user?.token) return
+            const token = localStorage.getItem("token")
+            if (!token) return null
+
             try {
-                const updatedProfile = await userService.updateProfile(user.token, updates)
+                const updatedProfile = await userService.updateProfile(token, updates)
                 setProfile(updatedProfile)
                 return updatedProfile
             } catch (error) {
