@@ -12,7 +12,6 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "Authorization")
-
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
