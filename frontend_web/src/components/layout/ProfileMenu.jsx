@@ -1,4 +1,4 @@
-"use client";
+/*"use client";
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -79,3 +79,4 @@ const ProfileMenu = () => {
 };
 
 export default ProfileMenu;
+*/
