@@ -39,7 +39,7 @@ public class AuthController {
             logger.info("Supabase user created successfully");
 
             // Extract user ID
-            String supabaseUid = ((Map<String, String>)supabaseUser.get("user")).get("id");
+            String supabaseUid = ((Map<String, String>) supabaseUser.get("user")).get("id");
             if (supabaseUid == null || supabaseUid.isEmpty()) {
                 throw new RuntimeException("Supabase UID missing");
             }
@@ -49,6 +49,9 @@ public class AuthController {
             if (accessToken == null) {
                 throw new RuntimeException("No access token received");
             }
+
+            logger.info("Access token received: {}", accessToken.substring(0, 15) + "...");
+
 
             // 3. Create profile using the user's access token
             boolean profileCreated = supabaseService.createProfileInSupabase(
@@ -62,11 +65,20 @@ public class AuthController {
                 throw new RuntimeException("Failed to create user profile");
             }
 
+            logger.info("Profile created successfully for user: {}", supabaseUid);
+
+            // 4. Return user data and token
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("id", supabaseUid);
+            userData.put("email", signupRequest.getEmail());
+            userData.put("username", signupRequest.getUsername());
+
             return ResponseEntity.ok(Map.of(
                     "message", "Signup successful",
-                    "user", supabaseUser.get("user"),
+                    "user", userData,
                     "accessToken", accessToken
             ));
+
 
         } catch (RuntimeException ex) {
             logger.error("Error during signup process", ex);
@@ -78,7 +90,6 @@ public class AuthController {
     @GetMapping("/google-callback")
     public ResponseEntity<String> handleGoogleCallback(@RequestParam String code) {
         try {
-            Map<String, Object> googleUser = supabaseService.exchangeGoogleAuthCodeForToken(code);
             return ResponseEntity.ok("Success");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Failed to process login");
@@ -123,7 +134,7 @@ public class AuthController {
             String email = (String) user.get("email");
 
             // 2. Check if profile exists
-            Map<String, Object> profile = supabaseService.getProfileFromSupabase(request.getSupabaseUid());
+            Map<String, Object> profile = supabaseService.getProfileFromSupabase(request.getSupabaseUid(), token);
 
             if (profile == null) {
                 // 3a. Create new profile if doesn't exist
@@ -145,14 +156,52 @@ public class AuthController {
                 if (!updated) throw new RuntimeException("Profile update failed");
             }
 
+
+
             return ResponseEntity.ok(Map.of(
                     "message", "Username set successfully",
-                    "accessToken", token
+                    "accessToken", token,
+                    "user", Map.of(
+                            "id", request.getSupabaseUid(),
+                            "email", email,
+                            "username", request.getUsername()
+                    )
             ));
         } catch (Exception e) {
+            logger.error("Error setting username", e);
             return ResponseEntity.internalServerError()
                     .body(Map.of("error", e.getMessage()));
         }
     }
 
+    // Add a debug endpoint to validate tokens
+    @PostMapping("/validate-token")
+    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            logger.info("Validating token: {}", token.substring(0, 15) + "...");
+
+            Map<String, Object> user = supabaseService.getUserFromToken(token);
+            String userId = (String) user.get("id");
+
+            // Get profile data
+            Map<String, Object> profile = supabaseService.getProfileFromSupabase(userId, token);
+
+            return ResponseEntity.ok(Map.of(
+                    "valid", true,
+                    "user", Map.of(
+                            "id", userId,
+                            "email", user.get("email"),
+                            "username", profile != null ? profile.get("username") : ""
+                    )
+            ));
+        } catch (Exception e) {
+            logger.error("Token validation failed", e);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "valid", false,
+                            "error", e.getMessage()
+                    ));
+        }
+    }
 }

@@ -22,45 +22,71 @@ function RegisterForm({ onRegisterSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
+    // Basic validation
     if (password !== confirmPassword) {
       setError("Passwords don't match");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
       return;
     }
 
     try {
       setIsLoading(true);
 
+      // Submit registration data to backend
       const response = await axios.post('http://localhost:8080/api/auth/signup', {
         email,
         password,
         username
       });
 
-      console.log(response.data.message);
-      alert(response.data.message);
-      navigate("/login");
+      console.log("Registration response:", response.data);
 
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
-        setError(error.response.data.error);
-        console.error(error.response.data.error);
+      // Check if we received a token
+      if (response.data.accessToken) {
+        // Store token and user data
+        localStorage.setItem("token", response.data.accessToken);
+        localStorage.setItem("username", username);
+        localStorage.setItem("email", email);
+
+        // Call the success callback if provided
+        if (onRegisterSuccess) {
+          onRegisterSuccess(response.data.accessToken);
+        }
+
+        // Navigate to profile page
+        navigate("/profile");
       } else {
-        setError("An unexpected error occurred");
-        console.error("An unexpected error occurred");
+        throw new Error("No access token received from server");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+
+      // Handle different error types
+      if (error.response?.data?.error) {
+        setError(error.response.data.error);
+      } else if (error.message) {
+        setError(error.message);
+      } else {
+        setError("Registration failed. Please try again later.");
       }
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Google Sign-In Handler using Supabase
+  // Google Sign-In Handler
   const handleGoogleSignIn = async () => {
     try {
       setIsLoading(true);
       setError("");
 
-      const { data, error: signInError } = await supabase.auth.signInWithOAuth({
+      const { error: signInError } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo: window.location.origin + '/google-callback'
@@ -71,11 +97,11 @@ function RegisterForm({ onRegisterSuccess }) {
         throw signInError;
       }
 
-      // Note: After redirect, user needs to complete setting username if needed.
+      // The rest is handled by GoogleCallback component after redirect
 
     } catch (error) {
-      console.error("Error initiating Google sign-in:", error);
-      setError("An error occurred during Google sign-in.");
+      console.error("Google sign-in error:", error);
+      setError("Failed to initiate Google sign-in. Please try again.");
       setIsLoading(false);
     }
   };

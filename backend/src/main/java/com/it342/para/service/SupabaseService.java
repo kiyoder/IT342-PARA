@@ -59,6 +59,7 @@ public class SupabaseService {
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 Map<String, Object> body = response.getBody();
+                logger.info("Signup successful, response contains: {}", body.keySet());
                 if (body.containsKey("user")) {
                     return body;
                 }
@@ -73,7 +74,31 @@ public class SupabaseService {
 
     public Map<String, Object> loginWithEmailPassword(String email, String password) {
         String url = supabaseUrl + "/auth/v1/token?grant_type=password";
-        return postRequest(url, Map.of("email", email, "password", password));
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("email", email);
+        payload.put("password", password);
+
+        try {
+            HttpHeaders headers = createHeaders(supabaseApiKey);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(payload, headers),
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                Map<String, Object> body = response.getBody();
+                logger.info("Login successful, response contains: {}", body.keySet());
+                return body;
+            }
+            throw new RuntimeException("Login failed with status: " + response.getStatusCode());
+        } catch (Exception ex) {
+            logger.error("Login failed", ex);
+            throw new RuntimeException("Login failed: " + ex.getMessage(), ex);
+        }
     }
 
     public boolean createProfileInSupabase(String uid, String username, String email, String userToken) {
@@ -85,58 +110,118 @@ public class SupabaseService {
         );
 
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(
+            logger.info("Creating profile for user {}", uid);
+            HttpHeaders headers = createHeaders(userToken);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            ResponseEntity<String> response = restTemplate.exchange(
                     url,
-                    new HttpEntity<>(profile, createHeaders(userToken)),
+                    HttpMethod.POST,
+                    new HttpEntity<>(profile, headers),
                     String.class
             );
-            return response.getStatusCode() == HttpStatus.CREATED;
+
+
+
+            boolean success = response.getStatusCode() == HttpStatus.CREATED;
+            logger.info("Profile creation result: {}", success ? "success" : "failed with " + response.getStatusCode());
+
+            if (!success) {
+                logger.error("Profile creation failed with status code: {}", response.getStatusCode());
+                logger.error("Response body: {}", response.getBody());
+            }
+
+
+            return success;
+
+
         } catch (Exception e) {
-            logger.error("Profile creation failed for {}: {}", uid, e.getMessage());
+            logger.error("Profile creation failed for {}: {}", uid, e.getMessage(), e);
             return false;
         }
+
     }
 
     public boolean updateProfile(String uid, String username, String email, String userToken) {
         String url = supabaseUrl + "/rest/v1/profiles?id=eq." + uid;
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("username", username);
-        updates.put("email", email);
 
         try {
+            logger.info("Updating profile for user {}", uid);
+
+            // Create headers with proper content type
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("apikey", supabaseApiKey);
+            headers.set("Authorization", "Bearer " + userToken);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Prefer", "resolution=merge-duplicates");
+
+            // Create update payload
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("id", uid);
+            updates.put("username", username);
+            if (email != null && !email.isEmpty()) {
+                updates.put("email", email);
+            }
+
+            // Create request entity
+            HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(updates, headers);
+
+            // Make the request
             ResponseEntity<String> response = restTemplate.exchange(
                     url,
-                    HttpMethod.PATCH,
-                    new HttpEntity<>(updates, createHeaders(userToken)),
+                    HttpMethod.POST,
+                    requestEntity,
                     String.class
             );
-            return response.getStatusCode().is2xxSuccessful();
+
+            // Check response status
+            boolean success = response.getStatusCode().is2xxSuccessful();
+            logger.info("Profile update result: {}", success ? "success" : "failed with " + response.getStatusCode());
+            return success;
         } catch (Exception e) {
             logger.error("Profile update failed for {}: {}", uid, e.getMessage());
             return false;
         }
     }
 
-    public Map<String, Object> getProfileFromSupabase(String supabaseUid) {
+    public Map<String, Object> getProfileFromSupabase(String supabaseUid, String userToken) {
         String url = supabaseUrl + "/rest/v1/profiles?id=eq." + supabaseUid;
+        int maxRetries = 3;
+        int attempts = 0;
 
-        try {
-            ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
-                    url,
-                    HttpMethod.GET,
-                    new HttpEntity<>(createHeaders(supabaseApiKey)),
-                    new ParameterizedTypeReference<>() {}
-            );
+        while (attempts < maxRetries) {
+            try {
+                logger.info("Fetching profile for user {} (attempt {})", supabaseUid, attempts + 1);
+                HttpHeaders headers = createHeaders(userToken); // Use USER token, not API key
+                headers.set("Accept", "application/json");
 
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                List<Map<String, Object>> profiles = response.getBody();
-                if (!profiles.isEmpty()) {
-                    return profiles.get(0);
+                ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+                        url,
+                        HttpMethod.GET,
+                        new HttpEntity<>(headers), // Fix: Remove duplicate headers
+                        new ParameterizedTypeReference<>() {}
+                );
+
+                if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                    List<Map<String, Object>> profiles = response.getBody();
+                    if (!profiles.isEmpty()) {
+                        logger.info("Profile found for user {}", supabaseUid);
+                        return profiles.get(0);
+                    }
+                }
+
+                logger.info("No profile found for user {} on attempt {}", supabaseUid, attempts + 1);
+                attempts++;
+                Thread.sleep(1000); // Delay between retries
+            } catch (Exception e) {
+                logger.error("Failed to fetch profile for {}: {}", supabaseUid, e.getMessage());
+                attempts++;
+                if (attempts < maxRetries) {
+                    try { Thread.sleep(1000); } catch (InterruptedException ie) { break; }
                 }
             }
-        } catch (Exception e) {
-            logger.error("Failed to fetch profile for {}: {}", supabaseUid, e.getMessage());
         }
+        logger.warn("Profile not found after {} attempts for user {}", maxRetries, supabaseUid);
         return null;
     }
 
@@ -155,13 +240,27 @@ public class SupabaseService {
         String url = supabaseUrl + "/auth/v1/user";
 
         try {
+            logger.info("Getting user from token");
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("apikey", supabaseApiKey);
+            headers.set("Authorization", "Bearer " + jwt);
+
             ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     new HttpEntity<>(createHeaders(jwt)),
                     new ParameterizedTypeReference<>() {}
             );
-            return response.getBody();
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                logger.info("Successfully retrieved user from token");
+                return response.getBody();
+            }
+
+            logger.error("Failed to get user from token: {}", response.getStatusCode());
+            throw new RuntimeException("Invalid token: status " + response.getStatusCode());
+
+
         } catch (Exception e) {
             logger.error("Failed to get user from token", e);
             throw new RuntimeException("Invalid token: " + e.getMessage());

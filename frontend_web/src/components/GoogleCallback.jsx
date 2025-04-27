@@ -29,19 +29,25 @@ function GoogleCallback() {
                 throw new Error("Authentication session expired. Please sign in again.");
             }
 
-            const response = await axios.post('http://localhost:8080/api/auth/set-username', {
-                supabaseUid: user.id,
-                username,
-                email: user.email // Include email if needed by backend
-            }, {
-                headers: {
-                    Authorization: `Bearer ${session.access_token}`,
-                    'Content-Type': 'application/json'
+            const response = await axios.post(
+                'http://localhost:8080/api/auth/set-username',
+                {
+                    supabaseUid: user.id,
+                    username,
+                    email: user.email
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${session.access_token}`,
+                        'Content-Type': 'application/json'
+                    }
                 }
-            });
+            );
 
             localStorage.setItem("token", response.data.accessToken);
-            window.location.href = "/";
+            localStorage.setItem("username", username);
+            localStorage.setItem("email", user.email);
+            window.location.href = "/profile";
         } catch (err) {
             console.error("Registration error:", err);
             setError(err.response?.data?.message ||
@@ -75,48 +81,36 @@ function GoogleCallback() {
                 console.log("User authenticated:", user.id);
 
                 try {
+                    localStorage.setItem("token", session.access_token);
                     // Check user existence with proper auth headers
-                    const response = await axios.get(`http://localhost:8080/api/users/check-user`, {
-                        params: { supabaseUid: user.id },
-                        headers: {
-                            Authorization: `Bearer ${session.access_token}`,
-                            'Content-Type': 'application/json'
-                        },
-                        validateStatus: (status) => status === 200 || status === 404
-                    });
-
-                    if (response.status === 200 && response.data.exists) {
-                        // Existing user - log them in
-                        const loginResponse = await axios.post(
-                            'http://localhost:8080/api/auth/google-login',
-                            { supabaseUid: user.id },
-                            {
-                                headers: {
-                                    Authorization: `Bearer ${session.access_token}`,
-                                    'Content-Type': 'application/json'
-                                }
+                    const profileResponse = await axios.get(
+                        `http://localhost:8080/api/users/profile`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${session.access_token}`,
+                                'Content-Type': 'application/json'
                             }
-                        );
+                        }
+                    );
 
-                        localStorage.setItem("token", loginResponse.data.accessToken);
-                        window.location.href = "/";
-                    } else {
+                    localStorage.setItem("username", profileResponse.data.username || "");
+                    localStorage.setItem("email", profileResponse.data.email || "");
+                    window.location.href = "/profile";
+
+                } catch (err) {
+                    console.error("Profile fetch error:", err);
+                    if (err.response?.status === 404) {
                         // New user - show username form
                         setShowUsernameForm(true);
-                    }
-                } catch (err) {
-                    console.error("User check error:", err);
-                    if (err.response?.status === 403) {
-                        // Special handling for 403 - likely auth issue
-                        setError("Authentication failed. Please sign out and try again.");
                     } else {
-                        setError("Failed to check user status. Please try again.");
+                        setError("Failed to fetch profile. Please try again.");
+                        navigate("/login");
                     }
                 }
             } catch (error) {
                 console.error("Callback error:", error);
                 setError(error.message || "Login processing failed. Please try again.");
-                navigate("/login"); // Redirect to login on critical errors
+                navigate("/login");
             } finally {
                 setLoading(false);
             }
