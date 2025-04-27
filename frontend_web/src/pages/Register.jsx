@@ -7,7 +7,7 @@ function Register() {
 
   const handleRegisterSuccess = (token) => {
     localStorage.setItem("token", token);
-    navigate("/");
+    navigate("/profile");
   };
 
   return (

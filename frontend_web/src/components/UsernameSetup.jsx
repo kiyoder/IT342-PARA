@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { supabase } from "../supabaseClient"
 import { useAuth } from "../context/AuthContext"
+import { profileService } from "../services/profileService"
 
 export default function UsernameSetup() {
     const { user } = useAuth()
@@ -23,22 +23,22 @@ export default function UsernameSetup() {
 
             try {
                 setCheckingExisting(true)
-                const { data, error } = await supabase.from("profiles").select("username").eq("id", user.id).single()
+                console.log("Checking if user has existing username")
+                const profile = await profileService.getProfile(user.id)
 
-                if (error && error.code !== "PGRST116") {
-                    console.error("Error checking existing username:", error)
-                    if (isMounted) setError("Error checking profile: " + error.message)
-                } else if (!error && data && data.username) {
-                    console.log("User already has username:", data.username)
+                if (profile && profile.username) {
+                    console.log("User already has username:", profile.username)
                     if (isMounted) {
-                        setExistingUsername(data.username)
+                        setExistingUsername(profile.username)
                         // If they already have a username, redirect to home
                         navigate("/")
                     }
+                } else {
+                    console.log("User does not have a username yet")
                 }
             } catch (error) {
                 console.error("Exception checking existing username:", error)
-                if (isMounted) setError("Network error: " + error.message)
+                if (isMounted) setError("Network error: " + (error.message || "Unknown error"))
             } finally {
                 if (isMounted) setCheckingExisting(false)
             }
@@ -63,51 +63,16 @@ export default function UsernameSetup() {
             setSubmitting(true)
             setError(null)
 
-            // Check if username is already taken by another user
-            const { data: existingUser, error: checkError } = await supabase
-                .from("profiles")
-                .select("id")
-                .eq("username", username)
-                .single()
+            console.log("Setting username:", username)
 
-            if (checkError && checkError.code !== "PGRST116") {
-                console.error("Error checking existing username:", checkError)
-            }
-
-            if (existingUser && existingUser.id !== user.id) {
-                setError("Username is already taken")
-                setSubmitting(false)
-                return
-            }
-
-            console.log("Setting username for user:", user.id)
-
-            // Update or insert the profile with the username
-            const { error: updateError } = await supabase.from("profiles").upsert({
+            // Update profile with username
+            await profileService.updateProfile(user.id, {
                 id: user.id,
                 username,
                 updated_at: new Date().toISOString(),
             })
 
-            if (updateError) {
-                throw updateError
-            }
-
             console.log("Username set successfully")
-
-            // Verify the username was set
-            const { data: verifyData, error: verifyError } = await supabase
-                .from("profiles")
-                .select("username")
-                .eq("id", user.id)
-                .single()
-
-            if (verifyError) {
-                console.error("Error verifying username:", verifyError)
-                throw new Error("Username was set but could not be verified. Please try logging in again.")
-            }
-
-            console.log("Verification result:", verifyData)
 
             // Redirect to home page
             navigate("/")
