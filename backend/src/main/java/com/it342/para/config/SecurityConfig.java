@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())  // Enable CORS using the above configuration
                 .csrf().disable()// Disable CSRF (you may enable it if you're not building a stateless API)
                 .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/auth/**","/api/users/check-user","api/users/**","/api/auth/set-username","/api/users/profile").permitAll()  // Allow public access to authentication endpoints
+                .requestMatchers("/api/auth/**","/api/users/check-user","/api/users/**","/api/auth/set-username","/api/users/profile").permitAll()  // Allow public access to authentication endpoints
                 .anyRequest().authenticated()
 
                 );
