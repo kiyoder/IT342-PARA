@@ -17,18 +17,6 @@ const RouteSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const authFetch = (url, opts = {}) => {
-    const token = localStorage.getItem("JWT_TOKEN");
-    return fetch(url, {
-      ...opts,
-      headers: {
-        "Content-Type": "application/json",
-        ...(opts.headers || {}),
-        Authorization: token ? `Bearer ${token}` : "",
-      },
-    });
-  };
-
   // Handle route search submission
   const handleRouteSearch = async (e) => {
     e.preventDefault();
@@ -40,12 +28,12 @@ const RouteSearch = () => {
 
     try {
       // Fetch relation ID directly from database using our API
-      const response = await authFetch(
+      const response = await fetch(
         `http://localhost:8080/api/routes/lookup?routeNumber=${encodeURIComponent(
-          searchInput
+          searchInput.trim()
         )}`,
         {
-          method: "GET",
+          credentials: "include", // only needed if you're using cookies/session auth
         }
       );
 
@@ -67,7 +55,6 @@ const RouteSearch = () => {
       try {
         data = JSON.parse(responseText);
       } catch (jsonError) {
-        console.error("JSON parsing failed:", jsonError);
         throw new Error(
           `Invalid JSON response: ${responseText.substring(0, 50)}...`
         );
