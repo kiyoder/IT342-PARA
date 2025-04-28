@@ -1,1 +1,1 @@
-web: java -jar backend/target/*.jar
+web: java -jar backend/target/para-0.0.1-SNAPSHOT.jar
