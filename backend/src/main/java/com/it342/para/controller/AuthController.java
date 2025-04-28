@@ -3,6 +3,7 @@ package com.it342.para.controller;
 import com.it342.para.dto.LoginRequest;
 import com.it342.para.dto.SetUsernameRequest;
 import com.it342.para.dto.SignupRequest;
+import com.it342.para.dto.UserDTO;
 
 import com.it342.para.service.SupabaseService;
 import lombok.RequiredArgsConstructor;
@@ -67,15 +68,15 @@ public class AuthController {
 
             logger.info("Profile created successfully for user: {}", supabaseUid);
 
-            // 4. Return user data and token
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("id", supabaseUid);
-            userData.put("email", signupRequest.getEmail());
-            userData.put("username", signupRequest.getUsername());
-
+            // 4. Create UserDTO and return response
+            UserDTO userDTO = new UserDTO(
+                    supabaseUid,
+                    signupRequest.getUsername(),
+                    signupRequest.getEmail()
+            );
             return ResponseEntity.ok(Map.of(
                     "message", "Signup successful",
-                    "user", userData,
+                    "user", userDTO,
                     "accessToken", accessToken
             ));
 
@@ -156,16 +157,17 @@ public class AuthController {
                 if (!updated) throw new RuntimeException("Profile update failed");
             }
 
-
+            // Create UserDTO for response
+            UserDTO userDTO = new UserDTO(
+                    request.getSupabaseUid(),
+                    request.getUsername(),
+                    email
+            );
 
             return ResponseEntity.ok(Map.of(
                     "message", "Username set successfully",
                     "accessToken", token,
-                    "user", Map.of(
-                            "id", request.getSupabaseUid(),
-                            "email", email,
-                            "username", request.getUsername()
-                    )
+                    "user", userDTO
             ));
         } catch (Exception e) {
             logger.error("Error setting username", e);
@@ -187,13 +189,15 @@ public class AuthController {
             // Get profile data
             Map<String, Object> profile = supabaseService.getProfileFromSupabase(userId, token);
 
+            String username = profile != null ? (String) profile.get("username") : "";
+            String email = (String) user.get("email");
+
+            // Create UserDTO for response
+            UserDTO userDTO = new UserDTO(userId, username, email);
+
             return ResponseEntity.ok(Map.of(
                     "valid", true,
-                    "user", Map.of(
-                            "id", userId,
-                            "email", user.get("email"),
-                            "username", profile != null ? profile.get("username") : ""
-                    )
+                    "user", userDTO
             ));
         } catch (Exception e) {
             logger.error("Token validation failed", e);
