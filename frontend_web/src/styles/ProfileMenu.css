@@ -1,7 +1,7 @@
 .profile-menu-container {
   position: fixed;
   bottom: 5%;
-  left: 5%;
+  left: 3%;
   z-index: 1000;
 }
 
@@ -26,7 +26,11 @@
 }
 
 .profile-button.rotate {
-  animation: spin 1s ease-in-out;
+  animation: spin-clockwise 1s ease-in-out;
+}
+
+.profile-button.rotate-counter {
+  animation: spin-counterclockwise 1s ease-in-out;
 }
 
 .profile-button:focus {
@@ -37,12 +41,21 @@
   outline: 2px solid blue;
 }
 
-@keyframes spin {
+@keyframes spin-clockwise {
   0% {
     transform: rotate(0deg);
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-counterclockwise {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
   }
 }
 
@@ -57,7 +70,39 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
   color: #ff3b10;
   overflow: hidden;
-  animation: slideIn 0.3s ease-out;
+  transform-origin: bottom center;
+}
+
+/* Menu opening animation - unravel upward */
+.profile-menu.menu-opening {
+  animation: unravel-up 0.5s ease-out forwards;
+}
+
+/* Menu closing animation - pull down */
+.profile-menu.menu-closing {
+  animation: pull-down 0.5s ease-in forwards;
+}
+
+@keyframes unravel-up {
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes pull-down {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
 }
 
 @keyframes slideIn {
@@ -131,7 +176,7 @@
 }
 
 .menu-options li span {
-  font-size: 14px;
+  font-size: 18px;
 }
 
 /* Add a subtle pulse effect when not rotating */
@@ -147,6 +192,6 @@
   }
 }
 
-.profile-button:not(.rotate):hover {
+.profile-button:not(.rotate):not(.rotate-counter):hover {
   animation: pulse 1.5s infinite ease-in-out;
 }

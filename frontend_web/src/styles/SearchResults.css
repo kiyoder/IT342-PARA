@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300;1,400;1,500&display=swap");
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  align-self: center;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 100;
+  margin-top: 5px;
+  width: 35%;
+  border: 2px solid #ff5733;
+  border-radius: 0 0 15px 15px;
+}
+
+.search-results ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-results li {
+  padding-left: 18px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  color: black;
+}
+
+.search-results li:hover {
+  background-color: #fff0ee;
+}
+
+.location-details {
+  display: flex;
+  flex-direction: column;
+  background-color: white !important;
+  flex: 1;
+}
+
+.search-results li:hover .location-details {
+  background-color: #fff0ee !important; /* Match the parent li's hover background */
+}
+
+.location-main-text {
+  color: #ff5733;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: "Poppins", sans-serif;
+}
+
+.location-secondary-text {
+  color: #070100;
+  font-style: italic; /* Italic applied correctly */
+  font-size: 14px;
+  font-family: "Poppins", sans-serif; /* Correct way to reference Poppins */
+}
+
+.location-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff5733;
+}
+
+.loading {
+  padding: 16px;
+  text-align: center;
+  color: #666;
+  background-color: white;
+}
+
+.no-results {
+  padding: 16px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  background-color: white;
+}
+
+/* Style for the "use current location" option */
+.use-current-location {
+  padding: 5px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: black;
+  border-top: 1px solid #f0f0f0;
+}
+
+.use-current-location:hover {
+  background-color: #fff0ee;
+}
+
+.current-location-icon {
+  color: #ff5733;
+}
+
+/* Style for the current location item */
+.current-location-item {
+  background-color: #fff8f7;
+}
+
+/* Style for the distance text */
+.distance-text {
+  font-size: 14px;
+  color: #666;
+  font-weight: normal;
+  margin-left: 5px;
+}

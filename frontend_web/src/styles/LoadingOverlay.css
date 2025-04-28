@@ -1,0 +1,72 @@
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.loading-content {
+  max-width: 500px;
+  text-align: center;
+  padding: 0 30px;
+}
+
+.loading-content h2 {
+  color: #ff7f00; /* Orange title */
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 32px; /* Larger title */
+  font-weight: bold;
+}
+
+.progress-container {
+  margin: 30px 0;
+}
+
+.progress-bar {
+  height: 16px; /* Taller progress bar */
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #ff7f00; /* Orange progress bar */
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 18px; /* Larger text */
+  color: #333;
+  font-weight: bold;
+}
+
+.status-text {
+  margin-bottom: 30px;
+  color: #ff7f00;
+  font-size: 18px; /* Larger text */
+  line-height: 1.5;
+}
+
+.cancel-text {
+  color: #ff3b10;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 30px;
+  text-decoration: underline;
+  font-size: 18px; /* Larger text */
+}
+
+.cancel-text:hover {
+  color: #e03000;
+}
