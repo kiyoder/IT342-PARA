@@ -10,7 +10,7 @@
     <name>Para Monorepo Parent</name>
 
     <modules>
-        <module>para</module>
+        <module>backend</module>
     </modules>
 
     <properties>
