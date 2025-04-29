@@ -294,4 +294,269 @@ public class SupabaseService {
         headers.set("Content-Type", "application/json");
         return headers;
     }
+
+    public Map<String, Object> findRouteByRouteNumber(String routeNumber, String token) {
+        String normalizedRouteNumber = routeNumber.trim().toUpperCase();
+        String url = supabaseUrl + "/rest/v1/jeepney_routes?route_number=eq." + normalizedRouteNumber;
+
+        try {
+            logger.info("Looking up route with route number: {}", normalizedRouteNumber);
+            HttpHeaders headers = createHeaders(token);
+            headers.set("Accept", "application/json");
+
+            ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                List<Map<String, Object>> routes = response.getBody();
+                if (!routes.isEmpty()) {
+                    logger.info("Route found for route number {}", normalizedRouteNumber);
+                    return routes.get(0);
+                }
+            }
+
+            logger.info("No route found for route number {}", normalizedRouteNumber);
+            return null;
+        } catch (Exception e) {
+            logger.error("Failed to fetch route with route number {}: {}", normalizedRouteNumber, e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Gets all jeepney routes from Supabase
+     *
+     * @param token User authentication token
+     * @return List of route data
+     */
+    public List<Map<String, Object>> getAllRoutes(String token) {
+        String url = supabaseUrl + "/rest/v1/jeepney_routes?select=*";
+
+        try {
+            logger.info("Fetching all routes");
+            HttpHeaders headers = createHeaders(token);
+            headers.set("Accept", "application/json");
+
+            ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                List<Map<String, Object>> routes = response.getBody();
+                logger.info("Successfully fetched {} routes", routes.size());
+                return routes;
+            }
+
+            logger.warn("Failed to fetch routes: {}", response.getStatusCode());
+            return List.of();
+        } catch (Exception e) {
+            logger.error("Failed to fetch all routes: {}", e.getMessage());
+            return List.of();
+        }
+    }
+
+    /**
+     * Creates a new jeepney route in Supabase
+     *
+     * @param routeNumber The route number
+     * @param relationId The OSM relation ID
+     * @param locations Optional locations string
+     * @param token User authentication token
+     * @return true if creation was successful
+     */
+    public boolean createRoute(String routeNumber, String relationId, String locations, String token) {
+        String url = supabaseUrl + "/rest/v1/jeepney_routes";
+        Map<String, Object> route = new HashMap<>();
+        route.put("route_number", routeNumber.trim().toUpperCase());
+        route.put("relation_id", relationId);
+        if (locations != null && !locations.isEmpty()) {
+            route.put("locations", locations);
+        }
+
+        try {
+            logger.info("Creating route with route number: {}", routeNumber);
+            HttpHeaders headers = createHeaders(token);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(route, headers),
+                    String.class
+            );
+
+            boolean success = response.getStatusCode() == HttpStatus.CREATED;
+            logger.info("Route creation result: {}", success ? "success" : "failed with " + response.getStatusCode());
+            return success;
+        } catch (Exception e) {
+            logger.error("Route creation failed: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Updates an existing jeepney route in Supabase
+     *
+     * @param id The route ID
+     * @param routeNumber The route number
+     * @param relationId The OSM relation ID
+     * @param locations Optional locations string
+     * @param token User authentication token
+     * @return true if update was successful
+     */
+    public boolean updateRoute(Long id, String routeNumber, String relationId, String locations, String token) {
+        String url = supabaseUrl + "/rest/v1/jeepney_routes?id=eq." + id;
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("route_number", routeNumber.trim().toUpperCase());
+        updates.put("relation_id", relationId);
+        if (locations != null) {
+            updates.put("locations", locations);
+        }
+
+        try {
+            logger.info("Updating route with ID: {}", id);
+            HttpHeaders headers = createHeaders(token);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Prefer", "return=minimal");
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.PATCH,
+                    new HttpEntity<>(updates, headers),
+                    String.class
+            );
+
+            boolean success = response.getStatusCode().is2xxSuccessful();
+            logger.info("Route update result: {}", success ? "success" : "failed with " + response.getStatusCode());
+            return success;
+        } catch (Exception e) {
+            logger.error("Route update failed: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Deletes a jeepney route from Supabase
+     *
+     * @param id The route ID to delete
+     * @param token User authentication token
+     * @return true if deletion was successful
+     */
+    public boolean deleteRoute(Long id, String token) {
+        String url = supabaseUrl + "/rest/v1/jeepney_routes?id=eq." + id;
+
+        try {
+            logger.info("Deleting route with ID: {}", id);
+            HttpHeaders headers = createHeaders(token);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.DELETE,
+                    new HttpEntity<>(headers),
+                    String.class
+            );
+
+            boolean success = response.getStatusCode().is2xxSuccessful();
+            logger.info("Route deletion result: {}", success ? "success" : "failed with " + response.getStatusCode());
+            return success;
+        } catch (Exception e) {
+            logger.error("Route deletion failed: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public List<Map<String, Object>> getSavedRoutes(String userId, String token) {
+        String url = supabaseUrl + "/rest/v1/saved_routes?user_id=eq." + userId;
+
+        try {
+            HttpHeaders headers = createHeaders(token);
+            headers.set("Accept", "application/json");
+
+            ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                return response.getBody();
+            }
+            return List.of();
+        } catch (Exception e) {
+            logger.error("Failed to fetch saved routes for user {}: {}", userId, e.getMessage());
+            return List.of();
+        }
+    }
+
+    public boolean isRouteSaved(String userId, String relationId, String token) {
+        String url = supabaseUrl + "/rest/v1/saved_routes?user_id=eq." + userId + "&relation_id=eq." + relationId + "&select=id";
+
+        try {
+            HttpHeaders headers = createHeaders(token);
+            headers.set("Accept", "application/json");
+
+            ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<>() {}
+            );
+
+            return response.getStatusCode().is2xxSuccessful() &&
+                    response.getBody() != null &&
+                    !response.getBody().isEmpty();
+        } catch (Exception e) {
+            logger.error("Failed to check if route is saved: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean createSavedRoute(Map<String, Object> savedRoute, String token) {
+        String url = supabaseUrl + "/rest/v1/saved_routes";
+
+        try {
+            HttpHeaders headers = createHeaders(token);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(savedRoute, headers),
+                    String.class
+            );
+
+            return response.getStatusCode() == HttpStatus.CREATED;
+        } catch (Exception e) {
+            logger.error("Failed to create saved route: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteSavedRoute(String userId, String relationId, String token) {
+        String url = supabaseUrl + "/rest/v1/saved_routes?user_id=eq." + userId + "&relation_id=eq." + relationId;
+
+        try {
+            HttpHeaders headers = createHeaders(token);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.DELETE,
+                    new HttpEntity<>(headers),
+                    String.class
+            );
+
+            return response.getStatusCode().is2xxSuccessful();
+        } catch (Exception e) {
+            logger.error("Failed to delete saved route: {}", e.getMessage());
+            return false;
+        }
+    }
 }
