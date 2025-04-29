@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import axios from "axios";
 import "../../styles/Login.css";
+import {useAuth} from "../../contexts/AuthContext.jsx";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -17,74 +18,17 @@ function LoginForm({ onLoginSuccess }) {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const {signIn} = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      setIsLoading(true);
-
-      // Submit login data to backend
-      const response = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
-          {
-            email,
-            password,
-          },
-          {
-            withCredentials: true, // Include credentials if needed
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            }
-          }
-      );
-
-      console.log("Login response:", response.data);
-
-      // Check if we received a token
-      if (response.data.accessToken) {
-        // Store token
-        localStorage.setItem("token", response.data.accessToken);
-
-        // Get user profile
-        const profileResponse = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/users/profile`,
-          {
-            headers: {
-              Authorization: `Bearer ${response.data.accessToken}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        // Store user data
-        localStorage.setItem("username", profileResponse.data.username || "");
-        localStorage.setItem("email", profileResponse.data.email || "");
-
-        // Call the success callback if provided
-        if (onLoginSuccess) {
-          onLoginSuccess(response.data.accessToken);
-        }
-
-        // Navigate to profile page
-        navigate("/profile");
-      } else {
-        throw new Error("No access token received from server");
-      }
+      await signIn(email, password);
+      navigate("/profile");
     } catch (error) {
-      console.error("Login error:", error);
-      if (error.response) {
-        // Server responded with error status
-        setError(error.response.data.error || "Login failed");
-      } else if (error.request) {
-        // Request was made but no response
-        setError("Network error - please check your connection");
-      } else {
-        // Other errors
-        setError(error.message || "Login failed");
-      }
+      setError(error.message || "Login failed");
     } finally {
       setIsLoading(false);
     }
