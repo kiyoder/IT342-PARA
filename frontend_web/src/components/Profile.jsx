@@ -31,7 +31,7 @@ const Profile = () => {
         );
 
         const response = await axios.get(
-          "http://localhost:8080/api/users/profile",
+          "${import.meta.env.VITE_API_BASE_URL}/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -100,7 +100,7 @@ const Profile = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8080/api/users/profile", {
+      const response = await fetch("${import.meta.env.VITE_API_BASE_URL}/api/users/profile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
