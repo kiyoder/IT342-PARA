@@ -42,11 +42,14 @@ const SearchBox = ({ setIsSearching: setParentIsSearching }) => {
   useEffect(() => {
     const fetchRouteCount = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/routes/all", {
-          method: "GET",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/api/routes/all`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
         if (response.ok) {
           const data = await response.json();
           setTotalRoutes(data.length);
