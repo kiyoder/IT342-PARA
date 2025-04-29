@@ -20,10 +20,11 @@ public class SimpleCORSFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
 
-        response.setHeader("Access-Control-Allow-Origin", "https://it-342-para.vercel.app");
+        response.setHeader("Access-Control-Allow-Origin", "https://it-342-para-cyan.vercel.app");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
@@ -35,8 +36,10 @@ public class SimpleCORSFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) {}
+    public void init(FilterConfig filterConfig) {
+    }
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+    }
 }
