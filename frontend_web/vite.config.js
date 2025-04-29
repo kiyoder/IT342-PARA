@@ -5,6 +5,7 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   plugins: [react()],
   server: {
+    historyApiFallback: true,
     port: 5173,
     proxy: {
       "/api": {
@@ -13,5 +14,14 @@ export default defineConfig({
         secure: false,
       },
     },
+  },
+
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      input: {
+        main: './index.html'
+      }
+    }
   },
 });
