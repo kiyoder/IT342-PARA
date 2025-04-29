@@ -27,11 +27,17 @@ function LoginForm({ onLoginSuccess }) {
 
       // Submit login data to backend
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
-        {
-          email,
-          password,
-        }
+          `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
+          {
+            email,
+            password,
+          },
+          {
+            withCredentials: true, // Include credentials if needed
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
       );
 
       console.log("Login response:", response.data);

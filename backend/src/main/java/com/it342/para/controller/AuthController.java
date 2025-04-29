@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @CrossOrigin(origins = { "http://localhost:5173",
-        "https://it-342-para-cyan.vercel.app" }, allowedHeaders = "*", exposedHeaders = "Authorization")
+        "https://it-342-para-cyan.vercel.app", "https://it-342-para.vercel.app" }, allowedHeaders = "*", exposedHeaders = "Authorization")
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
