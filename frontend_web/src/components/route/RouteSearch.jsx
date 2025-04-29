@@ -29,7 +29,9 @@ const RouteSearch = () => {
     try {
       // Fetch relation ID directly from database using our API
       const response = await fetch(
-        `http://localhost:8080/api/routes/lookup?routeNumber=${encodeURIComponent(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/routes/lookup?routeNumber=${encodeURIComponent(
           searchInput.trim()
         )}`,
         {
@@ -54,7 +56,7 @@ const RouteSearch = () => {
       let data;
       try {
         data = JSON.parse(responseText);
-      } catch (jsonError) {
+      } catch {
         throw new Error(
           `Invalid JSON response: ${responseText.substring(0, 50)}...`
         );
