@@ -19,17 +19,8 @@ const authFetch = (url, opts = {}) => {
 // Get all saved routes for the current user
 export const getSavedRoutes = async () => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("Authentication required");
-    }
-
-    const response = await fetch(`${API_BASE_URL}/saved-routes`, {
+    const response = await authFetch(`${API_BASE_URL}/saved-routes`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
     });
 
     if (response.status === 401) {
@@ -55,12 +46,8 @@ export const saveRoute = async (routeData) => {
       throw new Error("Authentication required");
     }
 
-    const response = await fetch(`${API_BASE_URL}/saved-routes`, {
+    const response = await authFetch(`${API_BASE_URL}/saved-routes`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
       body: JSON.stringify(routeData),
     });
 
@@ -87,14 +74,10 @@ export const deleteSavedRoute = async (relationId) => {
       throw new Error("Authentication required");
     }
 
-    const response = await fetch(
+    const response = await authFetch(
       `${API_BASE_URL}/saved-routes?relationId=${relationId}`,
       {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
       }
     );
 
@@ -121,14 +104,10 @@ export const isRouteSaved = async (relationId) => {
       return false; // Not authenticated, so not saved
     }
 
-    const response = await fetch(
+    const response = await authFetch(
       `${API_BASE_URL}/saved-routes/check?relationId=${relationId}`,
       {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
       }
     );
 
@@ -193,11 +172,14 @@ export const routePassesNearPoint = async (
       out geom;
     `;
 
-    const response = await fetch("https://overpass-api.de/api/interpreter", {
-      method: "POST",
-      body: query,
-      signal: signal, // Pass the abort signal
-    });
+    const response = await authFetch(
+      "https://overpass-api.de/api/interpreter",
+      {
+        method: "POST",
+        body: query,
+        signal: signal, // Pass the abort signal
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -379,11 +361,14 @@ export const calculateRouteDistance = async (
         out geom;
       `;
 
-      const response = await fetch("https://overpass-api.de/api/interpreter", {
-        method: "POST",
-        body: query,
-        signal: signal,
-      });
+      const response = await authFetch(
+        "https://overpass-api.de/api/interpreter",
+        {
+          method: "POST",
+          body: query,
+          signal: signal,
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Error ${response.status}: ${response.statusText}`);
