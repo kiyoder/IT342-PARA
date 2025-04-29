@@ -35,7 +35,7 @@ function GoogleCallback() {
       }
 
       const response = await axios.post(
-        "${import.meta.env.VITE_API_BASE_URL}/api/auth/set-username",
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/set-username`,
         {
           supabaseUid: user.id,
           username,
@@ -97,7 +97,7 @@ function GoogleCallback() {
           localStorage.setItem("token", session.access_token);
           // Check user existence with proper auth headers
           const profileResponse = await axios.get(
-            "${import.meta.env.VITE_API_BASE_URL}/api/users/profile",
+            `${import.meta.env.VITE_API_BASE_URL}/api/users/profile`,
             {
               headers: {
                 Authorization: `Bearer ${session.access_token}`,
