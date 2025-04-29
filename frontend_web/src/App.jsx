@@ -7,36 +7,39 @@ import Profile from "./components/Profile";
 import Home from "./pages/Home";
 import GoogleCallback from "./components/auth/GoogleCallback";
 import PrivateRoute from "./components/PrivateRoute"; // Ensures routes are protected
+import { RouteProvider } from "./components/contexts/RouteContext";
 import Login from "./pages/Login";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/google-callback" element={<GoogleCallback />} />
+        <RouteProvider>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/google-callback" element={<GoogleCallback />} />
 
-          {/* Protected routes */}
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
+            {/* Protected routes */}
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </RouteProvider>
       </AuthProvider>
     </Router>
   );
