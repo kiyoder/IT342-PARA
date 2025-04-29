@@ -38,7 +38,8 @@ public class SecurityConfig {
                 "https://it-342-para.vercel.app"));
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
-        cfg.setExposedHeaders(List.of("Authorization"));
+        cfg.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
+        cfg.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
         src.registerCorsConfiguration("/**", cfg);
