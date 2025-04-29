@@ -2,6 +2,7 @@ package com.it342.para.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -45,11 +46,16 @@ public class SecurityConfig {
                 // .cors(Customizer.withDefaults()) // Enable CORS using the above configuration
                 .cors(cors -> cors.configurationSource(corsSource))
                 .csrf().disable()// Disable CSRF (you may enable it if you're not building a stateless API)
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/**", "/api/users/check-user", "/api/users/**",
-                                "/api/auth/set-username", "/api/users/profile")
-                        .permitAll() // Allow public access to authentication endpoints
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Then your public endpoints
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/users/check-user",
+                                "/api/users/**",
+                                "/api/auth/set-username",
+                                "/api/users/profile")
+                        .permitAll()
 
                 );
 
