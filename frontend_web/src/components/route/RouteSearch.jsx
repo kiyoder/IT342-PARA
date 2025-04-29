@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRoute } from "../../contexts/RouteContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RouteSearch = () => {
   const {
@@ -17,12 +18,20 @@ const RouteSearch = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // Handle route search submission
   const handleRouteSearch = async (e) => {
     e.preventDefault();
 
     if (!searchInput.trim()) return;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("No token found, redirecting to login");
+      navigate("/login");
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
@@ -35,7 +44,9 @@ const RouteSearch = () => {
           searchInput.trim()
         )}`,
         {
-          withCredentials: true, // for cookie-based auth if needed
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
         }
       );
 

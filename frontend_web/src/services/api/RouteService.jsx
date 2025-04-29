@@ -5,10 +5,16 @@ const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api`;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
+
+  // If no token is found, throw an error or return an empty header
+  if (!token) {
+    throw new Error("Authentication token is required");
+  }
+
   return {
     headers: {
       "Content-Type": "application/json",
-      Authorization: token ? `Bearer ${token}` : undefined,
+      Authorization: `Bearer ${token}`,
     },
   };
 };
