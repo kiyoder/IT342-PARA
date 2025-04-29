@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "Authorization")
+@CrossOrigin(origins = { "http://localhost:5173",
+        "https://it-342-para-cyan.vercel.app", "https://it-342-para.vercel.app" }, allowedHeaders = "*", exposedHeaders = {"Authorization", "Content-Disposition"}, maxAge = 3600)
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
