@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRoute } from "../../contexts/RouteContext";
-import { axios } from "axios";
+import axios from "axios";
 
 const RouteSearch = () => {
   const {
