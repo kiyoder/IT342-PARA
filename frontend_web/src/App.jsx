@@ -15,30 +15,32 @@ function App() {
     <Router>
       <AuthProvider>
         <RouteProvider>
-          <Routes>
-            {/* Public routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/google-callback" element={<GoogleCallback />} />
+          <LocationProvider>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/google-callback" element={<GoogleCallback />} />
 
-            {/* Protected routes */}
-            <Route
-              path="/profile"
-              element={
-                <PrivateRoute>
-                  <Profile />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/"
-              element={
-                <PrivateRoute>
-                  <Home />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
+              {/* Protected routes */}
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/"
+                element={
+                  <PrivateRoute>
+                    <Home />
+                  </PrivateRoute>
+                }
+              />
+            </Routes>
+          </LocationProvider>
         </RouteProvider>
       </AuthProvider>
     </Router>
