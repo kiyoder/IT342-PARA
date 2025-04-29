@@ -7,6 +7,7 @@ import { useLocation } from "../../contexts/LocationContext";
 import { useRoute } from "../../contexts/RouteContext";
 import { useState, useEffect, useRef } from "react";
 import LoadingOverlay from "../loading/LoadingOverlay";
+import axios from "axios";
 
 const SearchBox = ({ setIsSearching: setParentIsSearching }) => {
   const {
@@ -42,17 +43,18 @@ const SearchBox = ({ setIsSearching: setParentIsSearching }) => {
   useEffect(() => {
     const fetchRouteCount = async () => {
       try {
-        const response = await fetch(
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
           `${import.meta.env.VITE_API_BASE_URL}/api/routes/all`,
           {
-            method: "GET",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
-        if (response.ok) {
-          const data = await response.json();
-          setTotalRoutes(data.length);
+        if (response.data) {
+          setTotalRoutes(response.data.length);
         }
       } catch (error) {
         console.error("Error fetching route count:", error);
