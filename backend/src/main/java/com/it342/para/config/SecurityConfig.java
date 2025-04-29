@@ -2,6 +2,7 @@ package com.it342.para.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,11 +26,10 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173",          // Local development
-                "https://it-342-para-cyan.vercel.app",  // Production Vercel URL
-                "https://it342-para.vercel.app"   // Alternative Vercel URL (if you use this)
-        )); // Frontend URL
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH","PUT", "DELETE", "OPTIONS"));
+                "http://localhost:5173", // Local development
+                "https://it-342-para-cyan.vercel.app", // Production Vercel URL
+                "https://it342-para.vercel.app")); // Frontend URL
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
@@ -40,19 +40,28 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+            CorsConfigurationSource corsSource) throws Exception {
+
         http
-                .cors(Customizer.withDefaults())  // Enable CORS using the above configuration
-                .csrf().disable()// Disable CSRF (you may enable it if you're not building a stateless API)
-                .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/auth/**","/api/users/check-user","/api/users/**","/api/auth/set-username","/api/users/profile").permitAll()  // Allow public access to authentication endpoints
-                .anyRequest().authenticated()
+                .cors(cors -> cors.configurationSource(corsSource))
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        // 1) Let all preflight requests through
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // 2) Public endpoints
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/users/check-user",
+                                "/api/users/**",
+                                "/api/auth/set-username",
+                                "/api/users/profile")
+                        .permitAll()
+                        // 3) Everything else must be authenticated
+                        .anyRequest().authenticated());
 
-                );
-
-        logger.info("Security configuration applied successfully");// Require authentication for all other endpoint
-
-
+        logger.info("Security configuration applied successfully");
         return http.build();
     }
+
 }

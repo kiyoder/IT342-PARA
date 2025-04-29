@@ -27,7 +27,7 @@ function LoginForm({ onLoginSuccess }) {
 
       // Submit login data to backend
       const response = await axios.post(
-        "${process.env.VITE_API_BASE_URL}/api/auth/login",
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
         {
           email,
           password,
@@ -43,7 +43,7 @@ function LoginForm({ onLoginSuccess }) {
 
         // Get user profile
         const profileResponse = await axios.get(
-          "${import.meta.env.VITE_API_BASE_URL}/api/users/profile",
+          `${import.meta.env.VITE_API_BASE_URL}/api/users/profile`,
           {
             headers: {
               Authorization: `Bearer ${response.data.accessToken}`,
