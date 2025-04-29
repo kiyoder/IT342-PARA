@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import GoogleCallback from "./components/auth/GoogleCallback";
 import PrivateRoute from "./components/PrivateRoute"; // Ensures routes are protected
 import { RouteProvider } from "./contexts/RouteContext";
+import { LocationProvider } from "./contexts/LocationContext";
 import Login from "./pages/Login";
 
 function App() {
