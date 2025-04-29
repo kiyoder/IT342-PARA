@@ -36,6 +36,7 @@ function LoginForm({ onLoginSuccess }) {
             withCredentials: true, // Include credentials if needed
             headers: {
               'Content-Type': 'application/json',
+              'Accept': 'application/json'
             }
           }
       );
@@ -74,13 +75,15 @@ function LoginForm({ onLoginSuccess }) {
       }
     } catch (error) {
       console.error("Login error:", error);
-
-      if (error.response?.data?.error) {
-        setError(error.response.data.error);
-      } else if (error.message) {
-        setError(error.message);
+      if (error.response) {
+        // Server responded with error status
+        setError(error.response.data.error || "Login failed");
+      } else if (error.request) {
+        // Request was made but no response
+        setError("Network error - please check your connection");
       } else {
-        setError("Login failed. Please try again later.");
+        // Other errors
+        setError(error.message || "Login failed");
       }
     } finally {
       setIsLoading(false);
