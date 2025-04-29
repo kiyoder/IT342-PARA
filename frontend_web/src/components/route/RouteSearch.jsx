@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRoute } from "../../contexts/RouteContext";
+import { axios } from "axios";
 
 const RouteSearch = () => {
   const {
@@ -27,59 +28,28 @@ const RouteSearch = () => {
     setError(null);
 
     try {
-      // Fetch relation ID directly from database using our API
-      const response = await fetch(
+      const { data } = await axios.get(
         `${
           import.meta.env.VITE_API_BASE_URL
         }/api/routes/lookup?routeNumber=${encodeURIComponent(
           searchInput.trim()
         )}`,
         {
-          credentials: "include", // only needed if you're using cookies/session auth
+          withCredentials: true, // for cookie-based auth if needed
         }
       );
 
-      // Get the response text first to check if it's HTML or JSON
-      const responseText = await response.text();
-
-      // Check if the response looks like HTML
-      if (
-        responseText.trim().toLowerCase().startsWith("<!doctype") ||
-        responseText.trim().toLowerCase().startsWith("<html")
-      ) {
-        throw new Error(
-          "Received HTML instead of JSON. The API endpoint might not exist or there might be a server error."
-        );
-      }
-
-      // Try to parse the response as JSON
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch {
-        throw new Error(
-          `Invalid JSON response: ${responseText.substring(0, 50)}...`
-        );
-      }
-
-      // Check if the response contains an error
-      if (!response.ok) {
-        throw new Error(
-          data.error || `Error ${response.status}: ${response.statusText}`
-        );
-      }
-
-      // Update route context with fetched data
       setRouteNumber(data.routeNumber);
       setRelationId(data.relationId);
       setShowJeepneyRoute(true);
-
-      // Close the search panel after submission
       setIsSearchOpen(false);
     } catch (err) {
       console.error("Error during route search:", err);
+
       setError(
-        err.message || "An error occurred while searching for the route"
+        err.response?.data?.error ||
+          err.message ||
+          "An error occurred while searching for the route"
       );
     } finally {
       setIsLoading(false);
