@@ -1,10 +1,10 @@
 import axios from "axios"
 
-// const API_URL = "http://localhost:8080/api"
+const API_URL = import.meta.env.VITE_BASE_API;
 
 // Create axios instance with default config
 const api = axios.create({
-    baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
+    baseURL: API_URL,
     headers: {
         "Content-Type": "application/json",
     },
@@ -29,7 +29,7 @@ export const authService = {
     // Login with email and password
     login: async (email, password) => {
         try {
-            const response = await api.post("/auth/login", { email, password })
+            const response = await api.post("api/auth/login", { email, password })
             if (response.data.session) {
                 localStorage.setItem("token", response.data.session.access_token)
                 localStorage.setItem("user", JSON.stringify(response.data.user))
@@ -43,7 +43,7 @@ export const authService = {
     // Register with email and password
     register: async (email, password, username) => {
         try {
-            const response = await api.post("/auth/signup", { email, password, username });
+            const response = await api.post("api/auth/signup", { email, password, username });
             if (response.data.accessToken) {
                 localStorage.setItem("token", response.data.accessToken);
                 localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -64,7 +64,7 @@ export const authService = {
     getGoogleAuthUrl: async () => {
         try {
             const redirectUrl = `${window.location.origin}/auth/callback`
-            const response = await api.get(`/auth/oauth/google?redirectUrl=${encodeURIComponent(redirectUrl)}`)
+            const response = await api.get(`api/auth/oauth/google?redirectUrl=${encodeURIComponent(redirectUrl)}`)
             return response.data.url
         } catch (error) {
             throw error.response?.data || { error: "Failed to get OAuth URL" }
@@ -75,7 +75,7 @@ export const authService = {
     handleOAuthCallback: async (code) => {
         try {
             const redirectUrl = `${window.location.origin}/auth/callback`
-            const response = await api.post("/auth/oauth/callback", null, {
+            const response = await api.post("api/auth/oauth/callback", null, {
                 params: { code, redirectUrl },
             })
 
@@ -108,7 +108,7 @@ export const authService = {
 
     getUserFromToken: async (token) => {
         try {
-            const response = await api.get("/auth/validate-token", {
+            const response = await api.get("api/auth/validate-token", {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
