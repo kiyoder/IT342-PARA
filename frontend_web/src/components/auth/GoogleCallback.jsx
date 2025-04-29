@@ -5,8 +5,8 @@ import axios from "axios";
 import "../../styles/GoogleCallback.css";
 
 const supabase = createClient(
-  "https://lqeeloeqlznjgkkjejpu.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxZWVsb2VxbHpuamdra2planB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQxODY3MzMsImV4cCI6MjA1OTc2MjczM30.x2ywW2R20yE6vFEdZ5-X0Ueqs5htUiUYUALf-cNOH5E"
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
 function GoogleCallback() {
@@ -35,7 +35,7 @@ function GoogleCallback() {
       }
 
       const response = await axios.post(
-        "http://localhost:8080/api/auth/set-username",
+        "${import.meta.env.VITE_API_BASE_URL}/api/auth/set-username",
         {
           supabaseUid: user.id,
           username,
@@ -97,7 +97,7 @@ function GoogleCallback() {
           localStorage.setItem("token", session.access_token);
           // Check user existence with proper auth headers
           const profileResponse = await axios.get(
-            `http://localhost:8080/api/users/profile`,
+            "${import.meta.env.VITE_API_BASE_URL}/api/users/profile",
             {
               headers: {
                 Authorization: `Bearer ${session.access_token}`,

@@ -6,8 +6,8 @@ import axios from "axios";
 import "../../styles/Login.css";
 
 const supabase = createClient(
-  "https://lqeeloeqlznjgkkjejpu.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxZWVsb2VxbHpuamdra2planB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQxODY3MzMsImV4cCI6MjA1OTc2MjczM30.x2ywW2R20yE6vFEdZ5-X0Ueqs5htUiUYUALf-cNOH5E"
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
 function LoginForm({ onLoginSuccess }) {
@@ -27,7 +27,7 @@ function LoginForm({ onLoginSuccess }) {
 
       // Submit login data to backend
       const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
+        "${process.env.VITE_API_BASE_URL}/api/auth/login",
         {
           email,
           password,
@@ -43,7 +43,7 @@ function LoginForm({ onLoginSuccess }) {
 
         // Get user profile
         const profileResponse = await axios.get(
-          "http://localhost:8080/api/users/profile",
+          "${import.meta.env.VITE_API_BASE_URL}/api/users/profile",
           {
             headers: {
               Authorization: `Bearer ${response.data.accessToken}`,
