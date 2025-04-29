@@ -19,8 +19,7 @@ public class SimpleCORSFilter implements Filter {
     private static final List<String> allowedOrigins = Arrays.asList(
             "https://it-342-para.vercel.app",
             "http://localhost:5173",
-            "https://it-342-para-cyan.vercel.app"
-    );
+            "https://it-342-para-cyan.vercel.app");
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -49,8 +48,10 @@ public class SimpleCORSFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) {}
+    public void init(FilterConfig filterConfig) {
+    }
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+    }
 }
