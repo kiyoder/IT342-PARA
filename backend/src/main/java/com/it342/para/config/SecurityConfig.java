@@ -42,13 +42,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
             CorsConfigurationSource corsSource) throws Exception {
+
         http
-                // .cors(Customizer.withDefaults()) // Enable CORS using the above configuration
                 .cors(cors -> cors.configurationSource(corsSource))
-                .csrf().disable()// Disable CSRF (you may enable it if you're not building a stateless API)
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // 1) Let all preflight requests through
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // Then your public endpoints
+                        // 2) Public endpoints
                         .requestMatchers(
                                 "/api/auth/**",
                                 "/api/users/check-user",
@@ -56,11 +57,11 @@ public class SecurityConfig {
                                 "/api/auth/set-username",
                                 "/api/users/profile")
                         .permitAll()
+                        // 3) Everything else must be authenticated
+                        .anyRequest().authenticated());
 
-                );
-
-        logger.info("Security configuration applied successfully");// Require authentication for all other endpoint
-
+        logger.info("Security configuration applied successfully");
         return http.build();
     }
+
 }
