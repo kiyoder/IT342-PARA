@@ -27,8 +27,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173", // Local development
                 "https://it-342-para-cyan.vercel.app", // Production Vercel URL
-                "https://it342-para.vercel.app", // Alternative Vercel URL (if you use this)
-                "https://para-monorepo-c523fc091002.herokuapp.com/")); // Frontend URL
+                "https://it342-para.vercel.app")); // Frontend URL
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
@@ -40,9 +39,11 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+            CorsConfigurationSource corsSource) throws Exception {
         http
-                .cors(Customizer.withDefaults()) // Enable CORS using the above configuration
+                // .cors(Customizer.withDefaults()) // Enable CORS using the above configuration
+                .cors(cors -> cors.configurationSource(corsSource))
                 .csrf().disable()// Disable CSRF (you may enable it if you're not building a stateless API)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**", "/api/users/check-user", "/api/users/**",
