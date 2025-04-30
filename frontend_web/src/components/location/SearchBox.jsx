@@ -45,7 +45,7 @@ const SearchBox = ({ setIsSearching: setParentIsSearching }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/routes/`,
+          `${import.meta.env.VITE_API_BASE_URL}/api/routes`,
           {
             headers: {
               "Content-Type": "application/json",
