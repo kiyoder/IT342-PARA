@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/saved-routes")
-@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", methods = {
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {
         RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS
 })
 public class SavedRouteController {
@@ -52,7 +52,7 @@ public class SavedRouteController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> saveRoute(@RequestBody SavedRouteRequest request,
-                                       @RequestHeader("Authorization") String authHeader) {
+            @RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");
             Map<String, Object> user = supabaseService.getUserFromToken(token);
@@ -91,7 +91,7 @@ public class SavedRouteController {
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteSavedRoute(@RequestParam String relationId,
-                                              @RequestHeader("Authorization") String authHeader) {
+            @RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");
             Map<String, Object> user = supabaseService.getUserFromToken(token);
@@ -115,7 +115,7 @@ public class SavedRouteController {
 
     @GetMapping(value = "/check", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> isRouteSaved(@RequestParam String relationId,
-                                          @RequestHeader("Authorization") String authHeader) {
+            @RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");
             Map<String, Object> user = supabaseService.getUserFromToken(token);
