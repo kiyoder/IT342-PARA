@@ -130,7 +130,10 @@ const ProfileMenu = () => {
           <div className="profile-header">
             <div className="profile-avatar">
               {user.profileImage ? (
-                <img src={user.profileImage} alt="Profile" />
+                <img
+                  src={user.profileImage || "/placeholder.svg"}
+                  alt="Profile"
+                />
               ) : (
                 <svg
                   width="40"
@@ -139,7 +142,13 @@ const ProfileMenu = () => {
                   fill="#FF3B10"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <circle cx="31.5" cy="31.5" r="31.5" opacity="0.4" />
+                  <circle
+                    cx="31.5"
+                    cy="31.5"
+                    r="31.5"
+                    fill="#FF3B10"
+                    opacity="0.4"
+                  />
                   <circle cx="31.5" cy="27.5" r="11.5" fill="white" />
                   <path
                     d="M52.8595 54.6525C47.2525 59.8185 39.7555 63 31.5025 63C23.2495 63 15.7525 59.8185 10.1455 54.6525C10.9015 51.786 12.949 49.1715 15.9415 47.1555C24.541 41.4225 38.527 41.4225 47.0635 47.1555C50.0875 49.1715 52.1035 51.786 52.8595 54.6525Z"
