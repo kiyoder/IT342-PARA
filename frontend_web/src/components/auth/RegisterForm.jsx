@@ -1,5 +1,5 @@
-// components/RegisterForm.jsx
 import { useState } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import "../../styles/Register.css";
@@ -26,6 +26,7 @@ function RegisterForm({ onRegisterSuccess }) {
     e.preventDefault();
     setError("");
 
+    // Basic validation
     if (password !== confirmPassword) {
       setError("Passwords don't match");
       return;
@@ -38,9 +39,13 @@ function RegisterForm({ onRegisterSuccess }) {
 
     try {
       setIsLoading(true);
+
+      // Submit registration data to backend
       const response = await signUp(email, password, username);
 
       console.log("Registration response:", response);
+
+      // Check if we received a token
 
       // Call the success callback if provided
       const accessToken = response?.session?.access_token;
@@ -48,10 +53,12 @@ function RegisterForm({ onRegisterSuccess }) {
         onRegisterSuccess(accessToken);
       }
 
+      // Navigate to profile page
       navigate("/profile");
     } catch (error) {
       console.error("Registration error:", error);
 
+      // Handle different error types
       if (error.response?.data?.error) {
         setError(error.response.data.error);
       } else if (error.message) {
@@ -64,6 +71,7 @@ function RegisterForm({ onRegisterSuccess }) {
     }
   };
 
+  // Google Sign-In Handler
   const handleGoogleSignIn = async () => {
     try {
       setIsLoading(true);
@@ -79,6 +87,8 @@ function RegisterForm({ onRegisterSuccess }) {
       if (signInError) {
         throw signInError;
       }
+
+      // The rest is handled by GoogleCallback component after redirect
     } catch (error) {
       console.error("Google sign-in error:", error);
       setError("Failed to initiate Google sign-in. Please try again.");
