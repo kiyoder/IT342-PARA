@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "../contexts/LocationContext"; // Import the context
+import { useLocation } from "../contexts/LocationContext";
 import { useRoute } from "../contexts/RouteContext";
 import TopSearchBar from "../components/location/TopSearchBar";
 import LoadingOverlay from "../components/loading/LoadingOverlay";
@@ -10,37 +10,39 @@ import ProfileMenu from "../components/layout/ProfileMenu";
 
 export default function SavedRoutes() {
   const navigate = useNavigate();
-  const [savedRoutes, setSavedRoutes] = useState([]);
+  const [savedRoutes, setSavedRoutes] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deletingRouteId, setDeletingRouteId] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const { updateInitialLocation, updateFinalDestination, selectedLocations } =
-    useLocation(); // Access the context
-
+    useLocation();
   const { setRouteNumber, setRelationId, setShowJeepneyRoute } = useRoute();
 
+  // Check if user is authenticated
   useEffect(() => {
-    // Check if user is logged in
     const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+    setIsAuthenticated(!!token);
+  }, []);
 
-    // Fetch saved routes from API
+  // Fetch saved routes if authenticated
+  useEffect(() => {
     const fetchSavedRoutes = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+      if (!isAuthenticated) return;
 
-        const routes = await getSavedRoutes();
-        setSavedRoutes(routes);
+      try {
+        const data = await getSavedRoutes();
+        const savedMap = {};
+        data.forEach((route) => {
+          savedMap[route.relationId] = true;
+        });
+        setSavedRoutes(savedMap);
       } catch (error) {
         console.error("Error fetching saved routes:", error);
         if (error.message.includes("Authentication required")) {
           localStorage.removeItem("token");
-          navigate("/login");
+          setIsAuthenticated(false);
         } else {
           setError("Failed to load saved routes. Please try again.");
         }
@@ -49,25 +51,23 @@ export default function SavedRoutes() {
       }
     };
 
-    fetchSavedRoutes();
-  }, [navigate]);
+    if (isAuthenticated) {
+      fetchSavedRoutes();
+    }
+  }, [isAuthenticated]);
 
   const handleRouteClick = (route) => {
-    // Set origin and destination in context
     updateInitialLocation("Starting Point", {
       latitude: route.initialLat,
       longitude: route.initialLon,
     });
-
     updateFinalDestination("Destination", {
       latitude: route.finalLat,
       longitude: route.finalLon,
     });
 
-    // Set route information
     setRelationId(route.relationId);
 
-    // Fetch route details to get the route number
     const token = localStorage.getItem("token");
     fetch(
       `http://localhost:8080/api/routes/lookup?relationId=${route.relationId}`,
@@ -86,7 +86,6 @@ export default function SavedRoutes() {
       })
       .catch((err) => console.error("Error fetching route details:", err));
 
-    // Navigate to home page
     navigate("/");
   };
 
@@ -103,14 +102,16 @@ export default function SavedRoutes() {
       await deleteSavedRoute(relationId);
 
       // Update the local state after successful deletion
-      setSavedRoutes((prevRoutes) =>
-        prevRoutes.filter((route) => route.relationId !== relationId)
-      );
+      setSavedRoutes((prevRoutes) => {
+        const updated = { ...prevRoutes };
+        delete updated[relationId];
+        return updated;
+      });
     } catch (error) {
       console.error("Error deleting route:", error);
       if (error.message.includes("Authentication required")) {
         localStorage.removeItem("token");
-        navigate("/login");
+        setIsAuthenticated(false);
       } else {
         alert("Failed to delete route. Please try again.");
       }
@@ -151,7 +152,7 @@ export default function SavedRoutes() {
               Retry
             </button>
           </div>
-        ) : savedRoutes.length === 0 ? (
+        ) : Object.keys(savedRoutes).length === 0 ? (
           <div className="no-routes-message">
             <p>You don't have any saved routes yet.</p>
             <button
@@ -163,11 +164,11 @@ export default function SavedRoutes() {
           </div>
         ) : (
           <div className="saved-routes-list">
-            {savedRoutes.map((route) => (
+            {Object.keys(savedRoutes).map((relationId) => (
               <div
-                key={route.id}
+                key={relationId}
                 className="saved-route-item"
-                onClick={() => handleRouteClick(route)}
+                onClick={() => handleRouteClick(savedRoutes[relationId])}
               >
                 <div className="saved-route-info">
                   <div className="saved-route-locations">
@@ -175,41 +176,35 @@ export default function SavedRoutes() {
                       <span className="location-label">From:</span>
                       <span className="location-name">
                         {selectedLocations.initial?.name ||
-                          `${route.initialLat.toFixed(
+                          `${savedRoutes[relationId].initialLat.toFixed(
                             6
-                          )}, ${route.initialLon.toFixed(6)}`}
+                          )}, ${savedRoutes[relationId].initialLon.toFixed(6)}`}
                       </span>
                     </div>
                     <div className="destination-location">
                       <span className="location-label">To:</span>
                       <span className="location-name">
                         {selectedLocations.final?.name ||
-                          `${route.finalLat.toFixed(
+                          `${savedRoutes[relationId].finalLat.toFixed(
                             6
-                          )}, ${route.finalLon.toFixed(6)}`}
+                          )}, ${savedRoutes[relationId].finalLon.toFixed(6)}`}
                       </span>
                     </div>
                   </div>
-                  <div className="saved-route-relation">
-                    <span className="relation-label">Route ID:</span>
-                    <span className="relation-id">{route.relationId}</span>
-                  </div>
-                  {route.createdAt && (
+                  {savedRoutes[relationId].createdAt && (
                     <div className="saved-route-date">
-                      Saved on {formatDate(route.createdAt)}
+                      Saved on {formatDate(savedRoutes[relationId].createdAt)}
                     </div>
                   )}
                 </div>
                 <button
                   className={`delete-route-btn ${
-                    deletingRouteId === route.relationId ? "deleting" : ""
+                    deletingRouteId === relationId ? "deleting" : ""
                   }`}
-                  onClick={(e) => handleDeleteRoute(route.relationId, e)}
-                  disabled={deletingRouteId === route.relationId}
+                  onClick={(e) => handleDeleteRoute(relationId, e)}
+                  disabled={deletingRouteId === relationId}
                 >
-                  {deletingRouteId === route.relationId
-                    ? "Deleting..."
-                    : "Delete"}
+                  {deletingRouteId === relationId ? "Deleting..." : "Delete"}
                 </button>
               </div>
             ))}
