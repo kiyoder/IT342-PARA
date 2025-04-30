@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { supabase } from "@/utils/supabaseClient"; // Adjust as needed
+import useUserService from "../../services/osm/supabaseService";
 import "../../styles/ProfileMenu.css";
 
 const ProfileMenu = () => {
@@ -20,21 +20,23 @@ const ProfileMenu = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-
-      if (error || !user) {
-        console.error("Supabase auth error:", error);
+      const token = localStorage.getItem("token");
+      if (!token) {
         window.location.href = "/login";
         return;
       }
 
-      setUser({
-        email: user.email,
-        profileImage: null, // Replace if you have a profile image URL
-      });
+      try {
+        const profile = await useUserService.getProfile(token);
+        setUser({
+          email: profile.email,
+          profileImage: null, // Or set a real image if you have one
+        });
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        localStorage.clear();
+        window.location.href = "/login";
+      }
     };
 
     fetchUser();
@@ -111,8 +113,8 @@ const ProfileMenu = () => {
     setIsMenuClosing(true);
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleLogout = () => {
+    localStorage.clear();
     window.location.href = "/login";
   };
 
