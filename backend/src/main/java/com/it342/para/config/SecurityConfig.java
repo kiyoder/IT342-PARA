@@ -21,10 +21,21 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
+
+                // 1) require JWT-based auth for everything except auth & user endpoints
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**", "/api/users/**").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated())
+
+                // 2) enable OAuth2 Resource Server with JWT support
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt
+                                // if you have a JWK set URI:
+                                .jwkSetUri("https://YOUR-AUTH-SERVER/.well-known/jwks.json")
+                        // or if you prefer to wire in a NimbusJwtDecoder bean, omit this and define one
+                        ));
+
         return http.build();
     }
 
