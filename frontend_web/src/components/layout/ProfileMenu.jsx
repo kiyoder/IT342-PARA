@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import useUserService from "../../service/supabaseService";
+import useUserService from "../../services/supabaseService";
 import "../../styles/ProfileMenu.css";
 
 const ProfileMenu = () => {
