@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRoute } from "../../contexts/RouteContext";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RouteSearch = () => {
   const {
@@ -16,6 +18,7 @@ const RouteSearch = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // Handle route search submission
   const handleRouteSearch = async (e) => {
@@ -23,61 +26,41 @@ const RouteSearch = () => {
 
     if (!searchInput.trim()) return;
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("No token found, redirecting to login");
+      navigate("/login");
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 
     try {
-      // Fetch relation ID directly from database using our API
-      const response = await fetch(
-        `http://localhost:8080/api/routes/lookup?routeNumber=${encodeURIComponent(
+      const { data } = await axios.get(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/routes/lookup?routeNumber=${encodeURIComponent(
           searchInput.trim()
         )}`,
         {
-          credentials: "include", // only needed if you're using cookies/session auth
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
         }
       );
 
-      // Get the response text first to check if it's HTML or JSON
-      const responseText = await response.text();
-
-      // Check if the response looks like HTML
-      if (
-        responseText.trim().toLowerCase().startsWith("<!doctype") ||
-        responseText.trim().toLowerCase().startsWith("<html")
-      ) {
-        throw new Error(
-          "Received HTML instead of JSON. The API endpoint might not exist or there might be a server error."
-        );
-      }
-
-      // Try to parse the response as JSON
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (jsonError) {
-        throw new Error(
-          `Invalid JSON response: ${responseText.substring(0, 50)}...`
-        );
-      }
-
-      // Check if the response contains an error
-      if (!response.ok) {
-        throw new Error(
-          data.error || `Error ${response.status}: ${response.statusText}`
-        );
-      }
-
-      // Update route context with fetched data
       setRouteNumber(data.routeNumber);
       setRelationId(data.relationId);
       setShowJeepneyRoute(true);
-
-      // Close the search panel after submission
       setIsSearchOpen(false);
     } catch (err) {
       console.error("Error during route search:", err);
+
       setError(
-        err.message || "An error occurred while searching for the route"
+        err.response?.data?.error ||
+          err.message ||
+          "An error occurred while searching for the route"
       );
     } finally {
       setIsLoading(false);
