@@ -72,7 +72,7 @@ export const isRouteSaved = async (relationId) => {
 export const fetchAllRoutes = async () => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/routes/all`,
+      `${API_BASE_URL}/routes/`,
       getAuthHeaders()
     );
     return response.data;
