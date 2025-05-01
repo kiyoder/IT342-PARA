@@ -83,19 +83,46 @@ export default function SavedRoutes() {
       // Set the relation ID for the route
       setRelationId(route.relationId);
 
-      // Fetch route details
+      // Fetch route details - FIXED: using route number lookup instead of relation ID
       const token = localStorage.getItem("token");
       const apiBaseUrl =
-        import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+        import.meta.env.VITE_API_BASE_URL ||
+        "https://para-monorepo-c523fc091002.herokuapp.com";
 
+      // First, we need to get the route number from the relation ID
+      // This is a workaround since the API expects routeNumber but we only have relationId
+      const allRoutesResponse = await fetch(`${apiBaseUrl}/api/routes`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!allRoutesResponse.ok) {
+        throw new Error(
+          `Failed to fetch routes: ${allRoutesResponse.statusText}`
+        );
+      }
+
+      const allRoutes = await allRoutesResponse.json();
+      const matchingRoute = allRoutes.find(
+        (r) => r.relationId === route.relationId
+      );
+
+      if (!matchingRoute) {
+        throw new Error(
+          `Could not find route with relation ID: ${route.relationId}`
+        );
+      }
+
+      // Now we can look up the route using the route number
       const response = await fetch(
-        `${apiBaseUrl}/api/routes/lookup?relationId=${route.relationId}`,
+        `${apiBaseUrl}/api/routes/lookup?routeNumber=${matchingRoute.routeNumber}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          credentials: "include",
         }
       );
 
