@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "../contexts/LocationContext";
@@ -7,6 +9,15 @@ import LoadingOverlay from "../components/loading/LoadingOverlay";
 import { getSavedRoutes, deleteSavedRoute } from "../services/api/RouteService";
 import "../styles/SavedRoutes.css";
 import ProfileMenu from "../components/layout/ProfileMenu";
+import {
+  MapPin,
+  Navigation,
+  Calendar,
+  Trash2,
+  AlertCircle,
+  Search,
+  RefreshCw,
+} from "lucide-react";
 
 export default function SavedRoutes() {
   const navigate = useNavigate();
@@ -62,7 +73,9 @@ export default function SavedRoutes() {
     const token = localStorage.getItem("token");
     fetch(
       `http://localhost:8080/api/routes/lookup?relationId=${route.relationId}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     )
       .then((res) => res.json())
       .then((data) => {
@@ -105,7 +118,9 @@ export default function SavedRoutes() {
 
       <div className="saved-routes-layout">
         <aside className="saved-routes-sidebar">
-          <h2 className="saved-routes-title">Saved Routes</h2>
+          <div className="saved-routes-header">
+            <h2 className="saved-routes-title">Saved Routes</h2>
+          </div>
 
           {loading ? (
             <div className="loading-container">
@@ -113,21 +128,27 @@ export default function SavedRoutes() {
             </div>
           ) : error ? (
             <div className="error-message">
+              <AlertCircle className="error-icon" />
               <p>{error}</p>
               <button
                 className="retry-btn"
                 onClick={() => window.location.reload()}
               >
+                <RefreshCw className="btn-icon" />
                 Retry
               </button>
             </div>
           ) : savedRoutes.length === 0 ? (
             <div className="no-routes-message">
+              <div className="empty-state-icon">
+                <MapPin size={48} />
+              </div>
               <p>No saved routes yet</p>
               <button
                 className="search-new-route-btn"
                 onClick={() => navigate("/")}
               >
+                <Search className="btn-icon" />
                 Search routes
               </button>
             </div>
@@ -137,20 +158,38 @@ export default function SavedRoutes() {
                 <div
                   key={route.relationId}
                   className={`saved-route-item ${
-                    deletingRouteId === route.relationId ? "selected" : ""
+                    deletingRouteId === route.relationId ? "deleting" : ""
                   }`}
                   onClick={() => handleRouteClick(route)}
                 >
                   <div className="saved-route-info">
-                    <div className="origin-location">
-                      <span className="location-label">From:</span>
-                      <span className="location-name">{route.fromName}</span>
-                    </div>
-                    <div className="destination-location">
-                      <span className="location-label">To:</span>
-                      <span className="location-name">{route.toName}</span>
+                    <div className="route-locations">
+                      <div className="origin-location">
+                        <MapPin
+                          className="location-icon origin-icon"
+                          size={16}
+                        />
+                        <div>
+                          <span className="location-label">From</span>
+                          <span className="location-name">
+                            {route.fromName}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="route-connector"></div>
+                      <div className="destination-location">
+                        <Navigation
+                          className="location-icon destination-icon"
+                          size={16}
+                        />
+                        <div>
+                          <span className="location-label">To</span>
+                          <span className="location-name">{route.toName}</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="saved-route-date">
+                      <Calendar className="date-icon" size={14} />
                       {formatDate(route.createdAt)}
                     </div>
                   </div>
@@ -160,10 +199,14 @@ export default function SavedRoutes() {
                     }`}
                     onClick={(e) => handleDeleteRoute(route.relationId, e)}
                     disabled={deletingRouteId === route.relationId}
+                    aria-label="Delete route"
                   >
-                    {deletingRouteId === route.relationId
-                      ? "Deleting..."
-                      : "Delete"}
+                    <Trash2 size={16} />
+                    <span className="delete-text">
+                      {deletingRouteId === route.relationId
+                        ? "Deleting..."
+                        : "Delete"}
+                    </span>
                   </button>
                 </div>
               ))}
@@ -172,7 +215,12 @@ export default function SavedRoutes() {
         </aside>
 
         <section className="saved-routes-map">
-          {/* TODO: Map component goes here */}
+          <div className="map-placeholder">
+            <div className="map-message">
+              <MapPin size={32} />
+              <p>Select a route to view on map</p>
+            </div>
+          </div>
         </section>
       </div>
     </div>
