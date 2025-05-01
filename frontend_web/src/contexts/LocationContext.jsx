@@ -6,6 +6,22 @@ import { createContext, useState, useContext, useEffect } from "react";
 // Create a context for location data
 const LocationContext = createContext();
 
+// Reverse geocoding utility using OpenStreetMap Nominatim
+async function reverseGeocode(lat, lon) {
+  const url = new URL("https://nominatim.openstreetmap.org/reverse");
+  url.searchParams.set("format", "json");
+  url.searchParams.set("lat", lat);
+  url.searchParams.set("lon", lon);
+  url.searchParams.set("addressdetails", 1);
+
+  const res = await fetch(url.toString(), {
+    headers: { "User-Agent": "CebuLocationSearchApp/1.0" },
+  });
+  if (!res.ok) throw new Error(`Reverse geocode failed: ${res.statusText}`);
+  const data = await res.json();
+  return data.display_name;
+}
+
 // Create a provider component
 export function LocationProvider({ children }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,8 +29,6 @@ export function LocationProvider({ children }) {
   const [finalDestination, setFinalDestination] = useState("");
   const [initialFocused, setInitialFocused] = useState(false);
   const [finalFocused, setFinalFocused] = useState(false);
-
-  // Added state to control confirmation modal visibility
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   // Store selected location coordinates for mapping
@@ -29,106 +43,64 @@ export function LocationProvider({ children }) {
 
   // Update search query based on focus and input values
   useEffect(() => {
-    if (initialFocused) {
-      setSearchQuery(initialLocation);
-    } else if (finalFocused) {
-      setSearchQuery(finalDestination);
-    }
-    // Don't reset search query when neither is focused to maintain the current search
+    if (initialFocused) setSearchQuery(initialLocation);
+    else if (finalFocused) setSearchQuery(finalDestination);
   }, [initialLocation, finalDestination, initialFocused, finalFocused]);
 
   // Update locations
-  const updateInitialLocation = (location, coordinates = null) => {
+  const updateInitialLocation = (location, coords = null) => {
     setInitialLocation(location);
-    if (coordinates) {
+    if (coords)
       setSelectedLocations((prev) => ({
         ...prev,
-        initial: { lat: coordinates.latitude, lon: coordinates.longitude },
+        initial: { lat: coords.latitude, lon: coords.longitude },
       }));
-    }
   };
 
-  const updateFinalDestination = (destination, coordinates = null) => {
+  const updateFinalDestination = (destination, coords = null) => {
     setFinalDestination(destination);
-    if (coordinates) {
+    if (coords)
       setSelectedLocations((prev) => ({
         ...prev,
-        final: { lat: coordinates.latitude, lon: coordinates.longitude },
+        final: { lat: coords.latitude, lon: coords.longitude },
       }));
-    }
   };
 
-  // Set current location as source
+  // Set current location as source, with reverse geocode
   const setCurrentLocationAsSource = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-
-          // Use reverse geocoding to get address
-          fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
-            {
-              headers: { "User-Agent": "CebuLocationSearchApp" },
-            }
-          )
-            .then((response) => response.json())
-            .then((data) => {
-              const locationName = data.display_name;
-
-              // Use the current focus state to determine which location to update
-              if (initialFocused) {
-                updateInitialLocation(locationName, { latitude, longitude });
-              } else if (finalFocused) {
-                updateFinalDestination(locationName, { latitude, longitude });
-              } else {
-                // Default behavior if neither is focused
-                updateInitialLocation(locationName, { latitude, longitude });
-              }
-
-              // Set the selected location for the map pin
-              setSelectedLocation({
-                latitude,
-                longitude,
-                name: locationName,
-              });
-            })
-            .catch((error) => {
-              console.error("Error getting location name:", error);
-              // Use coordinates as fallback
-              const locationName = `${latitude.toFixed(6)}, ${longitude.toFixed(
-                6
-              )}`;
-
-              // Use the current focus state to determine which location to update
-              if (initialFocused) {
-                updateInitialLocation(locationName, { latitude, longitude });
-              } else if (finalFocused) {
-                updateFinalDestination(locationName, { latitude, longitude });
-              } else {
-                // Default behavior if neither is focused
-                updateInitialLocation(locationName, { latitude, longitude });
-              }
-
-              // Set the selected location for the map pin
-              setSelectedLocation({
-                latitude,
-                longitude,
-                name: locationName,
-              });
-            });
-        },
-        (error) => {
-          console.error("Error getting current location:", error);
-          alert(
-            "Unable to get your current location. Please check your browser permissions."
-          );
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-      );
-    } else {
+    if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser.");
+      return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        let locationName;
+        try {
+          locationName = await reverseGeocode(latitude, longitude);
+        } catch (error) {
+          console.error("Error reverse geocoding:", error);
+          locationName = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+        }
+
+        // update based on focus
+        if (initialFocused)
+          updateInitialLocation(locationName, { latitude, longitude });
+        else if (finalFocused)
+          updateFinalDestination(locationName, { latitude, longitude });
+        else updateInitialLocation(locationName, { latitude, longitude });
+
+        setSelectedLocation({ latitude, longitude, name: locationName });
+      },
+      (error) => {
+        console.error("Error getting current location:", error);
+        alert(
+          "Unable to get your current location. Please check your browser permissions."
+        );
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
   };
 
   // Focus handlers
@@ -136,58 +108,57 @@ export function LocationProvider({ children }) {
     setInitialFocused(true);
     setFinalFocused(false);
   };
-
-  const handleInitialBlur = () => {
-    setInitialFocused(false);
-  };
-
+  const handleInitialBlur = () => setInitialFocused(false);
   const handleFinalFocus = () => {
     setFinalFocused(true);
     setInitialFocused(false);
   };
-
-  const handleFinalBlur = () => {
-    setFinalFocused(false);
-  };
+  const handleFinalBlur = () => setFinalFocused(false);
 
   // Swap locations
   const swapLocations = () => {
-    const tempLocation = initialLocation;
-    const tempCoordinates = selectedLocations.initial;
-
+    const tempLoc = initialLocation;
+    const tempCoords = selectedLocations.initial;
     setInitialLocation(finalDestination);
-    setFinalDestination(tempLocation);
-
+    setFinalDestination(tempLoc);
     setSelectedLocations({
       initial: selectedLocations.final,
-      final: tempCoordinates,
+      final: tempCoords,
     });
   };
 
   return (
     <LocationContext.Provider
       value={{
+        // state
         searchQuery,
-        setSearchQuery,
         initialLocation,
-        updateInitialLocation,
         finalDestination,
+        initialFocused,
+        finalFocused,
+        selectedLocations,
+        selectedLocation,
+        pinnedLocation,
+        showConfirmationModal,
+
+        // setters
+        setSearchQuery,
+        updateInitialLocation,
         updateFinalDestination,
+        setCurrentLocationAsSource,
+        setSelectedLocation,
+        setPinnedLocation,
+        setShowConfirmationModal,
+
+        // actions
         handleInitialFocus,
         handleInitialBlur,
         handleFinalFocus,
         handleFinalBlur,
         swapLocations,
-        initialFocused,
-        finalFocused,
-        selectedLocations,
-        setCurrentLocationAsSource,
-        selectedLocation,
-        setSelectedLocation,
-        pinnedLocation,
-        setPinnedLocation,
-        showConfirmationModal,
-        setShowConfirmationModal,
+
+        // utils
+        reverseGeocode,
       }}
     >
       {children}

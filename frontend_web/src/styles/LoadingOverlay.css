@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,43 +18,51 @@
 }
 
 .loading-content h2 {
-  color: #ff7f00; /* Orange title */
+  color: #ff7f00;
   margin-top: 0;
   margin-bottom: 20px;
-  font-size: 32px; /* Larger title */
+  font-size: 32px;
   font-weight: bold;
 }
 
-.progress-container {
+.circular-progress-container {
+  display: flex;
+  justify-content: center;
   margin: 30px 0;
 }
 
-.progress-bar {
-  height: 16px; /* Taller progress bar */
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.circular-progress {
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
 }
 
-.progress-fill {
-  height: 100%;
-  background-color: #ff7f00; /* Orange progress bar */
-  transition: width 0.3s ease;
+.progress-background {
+  stroke: #f0f0f0;
+  transition: all 0.3s ease;
 }
 
-.progress-text {
-  text-align: center;
-  font-size: 18px; /* Larger text */
-  color: #333;
+.progress-indicator {
+  stroke: #ff7f00;
+  transition: stroke-dashoffset 0.3s ease;
+  stroke-linecap: round;
+}
+
+.progress-indicator.inner {
+  stroke: #ff3b10;
+}
+
+.progress-percentage {
+  fill: #ff7f00;
+  font-size: 24px;
   font-weight: bold;
+  transform: rotate(90deg);
+  transform-origin: 75px 75px;
 }
 
 .status-text {
   margin-bottom: 30px;
   color: #ff7f00;
-  font-size: 18px; /* Larger text */
+  font-size: 18px;
   line-height: 1.5;
 }
 
@@ -64,7 +72,7 @@
   cursor: pointer;
   margin-top: 30px;
   text-decoration: underline;
-  font-size: 18px; /* Larger text */
+  font-size: 18px;
 }
 
 .cancel-text:hover {

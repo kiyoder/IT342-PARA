@@ -1,9 +1,13 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "../contexts/LocationContext";
 import { useRoute } from "../contexts/RouteContext";
 import TopSearchBar from "../components/location/TopSearchBar";
-import LoadingOverlay from "../components/loading/LoadingOverlay";
+import RouteLoadingSpinner from "../components/loading/RouteLoadingSpinner";
+import SavedRouteCard from "../components/route/SavedRouteCard";
+import EmptyRouteState from "../components/route/EmptyRouteState";
 import { getSavedRoutes, deleteSavedRoute } from "../services/api/RouteService";
 import "../styles/SavedRoutes.css";
 import ProfileMenu from "../components/layout/ProfileMenu";
@@ -12,11 +16,13 @@ export default function SavedRoutes() {
   const navigate = useNavigate();
   const [savedRoutes, setSavedRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [routeLoading, setRouteLoading] = useState(false);
   const [error, setError] = useState(null);
   const [deletingRouteId, setDeletingRouteId] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [selectedRouteId, setSelectedRouteId] = useState(null);
 
-  const { updateInitialLocation, updateFinalDestination, selectedLocations } =
+  const { reverseGeocode, updateInitialLocation, updateFinalDestination } =
     useLocation();
   const { setRouteNumber, setRelationId, setShowJeepneyRoute } = useRoute();
 
@@ -26,17 +32,26 @@ export default function SavedRoutes() {
     setIsAuthenticated(!!token);
   }, []);
 
-  // Fetch saved routes if authenticated
+  // Fetch and enrich saved routes
   useEffect(() => {
     const fetchSavedRoutes = async () => {
       if (!isAuthenticated) return;
-
       try {
         const data = await getSavedRoutes();
-        setSavedRoutes(data);
-      } catch (error) {
-        console.error("Error fetching saved routes:", error);
-        if (error.message.includes("Authentication required")) {
+        const enriched = await Promise.all(
+          data.map(async (route) => {
+            const fromName = await reverseGeocode(
+              route.initialLat,
+              route.initialLon
+            );
+            const toName = await reverseGeocode(route.finalLat, route.finalLon);
+            return { ...route, fromName, toName };
+          })
+        );
+        setSavedRoutes(enriched);
+      } catch (err) {
+        console.error("Error fetching saved routes:", err);
+        if (err.message.includes("Authentication required")) {
           localStorage.removeItem("token");
           setIsAuthenticated(false);
         } else {
@@ -46,79 +61,104 @@ export default function SavedRoutes() {
         setLoading(false);
       }
     };
-
     fetchSavedRoutes();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, reverseGeocode]);
 
-  const handleRouteClick = (route) => {
-    updateInitialLocation("Starting Point", {
-      latitude: route.initialLat,
-      longitude: route.initialLon,
-    });
-    updateFinalDestination("Destination", {
-      latitude: route.finalLat,
-      longitude: route.finalLon,
-    });
-
-    setRelationId(route.relationId);
-
-    const token = localStorage.getItem("token");
-    fetch(
-      `http://localhost:8080/api/routes/lookup?relationId=${route.relationId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.routeNumber) {
-          setRouteNumber(data.routeNumber);
-          setShowJeepneyRoute(true);
-        }
-      })
-      .catch((err) => console.error("Error fetching route details:", err));
-
-    navigate("/");
-  };
-
-  const handleDeleteRoute = async (relationId, event) => {
-    event.stopPropagation();
-
-    if (!window.confirm("Are you sure you want to delete this saved route?")) {
-      return;
-    }
-
-    setDeletingRouteId(relationId);
+  const handleRouteClick = async (route) => {
+    setSelectedRouteId(route.relationId);
+    setRouteLoading(true);
 
     try {
-      await deleteSavedRoute(relationId);
+      // Set the coordinates for the route
+      updateInitialLocation(route.fromName, {
+        latitude: route.initialLat,
+        longitude: route.initialLon,
+      });
 
-      setSavedRoutes((prev) => prev.filter((r) => r.relationId !== relationId));
-    } catch (error) {
-      console.error("Error deleting route:", error);
-      if (error.message.includes("Authentication required")) {
-        localStorage.removeItem("token");
-        setIsAuthenticated(false);
-      } else {
-        alert("Failed to delete route. Please try again.");
+      updateFinalDestination(route.toName, {
+        latitude: route.finalLat,
+        longitude: route.finalLon,
+      });
+
+      // Set the relation ID for the route
+      setRelationId(route.relationId);
+
+      // Fetch route details - using route number lookup instead of relation ID
+      const token = localStorage.getItem("token");
+      const apiBaseUrl =
+        import.meta.env.VITE_API_BASE_URL ||
+        "https://para-monorepo-c523fc091002.herokuapp.com";
+
+      // First, we need to get the route number from the relation ID
+      // This is a workaround since the API expects routeNumber but we only have relationId
+      const allRoutesResponse = await fetch(`${apiBaseUrl}/api/routes`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!allRoutesResponse.ok) {
+        throw new Error(
+          `Failed to fetch routes: ${allRoutesResponse.statusText}`
+        );
       }
+
+      const allRoutes = await allRoutesResponse.json();
+      const matchingRoute = allRoutes.find(
+        (r) => r.relationId === route.relationId
+      );
+
+      if (!matchingRoute) {
+        throw new Error(
+          `Could not find route with relation ID: ${route.relationId}`
+        );
+      }
+
+      // Now we can look up the route using the route number
+      const response = await fetch(
+        `${apiBaseUrl}/api/routes/lookup?routeNumber=${matchingRoute.routeNumber}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch route: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      if (data.routeNumber) {
+        setRouteNumber(data.routeNumber);
+        setShowJeepneyRoute(true);
+      }
+
+      // Navigate to home page to display the route
+      navigate("/");
+    } catch (err) {
+      console.error("Error loading route:", err);
+      alert("Could not load the selected route. Please try again.");
+    } finally {
+      setRouteLoading(false);
+    }
+  };
+
+  const handleDeleteRoute = async (relationId) => {
+    if (!window.confirm("Delete this saved route?")) return;
+    setDeletingRouteId(relationId);
+    try {
+      await deleteSavedRoute(relationId);
+      setSavedRoutes((prev) => prev.filter((r) => r.relationId !== relationId));
+    } catch (err) {
+      console.error(err);
+      alert("Could not delete route");
     } finally {
       setDeletingRouteId(null);
     }
-  };
-
-  // Format date for display
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
   };
 
   return (
@@ -127,10 +167,12 @@ export default function SavedRoutes() {
       <ProfileMenu />
 
       <div className="saved-routes-content">
-        <h2 className="saved-routes-title">Saved Routes</h2>
+        <h1 className="saved-routes-title">Saved Routes</h1>
 
         {loading ? (
-          <LoadingOverlay isVisible={true} />
+          <div className="loading-container">
+            <RouteLoadingSpinner message="Loading saved routes..." />
+          </div>
         ) : error ? (
           <div className="error-message">
             <p>{error}</p>
@@ -142,63 +184,25 @@ export default function SavedRoutes() {
             </button>
           </div>
         ) : savedRoutes.length === 0 ? (
-          <div className="no-routes-message">
-            <p>You don't have any saved routes yet.</p>
-            <button
-              className="search-new-route-btn"
-              onClick={() => navigate("/")}
-            >
-              Search for routes
-            </button>
-          </div>
+          <EmptyRouteState onSearchClick={() => navigate("/")} />
         ) : (
           <div className="saved-routes-list">
             {savedRoutes.map((route) => (
-              <div
+              <SavedRouteCard
                 key={route.relationId}
-                className="saved-route-item"
-                onClick={() => handleRouteClick(route)}
-              >
-                <div className="saved-route-info">
-                  <div className="saved-route-locations">
-                    <div className="origin-location">
-                      <span className="location-label">From:</span>
-                      <span className="location-name">
-                        {selectedLocations.initial?.name ||
-                          `${route.initialLat.toFixed(
-                            6
-                          )}, ${route.initialLon.toFixed(6)}`}
-                      </span>
-                    </div>
-                    <div className="destination-location">
-                      <span className="location-label">To:</span>
-                      <span className="location-name">
-                        {selectedLocations.final?.name ||
-                          `${route.finalLat.toFixed(
-                            6
-                          )}, ${route.finalLon.toFixed(6)}`}
-                      </span>
-                    </div>
-                  </div>
-                  {route.createdAt && (
-                    <div className="saved-route-date">
-                      Saved on {formatDate(route.createdAt)}
-                    </div>
-                  )}
-                </div>
-                <button
-                  className={`delete-route-btn ${
-                    deletingRouteId === route.relationId ? "deleting" : ""
-                  }`}
-                  onClick={(e) => handleDeleteRoute(route.relationId, e)}
-                  disabled={deletingRouteId === route.relationId}
-                >
-                  {deletingRouteId === route.relationId
-                    ? "Deleting..."
-                    : "Delete"}
-                </button>
-              </div>
+                route={route}
+                isSelected={selectedRouteId === route.relationId}
+                onSelect={handleRouteClick}
+                onDelete={handleDeleteRoute}
+                isDeleting={deletingRouteId === route.relationId}
+              />
             ))}
+          </div>
+        )}
+
+        {routeLoading && (
+          <div className="route-loading-overlay">
+            <RouteLoadingSpinner message="Loading route..." />
           </div>
         )}
       </div>

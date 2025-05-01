@@ -42,6 +42,14 @@ function App() {
                 }
               />
               <Route
+                path="/home"
+                element={
+                  <PrivateRoute>
+                    <Home />
+                  </PrivateRoute>
+                }
+              />
+              <Route
                 path="/saved-routes"
                 element={
                   <PrivateRoute>
