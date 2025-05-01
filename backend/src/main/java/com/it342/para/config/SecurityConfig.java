@@ -28,9 +28,15 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+<<<<<<< HEAD
                         .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/signup").permitAll()
                         .requestMatchers("/api/auth/google-callback").permitAll()
                         .requestMatchers("/api/auth/**").authenticated()
+=======
+                        .requestMatchers("/api/auth/**", "/api/users/**",
+                                "api/routes/**", "/api/saved-routes/**")
+                        .permitAll()
+>>>>>>> d3b71428790df41e047f3886db8ffe284c686a51
                         .anyRequest().authenticated());
         return http.build();
     }
@@ -39,10 +45,9 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
         cfg.setAllowCredentials(true);
-        cfg.setAllowedOrigins(List.of(
+        cfg.setAllowedOriginPatterns(List.of(
                 "http://localhost:5173",
-                "https://it-342-para-cyan.vercel.app",
-                "https://it-342-para.vercel.app"));
+                "https://*.vercel.app"));
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
         cfg.setExposedHeaders(List.of("Authorization", "Content-Disposition"));

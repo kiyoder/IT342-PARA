@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/saved-routes")
-@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", methods = {
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {
         RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS
 })
 public class SavedRouteController {
@@ -52,7 +52,7 @@ public class SavedRouteController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> saveRoute(@RequestBody SavedRouteRequest request,
-                                       @RequestHeader("Authorization") String authHeader) {
+            @RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");
             Map<String, Object> user = supabaseService.getUserFromToken(token);
@@ -91,7 +91,7 @@ public class SavedRouteController {
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteSavedRoute(@RequestParam String relationId,
-                                              @RequestHeader("Authorization") String authHeader) {
+            @RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");
             Map<String, Object> user = supabaseService.getUserFromToken(token);
@@ -115,7 +115,7 @@ public class SavedRouteController {
 
     @GetMapping(value = "/check", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> isRouteSaved(@RequestParam String relationId,
-                                          @RequestHeader("Authorization") String authHeader) {
+            @RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");
             Map<String, Object> user = supabaseService.getUserFromToken(token);
@@ -141,7 +141,7 @@ public class SavedRouteController {
         response.setInitialLon((Double) savedRoute.get("initial_lon"));
         response.setFinalLat((Double) savedRoute.get("final_lat"));
         response.setFinalLon((Double) savedRoute.get("final_lon"));
-        response.setCreatedAt(LocalDateTime.parse(savedRoute.get("created_at").toString()));
+        response.setCreatedAt(OffsetDateTime.parse(savedRoute.get("created_at").toString()));
         return response;
     }
 }

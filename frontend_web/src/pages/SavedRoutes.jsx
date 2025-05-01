@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "../contexts/LocationContext"; // Import the context
+import { useLocation } from "../contexts/LocationContext";
 import { useRoute } from "../contexts/RouteContext";
 import TopSearchBar from "../components/location/TopSearchBar";
 import LoadingOverlay from "../components/loading/LoadingOverlay";
@@ -14,33 +14,31 @@ export default function SavedRoutes() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deletingRouteId, setDeletingRouteId] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const { updateInitialLocation, updateFinalDestination, selectedLocations } =
-    useLocation(); // Access the context
-
+    useLocation();
   const { setRouteNumber, setRelationId, setShowJeepneyRoute } = useRoute();
 
+  // Check if user is authenticated
   useEffect(() => {
-    // Check if user is logged in
     const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+    setIsAuthenticated(!!token);
+  }, []);
 
-    // Fetch saved routes from API
+  // Fetch saved routes if authenticated
+  useEffect(() => {
     const fetchSavedRoutes = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+      if (!isAuthenticated) return;
 
-        const routes = await getSavedRoutes();
-        setSavedRoutes(routes);
+      try {
+        const data = await getSavedRoutes();
+        setSavedRoutes(data);
       } catch (error) {
         console.error("Error fetching saved routes:", error);
         if (error.message.includes("Authentication required")) {
           localStorage.removeItem("token");
-          navigate("/login");
+          setIsAuthenticated(false);
         } else {
           setError("Failed to load saved routes. Please try again.");
         }
@@ -50,24 +48,20 @@ export default function SavedRoutes() {
     };
 
     fetchSavedRoutes();
-  }, [navigate]);
+  }, [isAuthenticated]);
 
   const handleRouteClick = (route) => {
-    // Set origin and destination in context
     updateInitialLocation("Starting Point", {
       latitude: route.initialLat,
       longitude: route.initialLon,
     });
-
     updateFinalDestination("Destination", {
       latitude: route.finalLat,
       longitude: route.finalLon,
     });
 
-    // Set route information
     setRelationId(route.relationId);
 
-    // Fetch route details to get the route number
     const token = localStorage.getItem("token");
     fetch(
       `http://localhost:8080/api/routes/lookup?relationId=${route.relationId}`,
@@ -86,7 +80,6 @@ export default function SavedRoutes() {
       })
       .catch((err) => console.error("Error fetching route details:", err));
 
-    // Navigate to home page
     navigate("/");
   };
 
@@ -102,15 +95,12 @@ export default function SavedRoutes() {
     try {
       await deleteSavedRoute(relationId);
 
-      // Update the local state after successful deletion
-      setSavedRoutes((prevRoutes) =>
-        prevRoutes.filter((route) => route.relationId !== relationId)
-      );
+      setSavedRoutes((prev) => prev.filter((r) => r.relationId !== relationId));
     } catch (error) {
       console.error("Error deleting route:", error);
       if (error.message.includes("Authentication required")) {
         localStorage.removeItem("token");
-        navigate("/login");
+        setIsAuthenticated(false);
       } else {
         alert("Failed to delete route. Please try again.");
       }
@@ -165,7 +155,7 @@ export default function SavedRoutes() {
           <div className="saved-routes-list">
             {savedRoutes.map((route) => (
               <div
-                key={route.id}
+                key={route.relationId}
                 className="saved-route-item"
                 onClick={() => handleRouteClick(route)}
               >
@@ -189,10 +179,6 @@ export default function SavedRoutes() {
                           )}, ${route.finalLon.toFixed(6)}`}
                       </span>
                     </div>
-                  </div>
-                  <div className="saved-route-relation">
-                    <span className="relation-label">Route ID:</span>
-                    <span className="relation-id">{route.relationId}</span>
                   </div>
                   {route.createdAt && (
                     <div className="saved-route-date">

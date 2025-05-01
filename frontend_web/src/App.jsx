@@ -5,6 +5,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Register from "./pages/Register";
 import Profile from "./components/Profile";
 import Home from "./pages/Home";
+import SavedRoutes from "./pages/SavedRoutes";
 import GoogleCallback from "./components/auth/GoogleCallback";
 import PrivateRoute from "./components/PrivateRoute"; // Ensures routes are protected
 import { RouteProvider } from "./contexts/RouteContext";
@@ -37,6 +38,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Home />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/saved-routes"
+                element={
+                  <PrivateRoute>
+                    <SavedRoutes />
                   </PrivateRoute>
                 }
               />
