@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -141,7 +141,7 @@ public class SavedRouteController {
         response.setInitialLon((Double) savedRoute.get("initial_lon"));
         response.setFinalLat((Double) savedRoute.get("final_lat"));
         response.setFinalLon((Double) savedRoute.get("final_lon"));
-        response.setCreatedAt(LocalDateTime.parse(savedRoute.get("created_at").toString()));
+        response.setCreatedAt(OffsetDateTime.parse(savedRoute.get("created_at").toString()));
         return response;
     }
 }
