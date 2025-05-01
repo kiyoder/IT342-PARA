@@ -6,6 +6,8 @@ import { useLocation } from "../contexts/LocationContext";
 import { useRoute } from "../contexts/RouteContext";
 import TopSearchBar from "../components/location/TopSearchBar";
 import RouteLoadingSpinner from "../components/loading/RouteLoadingSpinner";
+import SavedRouteCard from "../components/route/SavedRouteCard";
+import EmptyRouteState from "../components/route/EmptyRouteState";
 import { getSavedRoutes, deleteSavedRoute } from "../services/api/RouteService";
 import "../styles/SavedRoutes.css";
 import ProfileMenu from "../components/layout/ProfileMenu";
@@ -83,11 +85,18 @@ export default function SavedRoutes() {
 
       // Fetch route details
       const token = localStorage.getItem("token");
+      const apiBaseUrl =
+        import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/routes/lookup?relationId=${
-          route.relationId
-        }`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        `${apiBaseUrl}/api/routes/lookup?relationId=${route.relationId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
       );
 
       if (!response.ok) {
@@ -111,8 +120,7 @@ export default function SavedRoutes() {
     }
   };
 
-  const handleDeleteRoute = async (relationId, e) => {
-    e.stopPropagation();
+  const handleDeleteRoute = async (relationId) => {
     if (!window.confirm("Delete this saved route?")) return;
     setDeletingRouteId(relationId);
     try {
@@ -126,15 +134,6 @@ export default function SavedRoutes() {
     }
   };
 
-  const formatDate = (d) =>
-    new Date(d).toLocaleString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
   return (
     <div className="saved-routes-container">
       <TopSearchBar />
@@ -145,9 +144,7 @@ export default function SavedRoutes() {
 
         {loading ? (
           <div className="loading-container">
-            <div className="loading-container">
-              <RouteLoadingSpinner message="Loading saved routes..." />
-            </div>
+            <RouteLoadingSpinner message="Loading saved routes..." />
           </div>
         ) : error ? (
           <div className="error-message">
@@ -160,60 +157,18 @@ export default function SavedRoutes() {
             </button>
           </div>
         ) : savedRoutes.length === 0 ? (
-          <div className="no-routes-message">
-            <p>No saved routes yet</p>
-            <button
-              className="search-new-route-btn"
-              onClick={() => navigate("/")}
-            >
-              Search routes
-            </button>
-          </div>
+          <EmptyRouteState onSearchClick={() => navigate("/")} />
         ) : (
           <div className="saved-routes-list">
             {savedRoutes.map((route) => (
-              <div
+              <SavedRouteCard
                 key={route.relationId}
-                className={`saved-route-card ${
-                  selectedRouteId === route.relationId ? "selected" : ""
-                }`}
-                onClick={() => handleRouteClick(route)}
-              >
-                <div className="route-locations">
-                  <div className="location from-location">
-                    <div className="location-marker from-marker"></div>
-                    <div className="location-details">
-                      <span className="location-label">FROM</span>
-                      <span className="location-name">{route.fromName}</span>
-                    </div>
-                  </div>
-
-                  <div className="location to-location">
-                    <div className="location-marker to-marker"></div>
-                    <div className="location-details">
-                      <span className="location-label">TO</span>
-                      <span className="location-name">{route.toName}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="route-footer">
-                  <span className="route-date">
-                    {formatDate(route.createdAt)}
-                  </span>
-                  <button
-                    className={`delete-btn ${
-                      deletingRouteId === route.relationId ? "deleting" : ""
-                    }`}
-                    onClick={(e) => handleDeleteRoute(route.relationId, e)}
-                    disabled={deletingRouteId === route.relationId}
-                  >
-                    {deletingRouteId === route.relationId
-                      ? "Deleting..."
-                      : "Delete"}
-                  </button>
-                </div>
-              </div>
+                route={route}
+                isSelected={selectedRouteId === route.relationId}
+                onSelect={handleRouteClick}
+                onDelete={handleDeleteRoute}
+                isDeleting={deletingRouteId === route.relationId}
+              />
             ))}
           </div>
         )}
