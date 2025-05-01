@@ -1,5 +1,6 @@
 package com.it342.para.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final SupabaseJwtFilter jwtFilter;
@@ -28,15 +30,10 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-<<<<<<< HEAD
                         .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/signup").permitAll()
                         .requestMatchers("/api/auth/google-callback").permitAll()
                         .requestMatchers("/api/auth/**").authenticated()
-=======
-                        .requestMatchers("/api/auth/**", "/api/users/**",
-                                "api/routes/**", "/api/saved-routes/**")
-                        .permitAll()
->>>>>>> d3b71428790df41e047f3886db8ffe284c686a51
+                        .requestMatchers("api/routes/**", "/api/saved-routes/**").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }
