@@ -2,22 +2,26 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
   background-color: #f8f9fa;
 }
 
 .saved-routes-content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
   width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .saved-routes-title {
   font-size: 2rem;
   font-weight: 600;
   color: #333;
-  margin-bottom: 2rem;
-  text-align: center;
+  margin: 1rem 0 2rem;
+  text-align: left;
+  padding-left: 1rem;
 }
 
 .loading-container {
@@ -25,6 +29,7 @@
   justify-content: center;
   align-items: center;
   min-height: 200px;
+  flex: 1;
 }
 
 .error-message {
@@ -34,6 +39,7 @@
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   color: #e53935;
+  margin: 1rem;
 }
 
 .retry-btn {
@@ -53,9 +59,8 @@
 }
 
 .saved-routes-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  padding: 0 1rem;
+  width: 100%;
 }
 
 .route-loading-overlay {
@@ -71,17 +76,17 @@
   z-index: 1000;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .saved-routes-content {
-    padding: 1.5rem;
+    padding: 2rem;
+  }
+
+  .saved-routes-list {
+    padding: 0 2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .saved-routes-content {
-    padding: 1rem;
-  }
-
   .saved-routes-title {
     font-size: 1.75rem;
     margin-bottom: 1.5rem;

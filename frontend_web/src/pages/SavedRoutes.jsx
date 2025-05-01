@@ -83,7 +83,7 @@ export default function SavedRoutes() {
       // Set the relation ID for the route
       setRelationId(route.relationId);
 
-      // Fetch route details - FIXED: using route number lookup instead of relation ID
+      // Fetch route details - using route number lookup instead of relation ID
       const token = localStorage.getItem("token");
       const apiBaseUrl =
         import.meta.env.VITE_API_BASE_URL ||

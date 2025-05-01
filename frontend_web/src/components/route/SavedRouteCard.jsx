@@ -18,6 +18,48 @@ const SavedRouteCard = ({
       minute: "2-digit",
     });
 
+  // Format address to show main street name and simplified address
+  const formatAddress = (fullAddress) => {
+    if (!fullAddress) return { main: "", sub: "" };
+
+    // Extract the main street name (first part before the comma)
+    const parts = fullAddress.split(",");
+    const mainPart = parts[0].trim();
+
+    // Create a simplified sub-address (city, postal code, country)
+    // Format: "Street, City Postal, Country"
+    let cityPart = "";
+    if (parts.length >= 3) {
+      // Try to extract city and postal code
+      const cityMatch = parts.find((part) =>
+        part.toLowerCase().includes("city")
+      );
+      const postalMatch = parts.find((part) => /\d{4,}/.test(part));
+
+      if (cityMatch) {
+        cityPart += cityMatch.trim();
+      }
+
+      if (postalMatch) {
+        const postal = postalMatch.match(/\d{4,}/)[0];
+        cityPart += " " + postal;
+      }
+
+      // Add country if available
+      if (parts[parts.length - 1].trim().toLowerCase() === "philippines") {
+        cityPart += ", " + "Cebu";
+      }
+    }
+
+    return {
+      main: mainPart,
+      sub: cityPart || parts.slice(1, 3).join(", ").trim(),
+    };
+  };
+
+  const fromAddress = formatAddress(route.fromName);
+  const toAddress = formatAddress(route.toName);
+
   const handleDelete = (e) => {
     e.stopPropagation();
     onDelete(route.relationId);
@@ -33,7 +75,10 @@ const SavedRouteCard = ({
           <div className="location-marker from-marker"></div>
           <div className="location-details">
             <span className="location-label">FROM</span>
-            <span className="location-name">{route.fromName}</span>
+            <div className="address-container">
+              <span className="address-main">{fromAddress.main}</span>
+              <span className="address-sub">{fromAddress.sub}</span>
+            </div>
           </div>
         </div>
 
@@ -41,7 +86,10 @@ const SavedRouteCard = ({
           <div className="location-marker to-marker"></div>
           <div className="location-details">
             <span className="location-label">TO</span>
-            <span className="location-name">{route.toName}</span>
+            <div className="address-container">
+              <span className="address-main">{toAddress.main}</span>
+              <span className="address-sub">{toAddress.sub}</span>
+            </div>
           </div>
         </div>
       </div>

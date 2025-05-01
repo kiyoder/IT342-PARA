@@ -188,7 +188,24 @@ const ProfileMenu = () => {
         aria-label="Profile Menu"
         ref={buttonRef}
       >
-        {/* SVG or icon button content */}
+        {/* Add the SVG content for the profile button */}
+        <svg
+          width="63"
+          height="63"
+          viewBox="0 0 63 63"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="31.5" cy="31.5" r="31.5" fill="#FF3B10" />
+          <path
+            d="M31.5 31.5C35.6421 31.5 39 28.1421 39 24C39 19.8579 35.6421 16.5 31.5 16.5C27.3579 16.5 24 19.8579 24 24C24 28.1421 27.3579 31.5 31.5 31.5Z"
+            fill="white"
+          />
+          <path
+            d="M31.5 34.5C25.9772 34.5 21.5 38.9772 21.5 44.5C21.5 45.6046 22.3954 46.5 23.5 46.5H39.5C40.6046 46.5 41.5 45.6046 41.5 44.5C41.5 38.9772 37.0228 34.5 31.5 34.5Z"
+            fill="white"
+          />
+        </svg>
       </button>
     </div>
   );
