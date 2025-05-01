@@ -6,28 +6,23 @@ import { useLocation } from "../contexts/LocationContext";
 import { useRoute } from "../contexts/RouteContext";
 import TopSearchBar from "../components/location/TopSearchBar";
 import LoadingOverlay from "../components/loading/LoadingOverlay";
+import RouteLoadingSpinner from "../components/loading/RouteLoadingSpinner";
 import { getSavedRoutes, deleteSavedRoute } from "../services/api/RouteService";
 import "../styles/SavedRoutes.css";
 import ProfileMenu from "../components/layout/ProfileMenu";
-import {
-  MapPin,
-  Navigation,
-  Calendar,
-  Trash2,
-  AlertCircle,
-  Search,
-  RefreshCw,
-} from "lucide-react";
 
 export default function SavedRoutes() {
   const navigate = useNavigate();
   const [savedRoutes, setSavedRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [routeLoading, setRouteLoading] = useState(false);
   const [error, setError] = useState(null);
   const [deletingRouteId, setDeletingRouteId] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [selectedRouteId, setSelectedRouteId] = useState(null);
 
-  const { reverseGeocode } = useLocation();
+  const { reverseGeocode, updateInitialLocation, updateFinalDestination } =
+    useLocation();
   const { setRouteNumber, setRelationId, setShowJeepneyRoute } = useRoute();
 
   // Check if user is authenticated
@@ -68,23 +63,53 @@ export default function SavedRoutes() {
     fetchSavedRoutes();
   }, [isAuthenticated, reverseGeocode]);
 
-  const handleRouteClick = (route) => {
-    setRelationId(route.relationId);
-    const token = localStorage.getItem("token");
-    fetch(
-      `http://localhost:8080/api/routes/lookup?relationId=${route.relationId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.routeNumber) {
-          setRouteNumber(data.routeNumber);
-          setShowJeepneyRoute(true);
-        }
+  const handleRouteClick = async (route) => {
+    setSelectedRouteId(route.relationId);
+    setRouteLoading(true);
+
+    try {
+      // Set the coordinates for the route
+      updateInitialLocation(route.fromName, {
+        latitude: route.initialLat,
+        longitude: route.initialLon,
       });
-    navigate("/");
+
+      updateFinalDestination(route.toName, {
+        latitude: route.finalLat,
+        longitude: route.finalLon,
+      });
+
+      // Set the relation ID for the route
+      setRelationId(route.relationId);
+
+      // Fetch route details
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/routes/lookup?relationId=${
+          route.relationId
+        }`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch route: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      if (data.routeNumber) {
+        setRouteNumber(data.routeNumber);
+        setShowJeepneyRoute(true);
+      }
+
+      // Navigate to home page to display the route
+      navigate("/");
+    } catch (err) {
+      console.error("Error loading route:", err);
+      alert("Could not load the selected route. Please try again.");
+    } finally {
+      setRouteLoading(false);
+    }
   };
 
   const handleDeleteRoute = async (relationId, e) => {
@@ -116,112 +141,87 @@ export default function SavedRoutes() {
       <TopSearchBar />
       <ProfileMenu />
 
-      <div className="saved-routes-layout">
-        <aside className="saved-routes-sidebar">
-          <div className="saved-routes-header">
-            <h2 className="saved-routes-title">Saved Routes</h2>
-          </div>
+      <div className="saved-routes-content">
+        <h1 className="saved-routes-title">Saved Routes</h1>
 
-          {loading ? (
-            <div className="loading-container">
-              <LoadingOverlay isVisible />
-            </div>
-          ) : error ? (
-            <div className="error-message">
-              <AlertCircle className="error-icon" />
-              <p>{error}</p>
-              <button
-                className="retry-btn"
-                onClick={() => window.location.reload()}
+        {loading ? (
+          <div className="loading-container">
+            <LoadingOverlay isVisible />
+          </div>
+        ) : error ? (
+          <div className="error-message">
+            <p>{error}</p>
+            <button
+              className="retry-btn"
+              onClick={() => window.location.reload()}
+            >
+              Retry
+            </button>
+          </div>
+        ) : savedRoutes.length === 0 ? (
+          <div className="no-routes-message">
+            <p>No saved routes yet</p>
+            <button
+              className="search-new-route-btn"
+              onClick={() => navigate("/")}
+            >
+              Search routes
+            </button>
+          </div>
+        ) : (
+          <div className="saved-routes-list">
+            {savedRoutes.map((route) => (
+              <div
+                key={route.relationId}
+                className={`saved-route-card ${
+                  selectedRouteId === route.relationId ? "selected" : ""
+                }`}
+                onClick={() => handleRouteClick(route)}
               >
-                <RefreshCw className="btn-icon" />
-                Retry
-              </button>
-            </div>
-          ) : savedRoutes.length === 0 ? (
-            <div className="no-routes-message">
-              <div className="empty-state-icon">
-                <MapPin size={48} />
-              </div>
-              <p>No saved routes yet</p>
-              <button
-                className="search-new-route-btn"
-                onClick={() => navigate("/")}
-              >
-                <Search className="btn-icon" />
-                Search routes
-              </button>
-            </div>
-          ) : (
-            <div className="saved-routes-list">
-              {savedRoutes.map((route) => (
-                <div
-                  key={route.relationId}
-                  className={`saved-route-item ${
-                    deletingRouteId === route.relationId ? "deleting" : ""
-                  }`}
-                  onClick={() => handleRouteClick(route)}
-                >
-                  <div className="saved-route-info">
-                    <div className="route-locations">
-                      <div className="origin-location">
-                        <MapPin
-                          className="location-icon origin-icon"
-                          size={16}
-                        />
-                        <div>
-                          <span className="location-label">From</span>
-                          <span className="location-name">
-                            {route.fromName}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="route-connector"></div>
-                      <div className="destination-location">
-                        <Navigation
-                          className="location-icon destination-icon"
-                          size={16}
-                        />
-                        <div>
-                          <span className="location-label">To</span>
-                          <span className="location-name">{route.toName}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="saved-route-date">
-                      <Calendar className="date-icon" size={14} />
-                      {formatDate(route.createdAt)}
+                <div className="route-locations">
+                  <div className="location from-location">
+                    <div className="location-marker from-marker"></div>
+                    <div className="location-details">
+                      <span className="location-label">FROM</span>
+                      <span className="location-name">{route.fromName}</span>
                     </div>
                   </div>
+
+                  <div className="location to-location">
+                    <div className="location-marker to-marker"></div>
+                    <div className="location-details">
+                      <span className="location-label">TO</span>
+                      <span className="location-name">{route.toName}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="route-footer">
+                  <span className="route-date">
+                    {formatDate(route.createdAt)}
+                  </span>
                   <button
-                    className={`delete-route-btn ${
+                    className={`delete-btn ${
                       deletingRouteId === route.relationId ? "deleting" : ""
                     }`}
                     onClick={(e) => handleDeleteRoute(route.relationId, e)}
                     disabled={deletingRouteId === route.relationId}
-                    aria-label="Delete route"
                   >
-                    <Trash2 size={16} />
-                    <span className="delete-text">
-                      {deletingRouteId === route.relationId
-                        ? "Deleting..."
-                        : "Delete"}
-                    </span>
+                    {deletingRouteId === route.relationId
+                      ? "Deleting..."
+                      : "Delete"}
                   </button>
                 </div>
-              ))}
-            </div>
-          )}
-        </aside>
-
-        <section className="saved-routes-map">
-          <div className="map-placeholder">
-            <div className="map-message">
-              <MapPin size={32} />
-              <p>Select a route to view on map</p>
-            </div>
+              </div>
+            ))}
           </div>
-        </section>
+        )}
+
+        {routeLoading && (
+          <div className="route-loading-overlay">
+            <RouteLoadingSpinner message="Loading route..." />
+          </div>
+        )}
       </div>
     </div>
   );
