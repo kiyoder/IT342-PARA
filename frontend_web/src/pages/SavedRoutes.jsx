@@ -10,7 +10,7 @@ import ProfileMenu from "../components/layout/ProfileMenu";
 
 export default function SavedRoutes() {
   const navigate = useNavigate();
-  const [savedRoutes, setSavedRoutes] = useState({});
+  const [savedRoutes, setSavedRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deletingRouteId, setDeletingRouteId] = useState(null);
@@ -33,11 +33,7 @@ export default function SavedRoutes() {
 
       try {
         const data = await getSavedRoutes();
-        const savedMap = {};
-        data.forEach((route) => {
-          savedMap[route.relationId] = true;
-        });
-        setSavedRoutes(savedMap);
+        setSavedRoutes(data);
       } catch (error) {
         console.error("Error fetching saved routes:", error);
         if (error.message.includes("Authentication required")) {
@@ -51,9 +47,7 @@ export default function SavedRoutes() {
       }
     };
 
-    if (isAuthenticated) {
-      fetchSavedRoutes();
-    }
+    fetchSavedRoutes();
   }, [isAuthenticated]);
 
   const handleRouteClick = (route) => {
@@ -101,12 +95,7 @@ export default function SavedRoutes() {
     try {
       await deleteSavedRoute(relationId);
 
-      // Update the local state after successful deletion
-      setSavedRoutes((prevRoutes) => {
-        const updated = { ...prevRoutes };
-        delete updated[relationId];
-        return updated;
-      });
+      setSavedRoutes((prev) => prev.filter((r) => r.relationId !== relationId));
     } catch (error) {
       console.error("Error deleting route:", error);
       if (error.message.includes("Authentication required")) {
@@ -152,7 +141,7 @@ export default function SavedRoutes() {
               Retry
             </button>
           </div>
-        ) : Object.keys(savedRoutes).length === 0 ? (
+        ) : savedRoutes.length === 0 ? (
           <div className="no-routes-message">
             <p>You don't have any saved routes yet.</p>
             <button
@@ -164,11 +153,11 @@ export default function SavedRoutes() {
           </div>
         ) : (
           <div className="saved-routes-list">
-            {Object.keys(savedRoutes).map((relationId) => (
+            {savedRoutes.map((route) => (
               <div
-                key={relationId}
+                key={route.relationId}
                 className="saved-route-item"
-                onClick={() => handleRouteClick(savedRoutes[relationId])}
+                onClick={() => handleRouteClick(route)}
               >
                 <div className="saved-route-info">
                   <div className="saved-route-locations">
@@ -176,35 +165,37 @@ export default function SavedRoutes() {
                       <span className="location-label">From:</span>
                       <span className="location-name">
                         {selectedLocations.initial?.name ||
-                          `${savedRoutes[relationId].initialLat.toFixed(
+                          `${route.initialLat.toFixed(
                             6
-                          )}, ${savedRoutes[relationId].initialLon.toFixed(6)}`}
+                          )}, ${route.initialLon.toFixed(6)}`}
                       </span>
                     </div>
                     <div className="destination-location">
                       <span className="location-label">To:</span>
                       <span className="location-name">
                         {selectedLocations.final?.name ||
-                          `${savedRoutes[relationId].finalLat.toFixed(
+                          `${route.finalLat.toFixed(
                             6
-                          )}, ${savedRoutes[relationId].finalLon.toFixed(6)}`}
+                          )}, ${route.finalLon.toFixed(6)}`}
                       </span>
                     </div>
                   </div>
-                  {savedRoutes[relationId].createdAt && (
+                  {route.createdAt && (
                     <div className="saved-route-date">
-                      Saved on {formatDate(savedRoutes[relationId].createdAt)}
+                      Saved on {formatDate(route.createdAt)}
                     </div>
                   )}
                 </div>
                 <button
                   className={`delete-route-btn ${
-                    deletingRouteId === relationId ? "deleting" : ""
+                    deletingRouteId === route.relationId ? "deleting" : ""
                   }`}
-                  onClick={(e) => handleDeleteRoute(relationId, e)}
-                  disabled={deletingRouteId === relationId}
+                  onClick={(e) => handleDeleteRoute(route.relationId, e)}
+                  disabled={deletingRouteId === route.relationId}
                 >
-                  {deletingRouteId === relationId ? "Deleting..." : "Delete"}
+                  {deletingRouteId === route.relationId
+                    ? "Deleting..."
+                    : "Delete"}
                 </button>
               </div>
             ))}
