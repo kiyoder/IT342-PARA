@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "../contexts/LocationContext";
 import { useRoute } from "../contexts/RouteContext";
 import TopSearchBar from "../components/location/TopSearchBar";
-import LoadingOverlay from "../components/loading/LoadingOverlay";
 import RouteLoadingSpinner from "../components/loading/RouteLoadingSpinner";
 import { getSavedRoutes, deleteSavedRoute } from "../services/api/RouteService";
 import "../styles/SavedRoutes.css";
@@ -146,7 +145,9 @@ export default function SavedRoutes() {
 
         {loading ? (
           <div className="loading-container">
-            <LoadingOverlay isVisible />
+            <div className="loading-container">
+              <RouteLoadingSpinner message="Loading saved routes..." />
+            </div>
           </div>
         ) : error ? (
           <div className="error-message">
