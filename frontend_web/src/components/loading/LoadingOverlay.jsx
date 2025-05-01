@@ -23,9 +23,12 @@ const LoadingOverlay = ({
   if (!isVisible) return null;
 
   // Calculate the circle's circumference and the filled portion
-  const radius = 60;
-  const circumference = 2 * Math.PI * radius;
-  const fillPercentage = ((100 - progress) / 100) * circumference;
+  const outerRadius = 60;
+  const innerRadius = 40;
+  const outerCircumference = 2 * Math.PI * outerRadius;
+  const innerCircumference = 2 * Math.PI * innerRadius;
+  const outerFillPercentage = ((100 - progress) / 100) * outerCircumference;
+  const innerFillPercentage = ((100 - progress) / 100) * innerCircumference;
 
   return (
     <div className="loading-overlay">
@@ -39,26 +42,49 @@ const LoadingOverlay = ({
             height="150"
             viewBox="0 0 150 150"
           >
-            {/* Background circle */}
+            {/* Outer circle background */}
             <circle
               className="progress-background"
               cx="75"
               cy="75"
-              r={radius}
-              strokeWidth="10"
+              r={outerRadius}
+              strokeWidth="8"
               fill="transparent"
             />
 
-            {/* Progress circle that fills up */}
+            {/* Outer circle progress */}
             <circle
               className="progress-indicator"
               cx="75"
               cy="75"
-              r={radius}
-              strokeWidth="10"
+              r={outerRadius}
+              strokeWidth="8"
               fill="transparent"
-              strokeDasharray={circumference}
-              strokeDashoffset={fillPercentage}
+              strokeDasharray={outerCircumference}
+              strokeDashoffset={outerFillPercentage}
+              transform="rotate(-90, 75, 75)"
+            />
+
+            {/* Inner circle background */}
+            <circle
+              className="progress-background"
+              cx="75"
+              cy="75"
+              r={innerRadius}
+              strokeWidth="8"
+              fill="transparent"
+            />
+
+            {/* Inner circle progress */}
+            <circle
+              className="progress-indicator inner"
+              cx="75"
+              cy="75"
+              r={innerRadius}
+              strokeWidth="8"
+              fill="transparent"
+              strokeDasharray={innerCircumference}
+              strokeDashoffset={innerFillPercentage}
               transform="rotate(-90, 75, 75)"
             />
 

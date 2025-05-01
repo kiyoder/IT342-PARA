@@ -14,24 +14,21 @@
 .loading-content {
   max-width: 500px;
   text-align: center;
-  padding: 2rem;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 0 30px;
 }
 
 .loading-content h2 {
   color: #ff7f00;
   margin-top: 0;
-  margin-bottom: 1.5rem;
-  font-size: 1.75rem;
+  margin-bottom: 20px;
+  font-size: 32px;
   font-weight: bold;
 }
 
 .circular-progress-container {
   display: flex;
   justify-content: center;
-  margin: 1.5rem 0;
+  margin: 30px 0;
 }
 
 .circular-progress {
@@ -50,6 +47,10 @@
   stroke-linecap: round;
 }
 
+.progress-indicator.inner {
+  stroke: #ff3b10;
+}
+
 .progress-percentage {
   fill: #ff7f00;
   font-size: 24px;
@@ -59,47 +60,21 @@
 }
 
 .status-text {
-  margin: 1.5rem 0;
-  color: #555;
-  font-size: 1.125rem;
+  margin-bottom: 30px;
+  color: #ff7f00;
+  font-size: 18px;
   line-height: 1.5;
 }
 
 .cancel-text {
   color: #ff3b10;
-  font-weight: 500;
+  font-weight: bold;
   cursor: pointer;
-  margin-top: 1.5rem;
+  margin-top: 30px;
   text-decoration: underline;
-  font-size: 1rem;
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  transition: all 0.2s ease;
+  font-size: 18px;
 }
 
 .cancel-text:hover {
   color: #e03000;
-  background-color: #fff0ee;
-  border-radius: 4px;
-  text-decoration: none;
-}
-
-/* For simple loading without progress (indeterminate) */
-@keyframes pulse {
-  0% {
-    transform: scale(0.95);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.95);
-    opacity: 0.7;
-  }
-}
-
-.loading-overlay.indeterminate .circular-progress-container {
-  animation: pulse 1.5s infinite ease-in-out;
 }
