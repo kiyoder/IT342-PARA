@@ -1,0 +1,129 @@
+.saved-route-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid transparent;
+  margin-bottom: 1rem;
+}
+
+.saved-route-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.saved-route-card.selected {
+  border-color: #ff3b10;
+}
+
+.route-locations {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.location {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.location-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.from-marker {
+  background-color: #4caf50;
+}
+
+.to-marker {
+  background-color: #f44336;
+}
+
+.location-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.location-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.address-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.address-main {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #ff3b10;
+  margin-bottom: 0.25rem;
+}
+
+.address-sub {
+  font-size: 0.875rem;
+  color: #666;
+  font-style: italic;
+}
+
+.route-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.route-date {
+  font-size: 0.875rem;
+  color: #777;
+}
+
+.delete-btn {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: #f44336;
+  border: 1px solid #f44336;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-btn.deleting {
+  background-color: #e0e0e0;
+  border-color: #e0e0e0;
+  color: #9e9e9e;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .route-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .delete-btn {
+    align-self: flex-end;
+  }
+}
