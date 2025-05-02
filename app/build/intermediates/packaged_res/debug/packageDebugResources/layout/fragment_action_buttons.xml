@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
+
+    <Button
+        android:id="@+id/mark_location_button"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:text="Mark My Location"
+        android:textColor="#ffffff"
+        android:backgroundTint="#FF3B10"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/report_issue_button"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:text="Report an Issue"
+        android:textColor="#ffffff"
+        android:backgroundTint="#FF3B10"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Terms and Conditions"
+        android:textColor="#757575"
+        android:textSize="12sp" />
+</LinearLayout>
