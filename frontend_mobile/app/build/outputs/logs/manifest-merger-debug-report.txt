@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:2:1-54:16
-INJECTED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:2:1-54:16
-INJECTED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:2:1-54:16
-INJECTED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:2:1-54:16
+ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:2:1-55:16
+INJECTED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:2:1-55:16
+INJECTED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:2:1-55:16
+INJECTED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:2:1-55:16
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3ce52048c2c5864876df544d2e7f041d\transformed\material-1.9.0\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\56fd11544b6e42276e2a6a1c7d61521c\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\5b3535089035dec6b4898924b83fc91e\transformed\appcompat-resources-1.7.0\AndroidManifest.xml:2:1-7:12
@@ -133,8 +133,8 @@ ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\An
 	android:name
 		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:16:22-82
 application
-ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:18:5-52:15
-INJECTED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:18:5-52:15
+ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:18:5-53:15
+INJECTED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:18:5-53:15
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3ce52048c2c5864876df544d2e7f041d\transformed\material-1.9.0\AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3ce52048c2c5864876df544d2e7f041d\transformed\material-1.9.0\AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\56fd11544b6e42276e2a6a1c7d61521c\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -200,39 +200,41 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Ni
 	android:usesCleartextTraffic
 		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:28:5-40
 activity#com.example.para_mobile.activity.LoginActivity
-ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:32:5-39:16
+ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:32:5-40:16
+	android:windowSoftInputMode
+		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:35:9-63
 	android:exported
 		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:34:9-32
 	android:name
 		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:33:9-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:35:9-38:25
+ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:36:9-39:25
 action#android.intent.action.MAIN
-ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:36:13-65
+ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:13-65
 	android:name
-		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:36:21-62
+		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:21-62
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:13-73
+ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:38:13-73
 	android:name
-		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:23-70
+		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:38:23-70
 activity#com.example.para_mobile.activity.MainActivity
-ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:41:5-43:35
+ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:42:5-44:35
 	android:exported
-		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:43:9-32
+		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:44:9-32
 	android:name
-		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:42:9-46
+		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:43:9-46
 activity#com.example.para_mobile.activity.RegisterActivity
-ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:45:5-47:36
+ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:46:5-48:36
 	android:exported
-		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:47:9-33
+		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:48:9-33
 	android:name
-		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:46:9-50
+		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:47:9-50
 uses-library#org.apache.http.legacy
-ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:49:5-51:36
+ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:50:5-52:36
 	android:required
-		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:51:9-33
+		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:52:9-33
 	android:name
-		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:50:9-46
+		ADDED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:51:9-46
 uses-sdk
 INJECTED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml

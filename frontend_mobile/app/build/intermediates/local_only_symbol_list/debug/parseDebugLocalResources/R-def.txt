@@ -3,6 +3,7 @@ local
 anim pulse
 anim pulse_animation
 color black
+color ic_launcher_background
 color lavender
 color purple_200
 color purple_500
@@ -17,7 +18,6 @@ drawable circle_background
 drawable circle_edit_button
 drawable circle_gray_background
 drawable dotted_line
-drawable headerbkg
 drawable ic_add
 drawable ic_airport
 drawable ic_arrow_back
@@ -31,6 +31,7 @@ drawable ic_circle_indicator
 drawable ic_clear
 drawable ic_custom_marker
 drawable ic_default_location
+drawable ic_delete
 drawable ic_edit
 drawable ic_email
 drawable ic_facebook
@@ -47,6 +48,7 @@ drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_location
 drawable ic_lock
+drawable ic_logo_foreground
 drawable ic_mall
 drawable ic_mic
 drawable ic_navigate
@@ -62,6 +64,7 @@ drawable ic_swap_vert
 drawable ic_visibility
 drawable ic_visibility_off
 drawable ic_walking
+drawable ic_wave
 drawable ic_work
 drawable info_window_background
 drawable jeepney_code_background
@@ -77,7 +80,6 @@ drawable rounded_button_background
 drawable rounded_input_background
 drawable route_code_background
 drawable search_background
-id action_api_stats
 id action_buttons_container
 id add_location
 id backButton
@@ -86,14 +88,13 @@ id bottom_sheet
 id bottom_sheet_search_bar
 id btnBack
 id btnChangePassword
-id btnEditProfilePic
 id btnEditUsername
 id btnLogin
 id btnRegister
 id btnSaveProfile
 id btnViewProfile
-id btn_clear_recents
 id btn_close
+id btn_delete_recent
 id cardProfileInfo
 id cardProfilePic
 id clear_route_button
@@ -137,8 +138,6 @@ id mark_location_button
 id nav_about
 id nav_home
 id nav_logout
-id nav_settings
-id nav_share
 id nav_view
 id no_results_text_view
 id progressBar
@@ -148,7 +147,6 @@ id recent_location_details
 id recent_location_icon
 id recent_location_item
 id recent_location_name
-id recent_location_time
 id recent_locations_recyclerview
 id recents_container
 id recents_label
@@ -169,9 +167,10 @@ id suggestions_recyclerview
 id swapButton
 id switch_darkmode
 id switch_notifications
-id test_route_button
 id title
-id toolbar
+id titleContainer
+id tvAboutContent
+id tvAboutTitle
 id tvEmail
 id tvEmailLabel
 id tvForgotPassword
@@ -185,6 +184,7 @@ id tvSocialAccount
 id tvTitle
 id tvUsername
 id tvUsernameLabel
+id tvVersion
 id tv_no_recents
 id voice_search_button
 id work_location

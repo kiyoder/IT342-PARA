@@ -80,7 +80,7 @@
 45-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:27:9-33
 46
 47    <application
-47-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:18:5-52:15
+47-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:18:5-53:15
 48        android:allowBackup="true"
 48-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:19:9-35
 49        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -103,49 +103,50 @@
 58-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:25:5-50
 59        android:supportsRtl="true"
 59-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:26:5-31
-60        android:testOnly="true"
-61        android:theme="@style/Theme.PARAmobile"
-61-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:27:5-44
-62        android:usesCleartextTraffic="true" >
-62-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:28:5-40
-63        <activity
-63-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:32:5-39:16
-64            android:name="com.example.para_mobile.activity.LoginActivity"
-64-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:33:9-47
-65            android:exported="true" >
-65-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:34:9-32
+60        android:theme="@style/Theme.PARAmobile"
+60-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:27:5-44
+61        android:usesCleartextTraffic="true" >
+61-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:28:5-40
+62        <activity
+62-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:32:5-40:16
+63            android:name="com.example.para_mobile.activity.LoginActivity"
+63-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:33:9-47
+64            android:exported="true"
+64-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:34:9-32
+65            android:windowSoftInputMode="stateHidden|adjustResize" >
+65-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:35:9-63
 66            <intent-filter>
-66-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:35:9-38:25
+66-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:36:9-39:25
 67                <action android:name="android.intent.action.MAIN" />
-67-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:36:13-65
-67-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:36:21-62
+67-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:13-65
+67-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:21-62
 68
 69                <category android:name="android.intent.category.LAUNCHER" />
-69-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:13-73
-69-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:23-70
+69-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:38:13-73
+69-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:38:23-70
 70            </intent-filter>
 71        </activity> <!-- MainActivity (Opened after login success) -->
 72
 73        <activity
-73-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:41:5-43:35
+73-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:42:5-44:35
 74            android:name="com.example.para_mobile.activity.MainActivity"
-74-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:42:9-46
+74-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:43:9-46
 75            android:exported="true" /> <!-- Registration Activity -->
-75-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:43:9-32
+75-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:44:9-32
 76
 77        <activity
-77-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:45:5-47:36
+77-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:46:5-48:36
 78            android:name="com.example.para_mobile.activity.RegisterActivity"
-78-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:46:9-50
+78-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:47:9-50
 79            android:exported="false" /> <!-- Profile Activity -->
-79-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:47:9-33
+79-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:48:9-33
 80
 81        <uses-library
-81-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:49:5-51:36
+81-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:50:5-52:36
 82            android:name="org.apache.http.legacy"
-82-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:50:9-46
+82-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:51:9-46
 83            android:required="false" />
-83-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:51:9-33
+83-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:52:9-33
 84
 85        <activity
 85-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a79f7a8dad2924250323f1f758094bbf\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39

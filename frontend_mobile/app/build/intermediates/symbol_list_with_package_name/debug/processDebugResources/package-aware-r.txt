@@ -1419,6 +1419,7 @@ color foreground_material_dark
 color foreground_material_light
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color ic_launcher_background
 color lavender
 color m3_appbar_overlay_color
 color m3_assist_chip_icon_tint_color
@@ -2975,7 +2976,6 @@ drawable design_snackbar_background
 drawable dotted_line
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
-drawable headerbkg
 drawable ic_add
 drawable ic_airport
 drawable ic_arrow_back
@@ -2998,6 +2998,7 @@ drawable ic_clear_black_24
 drawable ic_clock_black_24dp
 drawable ic_custom_marker
 drawable ic_default_location
+drawable ic_delete
 drawable ic_edit
 drawable ic_email
 drawable ic_facebook
@@ -3015,6 +3016,7 @@ drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_location
 drawable ic_lock
+drawable ic_logo_foreground
 drawable ic_m3_chip_check
 drawable ic_m3_chip_checked_circle
 drawable ic_m3_chip_close
@@ -3042,6 +3044,7 @@ drawable ic_swap_vert
 drawable ic_visibility
 drawable ic_visibility_off
 drawable ic_walking
+drawable ic_wave
 drawable ic_work
 drawable info_window_background
 drawable jeepney_code_background
@@ -3201,7 +3204,6 @@ id accessibility_custom_action_9
 id actionDown
 id actionDownUp
 id actionUp
-id action_api_stats
 id action_bar
 id action_bar_activity_content
 id action_bar_container
@@ -3260,14 +3262,13 @@ id bounceEnd
 id bounceStart
 id btnBack
 id btnChangePassword
-id btnEditProfilePic
 id btnEditUsername
 id btnLogin
 id btnRegister
 id btnSaveProfile
 id btnViewProfile
-id btn_clear_recents
 id btn_close
+id btn_delete_recent
 id bubble_description
 id bubble_image
 id bubble_moreinfo
@@ -3527,8 +3528,6 @@ id multiply
 id nav_about
 id nav_home
 id nav_logout
-id nav_settings
-id nav_share
 id nav_view
 id navigation_bar_item_active_indicator_view
 id navigation_bar_item_icon_container
@@ -3582,7 +3581,6 @@ id recent_location_details
 id recent_location_icon
 id recent_location_item
 id recent_location_name
-id recent_location_time
 id recent_locations_recyclerview
 id recents_container
 id recents_label
@@ -3703,7 +3701,6 @@ id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id tag_window_insets_animation_callback
-id test_route_button
 id text
 id text2
 id textEnd
@@ -3722,10 +3719,10 @@ id textinput_prefix_text
 id textinput_suffix_text
 id time
 id title
+id titleContainer
 id titleDividerNoCustom
 id title_template
 id toggle
-id toolbar
 id top
 id topPanel
 id touch_outside
@@ -3737,6 +3734,8 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
+id tvAboutContent
+id tvAboutTitle
 id tvEmail
 id tvEmailLabel
 id tvForgotPassword
@@ -3750,6 +3749,7 @@ id tvSocialAccount
 id tvTitle
 id tvUsername
 id tvUsernameLabel
+id tvVersion
 id tv_no_recents
 id unchecked
 id uniform
