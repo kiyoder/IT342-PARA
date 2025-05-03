@@ -59,24 +59,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PARAmobile"
         android:usesCleartextTraffic="true" >
+
+        <!-- SplashActivity (New launcher activity) -->
         <activity
-            android:name="com.example.para_mobile.activity.LoginActivity"
+            android:name="com.example.para_mobile.activity.SplashActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:theme="@style/SplashTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- MainActivity (Opened after login success) -->
+        </activity>
 
+        <!-- LoginActivity (No longer the launcher) -->
+        <activity
+            android:name="com.example.para_mobile.activity.LoginActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+
+            <!-- Removed intent-filter as it's now in SplashActivity -->
+        </activity>
+
+        <!-- MainActivity (Opened after login success) -->
         <activity
             android:name="com.example.para_mobile.activity.MainActivity"
-            android:exported="true" /> <!-- Registration Activity -->
+            android:exported="true" />
 
+        <!-- Registration Activity -->
         <activity
             android:name="com.example.para_mobile.activity.RegisterActivity"
-            android:exported="false" /> <!-- Profile Activity -->
+            android:exported="false" />
 
         <uses-library
             android:name="org.apache.http.legacy"

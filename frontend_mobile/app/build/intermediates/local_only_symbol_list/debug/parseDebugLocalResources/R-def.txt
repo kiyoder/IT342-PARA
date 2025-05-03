@@ -46,6 +46,7 @@ drawable ic_hotel
 drawable ic_initial_location
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable ic_launcher_foreground_scaled
 drawable ic_location
 drawable ic_lock
 drawable ic_logo_foreground
@@ -163,6 +164,7 @@ id search_suggestion_container
 id search_suggestion_fragment_root
 id search_suggestions_recycler_view
 id settingsCard
+id splashLogo
 id suggestions_recyclerview
 id swapButton
 id switch_darkmode
@@ -191,6 +193,7 @@ id work_location
 layout activity_login
 layout activity_main
 layout activity_register
+layout activity_splash_screen
 layout bottom_sheet
 layout bottom_sheet_container
 layout custom_info_window
@@ -218,6 +221,7 @@ string close_nav
 string hello_blank_fragment
 string open_nav
 style Base.Theme.PARAmobile
+style SplashTheme
 style Theme.PARAmobile
 xml backup_rules
 xml data_extraction_rules

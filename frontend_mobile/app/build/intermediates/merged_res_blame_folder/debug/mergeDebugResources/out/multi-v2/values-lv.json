@@ -4,41 +4,7 @@
             "outputFile": "com.example.para_mobile.app-mergeDebugResources-62:/values-lv/values-lv.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\8a3ded91f4c8f6d5b1c60e8d857df836\\transformed\\core-1.16.0\\res\\values-lv\\values-lv.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,255,355,456,563,671,786",
-                        "endColumns": "97,101,99,100,106,107,114,100",
-                        "endOffsets": "148,250,350,451,558,666,781,882"
-                    },
-                    "to": {
-                        "startLines": "39,40,41,42,43,44,45,194",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "3704,3802,3904,4004,4105,4212,4320,19083",
-                        "endColumns": "97,101,99,100,106,107,114,100",
-                        "endOffsets": "3797,3899,3999,4100,4207,4315,4430,19179"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\de1075d2ff02308c7e29a06c60880597\\transformed\\foundation-release\\res\\values-lv\\values-lv.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,145",
-                        "endColumns": "89,89",
-                        "endOffsets": "140,230"
-                    },
-                    "to": {
-                        "startLines": "198,199",
-                        "startColumns": "4,4",
-                        "startOffsets": "19452,19542",
-                        "endColumns": "89,89",
-                        "endOffsets": "19537,19627"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\fb055e4a333ad1b63cbaabb675a73b5f\\transformed\\play-services-basement-18.4.0\\res\\values-lv\\values.xml",
+                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\23eb82032374ef8662c61cab6b49ca54\\transformed\\play-services-basement-18.4.0\\res\\values-lv\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -55,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\3ce52048c2c5864876df544d2e7f041d\\transformed\\material-1.9.0\\res\\values-lv\\values-lv.xml",
+                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\ddc72099423b904c957727a7bcb11db5\\transformed\\material-1.9.0\\res\\values-lv\\values-lv.xml",
                     "from": {
                         "startLines": "2,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -74,7 +40,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\2ca84fcf47372d20733bcb93899817f0\\transformed\\material3-release\\res\\values-lv\\values-lv.xml",
+                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\3b36026f581691e08cc2f76f4f90c39f\\transformed\\material3-release\\res\\values-lv\\values-lv.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -91,24 +57,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\874d16af0ddab90a3eea30cd32929b47\\transformed\\ui-release\\res\\values-lv\\values-lv.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,203,292,388,491,581,667,755,848,932,1017,1104,1177,1253,1330,1406,1484,1552",
-                        "endColumns": "97,88,95,102,89,85,87,92,83,84,86,72,75,76,75,77,67,121",
-                        "endOffsets": "198,287,383,486,576,662,750,843,927,1012,1099,1172,1248,1325,1401,1479,1547,1669"
-                    },
-                    "to": {
-                        "startLines": "49,50,69,70,71,75,76,184,185,187,188,190,191,192,193,195,196,197",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "4753,4851,7244,7340,7443,7765,7851,18272,18365,18526,18611,18781,18854,18930,19007,19184,19262,19330",
-                        "endColumns": "97,88,95,102,89,85,87,92,83,84,86,72,75,76,75,77,67,121",
-                        "endOffsets": "4846,4935,7335,7438,7528,7846,7934,18360,18444,18606,18693,18849,18925,19002,19078,19257,19325,19447"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\504eb6632882cd86790bdafa6a920a77\\transformed\\play-services-base-18.5.0\\res\\values-lv\\values.xml",
+                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\4f9b326e55fd5eebf5b20fbd072d2da3\\transformed\\play-services-base-18.5.0\\res\\values-lv\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -125,7 +74,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\642b15b83496c4dbefcb0a0195c86c7b\\transformed\\appcompat-1.7.0\\res\\values-lv\\values-lv.xml",
+                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\1876b95a21fda0a3004120bb74311748\\transformed\\appcompat-1.7.0\\res\\values-lv\\values-lv.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -139,6 +88,57 @@
                         "startOffsets": "374,494,604,713,799,903,1025,1107,1187,1297,1405,1511,1620,1731,1834,1946,2053,2158,2258,2343,2452,2563,2662,2773,2880,2985,3159,18698",
                         "endColumns": "119,109,108,85,103,121,81,79,109,107,105,108,110,102,111,106,104,99,84,108,110,98,110,106,104,173,98,82",
                         "endOffsets": "489,599,708,794,898,1020,1102,1182,1292,1400,1506,1615,1726,1829,1941,2048,2153,2253,2338,2447,2558,2657,2768,2875,2980,3154,3253,18776"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\192447109174ff8391b8ababc0597776\\transformed\\core-1.16.0\\res\\values-lv\\values-lv.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,153,255,355,456,563,671,786",
+                        "endColumns": "97,101,99,100,106,107,114,100",
+                        "endOffsets": "148,250,350,451,558,666,781,882"
+                    },
+                    "to": {
+                        "startLines": "39,40,41,42,43,44,45,194",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "3704,3802,3904,4004,4105,4212,4320,19083",
+                        "endColumns": "97,101,99,100,106,107,114,100",
+                        "endOffsets": "3797,3899,3999,4100,4207,4315,4430,19179"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\23fd6e24632411421668e4037881e64c\\transformed\\foundation-release\\res\\values-lv\\values-lv.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,145",
+                        "endColumns": "89,89",
+                        "endOffsets": "140,230"
+                    },
+                    "to": {
+                        "startLines": "198,199",
+                        "startColumns": "4,4",
+                        "startOffsets": "19452,19542",
+                        "endColumns": "89,89",
+                        "endOffsets": "19537,19627"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\c4a88b862809259b55e8b22ad091eb32\\transformed\\ui-release\\res\\values-lv\\values-lv.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,203,292,388,491,581,667,755,848,932,1017,1104,1177,1253,1330,1406,1484,1552",
+                        "endColumns": "97,88,95,102,89,85,87,92,83,84,86,72,75,76,75,77,67,121",
+                        "endOffsets": "198,287,383,486,576,662,750,843,927,1012,1099,1172,1248,1325,1401,1479,1547,1669"
+                    },
+                    "to": {
+                        "startLines": "49,50,69,70,71,75,76,184,185,187,188,190,191,192,193,195,196,197",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "4753,4851,7244,7340,7443,7765,7851,18272,18365,18526,18611,18781,18854,18930,19007,19184,19262,19330",
+                        "endColumns": "97,88,95,102,89,85,87,92,83,84,86,72,75,76,75,77,67,121",
+                        "endOffsets": "4846,4935,7335,7438,7528,7846,7934,18360,18444,18606,18693,18849,18925,19002,19078,19257,19325,19447"
                     }
                 }
             ]

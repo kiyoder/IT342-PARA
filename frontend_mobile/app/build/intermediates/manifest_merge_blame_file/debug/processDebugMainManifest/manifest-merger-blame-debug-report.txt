@@ -35,56 +35,56 @@
 21-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:16:22-82
 22
 23    <permission
-23-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\8a3ded91f4c8f6d5b1c60e8d857df836\transformed\core-1.16.0\AndroidManifest.xml:22:5-24:47
+23-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\192447109174ff8391b8ababc0597776\transformed\core-1.16.0\AndroidManifest.xml:22:5-24:47
 24        android:name="com.example.para_mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-24-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\8a3ded91f4c8f6d5b1c60e8d857df836\transformed\core-1.16.0\AndroidManifest.xml:23:9-81
+24-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\192447109174ff8391b8ababc0597776\transformed\core-1.16.0\AndroidManifest.xml:23:9-81
 25        android:protectionLevel="signature" />
-25-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\8a3ded91f4c8f6d5b1c60e8d857df836\transformed\core-1.16.0\AndroidManifest.xml:24:9-44
+25-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\192447109174ff8391b8ababc0597776\transformed\core-1.16.0\AndroidManifest.xml:24:9-44
 26
 27    <uses-permission android:name="com.example.para_mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-27-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\8a3ded91f4c8f6d5b1c60e8d857df836\transformed\core-1.16.0\AndroidManifest.xml:26:5-97
-27-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\8a3ded91f4c8f6d5b1c60e8d857df836\transformed\core-1.16.0\AndroidManifest.xml:26:22-94
+27-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\192447109174ff8391b8ababc0597776\transformed\core-1.16.0\AndroidManifest.xml:26:5-97
+27-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\192447109174ff8391b8ababc0597776\transformed\core-1.16.0\AndroidManifest.xml:26:22-94
 28
 29    <supports-screens
-29-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:11:5-14:40
+29-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:11:5-14:40
 30        android:anyDensity="true"
-30-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:12:9-34
+30-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:12:9-34
 31        android:largeScreens="true"
-31-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:13:9-36
+31-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:13:9-36
 32        android:normalScreens="true" />
-32-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:14:9-37
+32-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:14:9-37
 33
 34    <uses-feature
-34-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:16:5-18:36
+34-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:16:5-18:36
 35        android:name="android.hardware.location.network"
-35-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:17:9-57
+35-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:17:9-57
 36        android:required="false" />
-36-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:18:9-33
+36-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:18:9-33
 37    <uses-feature
-37-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:19:5-21:36
+37-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:19:5-21:36
 38        android:name="android.hardware.location.gps"
-38-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:20:9-53
+38-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:20:9-53
 39        android:required="false" />
-39-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:21:9-33
+39-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:21:9-33
 40    <uses-feature
-40-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:22:5-24:36
+40-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:22:5-24:36
 41        android:name="android.hardware.telephony"
-41-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:23:9-50
+41-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:23:9-50
 42        android:required="false" />
-42-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:24:9-33
+42-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:24:9-33
 43    <uses-feature
-43-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:25:5-27:36
+43-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:25:5-27:36
 44        android:name="android.hardware.wifi"
-44-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:26:9-45
+44-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:26:9-45
 45        android:required="false" />
-45-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fc31c1d16d61b5a58f8a4f4a26fd543f\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:27:9-33
+45-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\90e9be47989baada8860ea7854141aec\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:27:9-33
 46
 47    <application
-47-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:18:5-53:15
+47-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:18:5-64:19
 48        android:allowBackup="true"
 48-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:19:9-35
 49        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-49-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\8a3ded91f4c8f6d5b1c60e8d857df836\transformed\core-1.16.0\AndroidManifest.xml:28:18-86
+49-->[androidx.core:core:1.16.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\192447109174ff8391b8ababc0597776\transformed\core-1.16.0\AndroidManifest.xml:28:18-86
 50        android:dataExtractionRules="@xml/data_extraction_rules"
 50-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:20:9-65
 51        android:debuggable="true"
@@ -100,184 +100,201 @@
 57        android:requestLegacyExternalStorage="true"
 57-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:29:9-52
 58        android:roundIcon="@mipmap/ic_launcher_round"
-58-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:25:5-50
+58-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:25:9-54
 59        android:supportsRtl="true"
-59-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:26:5-31
+59-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:26:9-35
 60        android:theme="@style/Theme.PARAmobile"
-60-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:27:5-44
+60-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:27:9-48
 61        android:usesCleartextTraffic="true" >
-61-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:28:5-40
-62        <activity
-62-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:32:5-40:16
-63            android:name="com.example.para_mobile.activity.LoginActivity"
-63-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:33:9-47
-64            android:exported="true"
-64-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:34:9-32
-65            android:windowSoftInputMode="stateHidden|adjustResize" >
-65-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:35:9-63
-66            <intent-filter>
-66-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:36:9-39:25
-67                <action android:name="android.intent.action.MAIN" />
-67-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:13-65
-67-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:21-62
-68
-69                <category android:name="android.intent.category.LAUNCHER" />
-69-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:38:13-73
-69-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:38:23-70
-70            </intent-filter>
-71        </activity> <!-- MainActivity (Opened after login success) -->
-72
-73        <activity
-73-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:42:5-44:35
-74            android:name="com.example.para_mobile.activity.MainActivity"
-74-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:43:9-46
-75            android:exported="true" /> <!-- Registration Activity -->
-75-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:44:9-32
-76
-77        <activity
-77-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:46:5-48:36
-78            android:name="com.example.para_mobile.activity.RegisterActivity"
-78-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:47:9-50
-79            android:exported="false" /> <!-- Profile Activity -->
-79-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:48:9-33
+61-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:28:9-44
+62
+63        <!-- SplashActivity (New launcher activity) -->
+64        <activity
+64-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:33:9-41:20
+65            android:name="com.example.para_mobile.activity.SplashActivity"
+65-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:34:13-52
+66            android:exported="true"
+66-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:35:13-36
+67            android:theme="@style/SplashTheme" >
+67-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:36:13-47
+68            <intent-filter>
+68-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:13-40:29
+69                <action android:name="android.intent.action.MAIN" />
+69-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:38:17-69
+69-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:38:25-66
+70
+71                <category android:name="android.intent.category.LAUNCHER" />
+71-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:39:17-77
+71-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:39:27-74
+72            </intent-filter>
+73        </activity>
+74
+75        <!-- LoginActivity (No longer the launcher) -->
+76        <activity
+76-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:44:9-49:20
+77            android:name="com.example.para_mobile.activity.LoginActivity"
+77-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:45:13-51
+78            android:exported="true"
+78-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:46:13-36
+79            android:windowSoftInputMode="stateHidden|adjustResize" >
+79-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:47:13-67
 80
-81        <uses-library
-81-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:50:5-52:36
-82            android:name="org.apache.http.legacy"
-82-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:51:9-46
-83            android:required="false" />
-83-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:52:9-33
-84
+81            <!-- Removed intent-filter as it's now in SplashActivity -->
+82        </activity>
+83
+84        <!-- MainActivity (Opened after login success) -->
 85        <activity
-85-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a79f7a8dad2924250323f1f758094bbf\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
-86            android:name="androidx.compose.ui.tooling.PreviewActivity"
-86-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a79f7a8dad2924250323f1f758094bbf\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+85-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:52:9-54:39
+86            android:name="com.example.para_mobile.activity.MainActivity"
+86-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:53:13-50
 87            android:exported="true" />
-87-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a79f7a8dad2924250323f1f758094bbf\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
-88        <activity
-88-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a243f6d5297e94152d2a904b9bdb2c4f\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:23:9-25:39
-89            android:name="androidx.activity.ComponentActivity"
-89-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a243f6d5297e94152d2a904b9bdb2c4f\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:24:13-63
-90            android:exported="true" />
-90-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a243f6d5297e94152d2a904b9bdb2c4f\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:25:13-36
-91        <activity
-91-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\34b35c5403650e18bb0115499268997c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:23:9-27:75
-92            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
-92-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\34b35c5403650e18bb0115499268997c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:24:13-93
-93            android:excludeFromRecents="true"
-93-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\34b35c5403650e18bb0115499268997c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:25:13-46
-94            android:exported="false"
-94-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\34b35c5403650e18bb0115499268997c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:26:13-37
-95            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-95-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\34b35c5403650e18bb0115499268997c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:27:13-72
-96        <!--
-97            Service handling Google Sign-In user revocation. For apps that do not integrate with
-98            Google Sign-In, this service will never be started.
-99        -->
-100        <service
-100-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\34b35c5403650e18bb0115499268997c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:33:9-37:51
-101            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
-101-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\34b35c5403650e18bb0115499268997c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:34:13-89
-102            android:exported="true"
-102-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\34b35c5403650e18bb0115499268997c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:35:13-36
-103            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
-103-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\34b35c5403650e18bb0115499268997c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:36:13-107
-104            android:visibleToInstantApps="true" />
-104-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\34b35c5403650e18bb0115499268997c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:37:13-48
-105
-106        <activity
-106-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\504eb6632882cd86790bdafa6a920a77\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
-107            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-107-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\504eb6632882cd86790bdafa6a920a77\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
-108            android:exported="false"
-108-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\504eb6632882cd86790bdafa6a920a77\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
-109            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-109-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\504eb6632882cd86790bdafa6a920a77\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
-110
-111        <meta-data
-111-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fb055e4a333ad1b63cbaabb675a73b5f\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
-112            android:name="com.google.android.gms.version"
-112-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fb055e4a333ad1b63cbaabb675a73b5f\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
-113            android:value="@integer/google_play_services_version" />
-113-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\fb055e4a333ad1b63cbaabb675a73b5f\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
-114
-115        <provider
-115-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\9f24cfb0cc975cec9780417a9f0f3d33\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-116            android:name="androidx.startup.InitializationProvider"
-116-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\9f24cfb0cc975cec9780417a9f0f3d33\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-117            android:authorities="com.example.para_mobile.androidx-startup"
-117-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\9f24cfb0cc975cec9780417a9f0f3d33\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-118            android:exported="false" >
-118-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\9f24cfb0cc975cec9780417a9f0f3d33\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-119            <meta-data
-119-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\9f24cfb0cc975cec9780417a9f0f3d33\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-120                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-120-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\9f24cfb0cc975cec9780417a9f0f3d33\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-121                android:value="androidx.startup" />
-121-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\9f24cfb0cc975cec9780417a9f0f3d33\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
-122            <meta-data
-122-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\dd0364801df06cafcd262f10d1737d1c\transformed\gotrue-kt-debug\AndroidManifest.xml:14:13-16:52
-123                android:name="io.github.jan.supabase.gotrue.SupabaseInitializer"
-123-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\dd0364801df06cafcd262f10d1737d1c\transformed\gotrue-kt-debug\AndroidManifest.xml:15:17-81
-124                android:value="androidx.startup" />
-124-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\dd0364801df06cafcd262f10d1737d1c\transformed\gotrue-kt-debug\AndroidManifest.xml:16:17-49
-125            <meta-data
-125-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f86bd7ef1c354ddf67ad64bc427e7498\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:29:13-31:52
-126                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-126-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f86bd7ef1c354ddf67ad64bc427e7498\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:30:17-78
-127                android:value="androidx.startup" />
-127-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f86bd7ef1c354ddf67ad64bc427e7498\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:31:17-49
-128            <meta-data
-128-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
-129                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-129-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
-130                android:value="androidx.startup" />
-130-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
-131            <meta-data
-131-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\84dc9e6559259e58aeaa09263ea183b6\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:31:13-33:52
-132                android:name="com.russhwolf.settings.SettingsInitializer"
-132-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\84dc9e6559259e58aeaa09263ea183b6\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:32:17-74
-133                android:value="androidx.startup" />
-133-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\84dc9e6559259e58aeaa09263ea183b6\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:33:17-49
-134        </provider>
-135
-136        <receiver
-136-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
-137            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-137-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
-138            android:directBootAware="false"
-138-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
-139            android:enabled="true"
-139-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
-140            android:exported="true"
-140-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
-141            android:permission="android.permission.DUMP" >
-141-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
-142            <intent-filter>
-142-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
-143                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-143-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
-143-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
-144            </intent-filter>
-145            <intent-filter>
-145-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
-146                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-146-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
-146-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
-147            </intent-filter>
-148            <intent-filter>
-148-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
-149                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-149-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
-149-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
-150            </intent-filter>
-151            <intent-filter>
-151-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
-152                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-152-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
-152-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\f9a167320325b36d9b3a67dcd01a02a6\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
-153            </intent-filter>
-154        </receiver>
-155    </application>
-156
-157</manifest>
+87-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:54:13-36
+88
+89        <!-- Registration Activity -->
+90        <activity
+90-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:57:9-59:40
+91            android:name="com.example.para_mobile.activity.RegisterActivity"
+91-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:58:13-54
+92            android:exported="false" />
+92-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:59:13-37
+93
+94        <uses-library
+94-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:61:9-63:40
+95            android:name="org.apache.http.legacy"
+95-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:62:13-50
+96            android:required="false" />
+96-->C:\Users\Nishico\Downloads\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:63:13-37
+97
+98        <activity
+98-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\0fa9bef6d682901db1b4e8b88a374639\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+99            android:name="androidx.compose.ui.tooling.PreviewActivity"
+99-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\0fa9bef6d682901db1b4e8b88a374639\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+100            android:exported="true" />
+100-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\0fa9bef6d682901db1b4e8b88a374639\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+101        <activity
+101-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\b53a637c038d7a609802058575c8e561\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:23:9-25:39
+102            android:name="androidx.activity.ComponentActivity"
+102-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\b53a637c038d7a609802058575c8e561\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:24:13-63
+103            android:exported="true" />
+103-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\b53a637c038d7a609802058575c8e561\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:25:13-36
+104        <activity
+104-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\047763bae299b1be58bb2f69fb88050c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:23:9-27:75
+105            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+105-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\047763bae299b1be58bb2f69fb88050c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:24:13-93
+106            android:excludeFromRecents="true"
+106-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\047763bae299b1be58bb2f69fb88050c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:25:13-46
+107            android:exported="false"
+107-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\047763bae299b1be58bb2f69fb88050c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:26:13-37
+108            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+108-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\047763bae299b1be58bb2f69fb88050c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:27:13-72
+109        <!--
+110            Service handling Google Sign-In user revocation. For apps that do not integrate with
+111            Google Sign-In, this service will never be started.
+112        -->
+113        <service
+113-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\047763bae299b1be58bb2f69fb88050c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:33:9-37:51
+114            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+114-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\047763bae299b1be58bb2f69fb88050c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:34:13-89
+115            android:exported="true"
+115-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\047763bae299b1be58bb2f69fb88050c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:35:13-36
+116            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+116-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\047763bae299b1be58bb2f69fb88050c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:36:13-107
+117            android:visibleToInstantApps="true" />
+117-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\047763bae299b1be58bb2f69fb88050c\transformed\play-services-auth-21.3.0\AndroidManifest.xml:37:13-48
+118
+119        <activity
+119-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\4f9b326e55fd5eebf5b20fbd072d2da3\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
+120            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+120-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\4f9b326e55fd5eebf5b20fbd072d2da3\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
+121            android:exported="false"
+121-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\4f9b326e55fd5eebf5b20fbd072d2da3\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
+122            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+122-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\4f9b326e55fd5eebf5b20fbd072d2da3\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
+123
+124        <meta-data
+124-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\23eb82032374ef8662c61cab6b49ca54\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
+125            android:name="com.google.android.gms.version"
+125-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\23eb82032374ef8662c61cab6b49ca54\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
+126            android:value="@integer/google_play_services_version" />
+126-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\23eb82032374ef8662c61cab6b49ca54\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
+127
+128        <provider
+128-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\7f36f579847627c59a3e34742c174d12\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+129            android:name="androidx.startup.InitializationProvider"
+129-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\7f36f579847627c59a3e34742c174d12\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+130            android:authorities="com.example.para_mobile.androidx-startup"
+130-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\7f36f579847627c59a3e34742c174d12\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+131            android:exported="false" >
+131-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\7f36f579847627c59a3e34742c174d12\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+132            <meta-data
+132-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\7f36f579847627c59a3e34742c174d12\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+133                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+133-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\7f36f579847627c59a3e34742c174d12\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+134                android:value="androidx.startup" />
+134-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\7f36f579847627c59a3e34742c174d12\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+135            <meta-data
+135-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a10337694e3e85d0559c0a2b7a321e51\transformed\gotrue-kt-debug\AndroidManifest.xml:14:13-16:52
+136                android:name="io.github.jan.supabase.gotrue.SupabaseInitializer"
+136-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a10337694e3e85d0559c0a2b7a321e51\transformed\gotrue-kt-debug\AndroidManifest.xml:15:17-81
+137                android:value="androidx.startup" />
+137-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a10337694e3e85d0559c0a2b7a321e51\transformed\gotrue-kt-debug\AndroidManifest.xml:16:17-49
+138            <meta-data
+138-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a95944b3a552de39298052defc8a9efc\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:29:13-31:52
+139                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+139-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a95944b3a552de39298052defc8a9efc\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:30:17-78
+140                android:value="androidx.startup" />
+140-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\a95944b3a552de39298052defc8a9efc\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:31:17-49
+141            <meta-data
+141-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+142                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+142-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+143                android:value="androidx.startup" />
+143-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+144            <meta-data
+144-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\0bcce18bcff147246914474a1344df70\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:31:13-33:52
+145                android:name="com.russhwolf.settings.SettingsInitializer"
+145-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\0bcce18bcff147246914474a1344df70\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:32:17-74
+146                android:value="androidx.startup" />
+146-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\0bcce18bcff147246914474a1344df70\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:33:17-49
+147        </provider>
+148
+149        <receiver
+149-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+150            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+150-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+151            android:directBootAware="false"
+151-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+152            android:enabled="true"
+152-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+153            android:exported="true"
+153-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+154            android:permission="android.permission.DUMP" >
+154-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+155            <intent-filter>
+155-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+156                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+156-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+156-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+157            </intent-filter>
+158            <intent-filter>
+158-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+159                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+159-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+159-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+160            </intent-filter>
+161            <intent-filter>
+161-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+162                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+162-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+162-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+163            </intent-filter>
+164            <intent-filter>
+164-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+165                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+165-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+165-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Nishico\.gradle\caches\8.11.1\transforms\3c9d2a9d9a95cdf0d1fd38e050aa8dd1\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+166            </intent-filter>
+167        </receiver>
+168    </application>
+169
+170</manifest>
