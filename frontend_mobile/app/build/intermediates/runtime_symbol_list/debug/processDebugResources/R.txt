@@ -3013,6 +3013,7 @@ int drawable ic_initial_location 0x7f0700c6
 int drawable ic_keyboard_black_24dp 0x7f0700c7
 int drawable ic_launcher_background 0x7f0700c8
 int drawable ic_launcher_foreground 0x7f0700c9
+int drawable ic_launcher_foreground_scaled 0x7f070155
 int drawable ic_location 0x7f0700ca
 int drawable ic_lock 0x7f0700cb
 int drawable ic_logo_foreground 0x7f0700cc
@@ -3659,6 +3660,7 @@ int id snapMargins 0x7f0801f7
 int id south 0x7f0801f8
 int id spacer 0x7f0801f9
 int id special_effects_controller_view_tag 0x7f0801fa
+int id splashLogo 0x7f080272
 int id spline 0x7f0801fb
 int id split_action_bar 0x7f0801fc
 int id spread 0x7f0801fd
@@ -3896,6 +3898,7 @@ int layout abc_tooltip 0x7f0b001b
 int layout activity_login 0x7f0b001c
 int layout activity_main 0x7f0b001d
 int layout activity_register 0x7f0b001e
+int layout activity_splash_screen 0x7f0b0082
 int layout bonuspack_bubble 0x7f0b001f
 int layout bottom_sheet 0x7f0b0020
 int layout bottom_sheet_container 0x7f0b0021
@@ -4702,6 +4705,7 @@ int style ShapeAppearanceOverlay_MaterialComponents_MaterialCalendar_Day 0x7f110
 int style ShapeAppearanceOverlay_MaterialComponents_MaterialCalendar_Window_Fullscreen 0x7f11018d
 int style ShapeAppearanceOverlay_MaterialComponents_MaterialCalendar_Year 0x7f11018e
 int style ShapeAppearanceOverlay_MaterialComponents_TextInputLayout_FilledBox 0x7f11018f
+int style SplashTheme 0x7f110454
 int style TextAppearance_AppCompat 0x7f110190
 int style TextAppearance_AppCompat_Body1 0x7f110191
 int style TextAppearance_AppCompat_Body2 0x7f110192

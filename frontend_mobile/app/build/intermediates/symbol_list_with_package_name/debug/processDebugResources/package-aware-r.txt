@@ -3014,6 +3014,7 @@ drawable ic_initial_location
 drawable ic_keyboard_black_24dp
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable ic_launcher_foreground_scaled
 drawable ic_location
 drawable ic_lock
 drawable ic_logo_foreground
@@ -3660,6 +3661,7 @@ id snapMargins
 id south
 id spacer
 id special_effects_controller_view_tag
+id splashLogo
 id spline
 id split_action_bar
 id spread
@@ -3897,6 +3899,7 @@ layout abc_tooltip
 layout activity_login
 layout activity_main
 layout activity_register
+layout activity_splash_screen
 layout bonuspack_bubble
 layout bottom_sheet
 layout bottom_sheet_container
@@ -4703,6 +4706,7 @@ style ShapeAppearanceOverlay_MaterialComponents_MaterialCalendar_Day
 style ShapeAppearanceOverlay_MaterialComponents_MaterialCalendar_Window_Fullscreen
 style ShapeAppearanceOverlay_MaterialComponents_MaterialCalendar_Year
 style ShapeAppearanceOverlay_MaterialComponents_TextInputLayout_FilledBox
+style SplashTheme
 style TextAppearance_AppCompat
 style TextAppearance_AppCompat_Body1
 style TextAppearance_AppCompat_Body2

@@ -1,6 +1,6 @@
 [versions]
 activityKtx = "1.7.2"
-agp = "8.9.1"
+agp = "8.9.2"
 constraintlayout = "2.1.4"
 converterGson = "2.9.0"
 drawerlayout = "1.2.0"
