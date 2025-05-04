@@ -1,24 +1,16 @@
-/* somewhere in your globals (or at top of ProfilePage.css) */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* replace your container rules with this: */
 .profile-page-container {
-  width: 100%; /* ← fills its parent, without forcing overflow */
-  min-height: 100vh; /* ← at _least_ the viewport height */
+  /* make it span the full viewport */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  /* your existing styles… */
   background: linear-gradient(135deg, #fff5f2 0%, #fff 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  /* padding is fine now—won’t push you over 100% */
-  padding: 2rem;
   position: relative;
-  overflow-x: hidden; /* just in case anything else leaks out */
 }
 
 .profile-content {
