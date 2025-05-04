@@ -3,7 +3,7 @@
 import { useState } from "react";
 import ProfileForm from "../components/auth/ProfileForm";
 import ProfileMenu from "../components/layout/ProfileMenu";
-import styles from "../components/styles/Profile.css";
+import styles from "../styles/Profile.css";
 
 const Profile = () => {
   const [showMenu, setShowMenu] = useState(false);
