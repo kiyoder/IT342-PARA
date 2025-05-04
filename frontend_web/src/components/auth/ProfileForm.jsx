@@ -227,7 +227,7 @@ const ProfileForm = () => {
   if (loading && !profile) {
     return (
       <div className="profile-card">
-        <div className="profile-header">
+        <div className="profile-title-header">
           <div className="profile-avatar">...</div>
           <h1 className="profile-title">Loading profile...</h1>
         </div>
@@ -237,7 +237,7 @@ const ProfileForm = () => {
 
   return (
     <div className="profile-card">
-      <div className="profile-header">
+      <div className="profile-title-header">
         <div className="profile-avatar">
           {profile?.username?.charAt(0).toUpperCase() || "U"}
         </div>
