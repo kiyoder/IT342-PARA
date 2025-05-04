@@ -1,6 +1,6 @@
 .profile-page-container {
   min-height: 100vh;
-  width: 100%;
+  min-width: 10vw;
   background: linear-gradient(135deg, #fff5f2 0%, #fff 100%);
   display: flex;
   justify-content: center;
