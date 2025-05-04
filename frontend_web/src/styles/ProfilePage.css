@@ -1,10 +1,13 @@
 .profile-page-container {
-  min-height: 100vh;
-  min-width: 10vw;
+  /* make it span the full viewport */
+  width: 100vw;
+  height: 100vh;
+
+  /* your existing styles… */
   background: linear-gradient(135deg, #fff5f2 0%, #fff 100%);
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   padding: 2rem;
   position: relative;
