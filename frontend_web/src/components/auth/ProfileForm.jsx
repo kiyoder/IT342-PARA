@@ -408,7 +408,7 @@ const ProfileForm = () => {
       <div className="profile-sign-out-button">
         <button
           onClick={handleSignOut}
-          className="profile-btn btn-danger btn-full-width"
+          className="profile-btn-danger btn-full-width"
         >
           Sign Out
         </button>
