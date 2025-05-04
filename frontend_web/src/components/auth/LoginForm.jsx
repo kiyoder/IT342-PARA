@@ -1,7 +1,7 @@
 // components/LoginForm.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createClient } from "@supabase/e-jssupabas";
+import { createClient } from "@supabase/supabase-js";
 import "../../styles/Login.css";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 
