@@ -3,7 +3,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import Register from "./pages/Register";
-import Profile from "./components/Profile";
+import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import SavedRoutes from "./pages/SavedRoutes";
 import GoogleCallback from "./components/auth/GoogleCallback";
