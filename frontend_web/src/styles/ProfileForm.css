@@ -1,21 +1,4 @@
-/* Profile Page Specific Styles */
-.profile-page-container {
-  min-height: 100vh;
-  width: 100%;
-  background: linear-gradient(135deg, #fff5f2 0%, #fff 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  position: relative;
-}
-
-.profile-content {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
+/* Profile Card */
 .profile-card {
   width: 100%;
   background-color: white;
@@ -26,10 +9,24 @@
   position: relative;
 }
 
+/* Profile Header */
 .profile-header {
   text-align: center;
   margin-bottom: 2.5rem;
-  position: relative;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #ff3b10;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 4px 15px rgba(255, 59, 16, 0.3);
 }
 
 .profile-title {
@@ -42,21 +39,11 @@
 .profile-subtitle {
   color: #666;
   font-size: 1rem;
-  margin-bottom: 1.5rem;
 }
 
-.profile-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background-color: #ff3b10;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  margin: 0 auto 1.5rem;
-  box-shadow: 0 4px 15px rgba(255, 59, 16, 0.3);
+/* Form Elements */
+.form-section {
+  margin-bottom: 2rem;
 }
 
 .form-group {
@@ -93,6 +80,7 @@
   border-color: #ff3b10;
 }
 
+/* Buttons */
 .button-group {
   display: flex;
   gap: 0.75rem;
@@ -160,6 +148,7 @@
   width: 100%;
 }
 
+/* Messages */
 .error-message {
   color: #ff3b10;
   font-size: 0.875rem;
@@ -172,27 +161,7 @@
   margin-top: 0.5rem;
 }
 
-.actions-container {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.section-divider {
-  width: 100%;
-  height: 1px;
-  background-color: #eee;
-  margin: 2rem 0;
-}
-
-.section-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1.5rem;
-}
-
+/* Password Field */
 .password-input-wrapper {
   position: relative;
 }
@@ -216,22 +185,21 @@
   color: #ff3b10;
 }
 
-.menu-button-container {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  z-index: 100;
+/* Sign Out Button */
+.sign-out-button {
+  margin-top: 2rem;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .profile-card {
     padding: 1.5rem;
   }
 
   .profile-avatar {
-    width: 90px;
-    height: 90px;
-    font-size: 2.2rem;
+    width: 60px;
+    height: 60px;
+    font-size: 1.8rem;
   }
 
   .profile-title {

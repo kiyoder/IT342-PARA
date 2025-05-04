@@ -3,35 +3,21 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
-import "../../styles/Profile.css";
+import "../../styles/ProfileForm.css";
 
 const ProfileForm = () => {
   const { signOut } = useAuth();
   const [profile, setProfile] = useState(null);
-  const [editMode, setEditMode] = useState({
-    username: false,
-    password: false,
-  });
+  const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
-  const [loading, setLoading] = useState({
-    profile: true,
-    username: false,
-    password: false,
-  });
-  const [error, setError] = useState({
-    profile: "",
-    username: "",
-    password: "",
-  });
-  const [success, setSuccess] = useState({
-    username: "",
-    password: "",
-  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState({
     current: false,
     new: false,
@@ -97,10 +83,7 @@ const ProfileForm = () => {
             username: localUsername,
           }));
         } else {
-          setError((prev) => ({
-            ...prev,
-            profile: "Failed to load profile. Please try logging in again.",
-          }));
+          setError("Failed to load profile. Please try logging in again.");
 
           // If unauthorized, redirect to login
           if (err.response?.status === 401 || err.response?.status === 403) {
@@ -109,10 +92,7 @@ const ProfileForm = () => {
           }
         }
       } finally {
-        setLoading((prev) => ({
-          ...prev,
-          profile: false,
-        }));
+        setLoading(false);
       }
     };
 
@@ -136,25 +116,63 @@ const ProfileForm = () => {
     }));
   };
 
-  // Handle username update
-  const handleUpdateUsername = async () => {
+  // Handle profile update
+  const handleUpdateProfile = async () => {
     // Reset messages
-    setError((prev) => ({ ...prev, username: "" }));
-    setSuccess((prev) => ({ ...prev, username: "" }));
+    setError("");
+    setSuccess("");
 
     // Validate
     if (!formData.username.trim()) {
-      setError((prev) => ({ ...prev, username: "Username cannot be empty" }));
+      setError("Username cannot be empty");
       return;
     }
 
-    setLoading((prev) => ({ ...prev, username: true }));
+    // Validate password if changing
+    if (
+      formData.currentPassword ||
+      formData.newPassword ||
+      formData.confirmPassword
+    ) {
+      if (!formData.currentPassword) {
+        setError("Current password is required");
+        return;
+      }
+
+      if (!formData.newPassword) {
+        setError("New password is required");
+        return;
+      }
+
+      if (formData.newPassword.length < 6) {
+        setError("Password must be at least 6 characters");
+        return;
+      }
+
+      if (formData.newPassword !== formData.confirmPassword) {
+        setError("Passwords do not match");
+        return;
+      }
+    }
+
+    setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         window.location.href = "/login";
         return;
+      }
+
+      // Update profile data
+      const updateData = {
+        username: formData.username.trim(),
+      };
+
+      // Add password data if changing password
+      if (formData.currentPassword && formData.newPassword) {
+        updateData.currentPassword = formData.currentPassword;
+        updateData.newPassword = formData.newPassword;
       }
 
       const response = await fetch(
@@ -165,99 +183,20 @@ const ProfileForm = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            username: formData.username.trim(),
-          }),
+          body: JSON.stringify(updateData),
         }
       );
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || "Failed to update username");
+        const errorData = await response.json();
+        throw new Error(
+          errorData.error || `Failed to update profile: ${response.status}`
+        );
       }
 
       // Update local state
       setProfile((prev) => ({ ...prev, username: formData.username.trim() }));
-      setEditMode((prev) => ({ ...prev, username: false }));
       localStorage.setItem("username", formData.username.trim());
-      setSuccess((prev) => ({
-        ...prev,
-        username: "Username updated successfully",
-      }));
-    } catch (error) {
-      console.error("Update error:", error);
-      setError((prev) => ({ ...prev, username: error.message }));
-    } finally {
-      setLoading((prev) => ({ ...prev, username: false }));
-    }
-  };
-
-  // Handle password update
-  const handleUpdatePassword = async () => {
-    // Reset messages
-    setError((prev) => ({ ...prev, password: "" }));
-    setSuccess((prev) => ({ ...prev, password: "" }));
-
-    // Validate
-    if (!formData.currentPassword) {
-      setError((prev) => ({
-        ...prev,
-        password: "Current password is required",
-      }));
-      return;
-    }
-
-    if (!formData.newPassword) {
-      setError((prev) => ({ ...prev, password: "New password is required" }));
-      return;
-    }
-
-    if (formData.newPassword.length < 6) {
-      setError((prev) => ({
-        ...prev,
-        password: "Password must be at least 6 characters",
-      }));
-      return;
-    }
-
-    if (formData.newPassword !== formData.confirmPassword) {
-      setError((prev) => ({ ...prev, password: "Passwords do not match" }));
-      return;
-    }
-
-    setLoading((prev) => ({ ...prev, password: true }));
-
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        window.location.href = "/login";
-        return;
-      }
-
-      // This is a placeholder - you'll need to implement the actual password change endpoint
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/users/change-password`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            currentPassword: formData.currentPassword,
-            newPassword: formData.newPassword,
-          }),
-        }
-      );
-
-      // Since we don't have the actual endpoint, we'll simulate success
-      // In a real implementation, you would check the response
-      setSuccess((prev) => ({
-        ...prev,
-        password: "Password updated successfully",
-      }));
-      setEditMode((prev) => ({ ...prev, password: false }));
 
       // Clear password fields
       setFormData((prev) => ({
@@ -266,14 +205,14 @@ const ProfileForm = () => {
         newPassword: "",
         confirmPassword: "",
       }));
+
+      setEditMode(false);
+      setSuccess("Profile updated successfully");
     } catch (error) {
-      console.error("Password update error:", error);
-      setError((prev) => ({
-        ...prev,
-        password: "Failed to update password. Please try again.",
-      }));
+      console.error("Update error:", error);
+      setError(error.message || "Failed to update profile");
     } finally {
-      setLoading((prev) => ({ ...prev, password: false }));
+      setLoading(false);
     }
   };
 
@@ -285,7 +224,7 @@ const ProfileForm = () => {
     window.location.href = "/register";
   };
 
-  if (loading.profile && !profile) {
+  if (loading && !profile) {
     return (
       <div className="profile-card">
         <div className="profile-header">
@@ -306,106 +245,74 @@ const ProfileForm = () => {
         <p className="profile-subtitle">Manage your account information</p>
       </div>
 
-      <div>
-        {/* Email (read-only) */}
-        <div className="form-group">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            value={profile?.email || ""}
-            readOnly
-            className="form-input"
-          />
-        </div>
+      <div className="form-section">
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">{success}</p>}
 
-        {/* Username (editable) */}
-        <div className="form-group">
-          <label className="form-label">Username</label>
-          {editMode.username ? (
-            <>
+        {!editMode ? (
+          <>
+            {/* Read-only view */}
+            <div className="form-group">
+              <label className="form-label">Email</label>
               <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                className={`form-input ${
-                  editMode.username ? "input-editable" : ""
-                }`}
-                autoFocus
+                type="email"
+                value={profile?.email || ""}
+                readOnly
+                className="form-input"
               />
-              {error.username && (
-                <p className="error-message">{error.username}</p>
-              )}
-              {success.username && (
-                <p className="success-message">{success.username}</p>
-              )}
-              <div className="button-group">
-                <button
-                  onClick={handleUpdateUsername}
-                  disabled={loading.username}
-                  className="btn btn-primary"
-                >
-                  {loading.username ? "Saving..." : "Save"}
-                </button>
-                <button
-                  onClick={() => {
-                    setEditMode((prev) => ({ ...prev, username: false }));
-                    setFormData((prev) => ({
-                      ...prev,
-                      username: profile?.username || "",
-                    }));
-                    setError((prev) => ({ ...prev, username: "" }));
-                  }}
-                  className="btn btn-secondary"
-                >
-                  Cancel
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Username</label>
               <input
                 type="text"
                 value={profile?.username || "Not set"}
                 readOnly
                 className="form-input"
               />
-              <div className="button-group">
-                <button
-                  onClick={() =>
-                    setEditMode((prev) => ({ ...prev, username: true }))
-                  }
-                  className="btn btn-primary"
-                >
-                  Edit
-                </button>
-              </div>
-              {success.username && (
-                <p className="success-message">{success.username}</p>
-              )}
-            </>
-          )}
-        </div>
+            </div>
 
-        <div className="section-divider"></div>
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                value="••••••••"
+                readOnly
+                className="form-input"
+              />
+            </div>
 
-        {/* Password Change Section */}
-        <div className="section-title">Change Password</div>
-
-        {!editMode.password ? (
-          <div className="form-group">
             <button
-              onClick={() =>
-                setEditMode((prev) => ({ ...prev, password: true }))
-              }
+              onClick={() => setEditMode(true)}
               className="btn btn-primary"
             >
-              Change Password
+              Edit Profile
             </button>
-          </div>
+          </>
         ) : (
           <>
-            {/* Current Password */}
+            {/* Edit mode */}
+            <div className="form-group">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                value={profile?.email || ""}
+                readOnly
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Username</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="form-input input-editable"
+              />
+            </div>
+
             <div className="form-group">
               <label className="form-label">Current Password</label>
               <div className="password-input-wrapper">
@@ -415,6 +322,7 @@ const ProfileForm = () => {
                   value={formData.currentPassword}
                   onChange={handleChange}
                   className="form-input input-editable"
+                  placeholder="Enter current password to change"
                 />
                 <button
                   type="button"
@@ -426,7 +334,6 @@ const ProfileForm = () => {
               </div>
             </div>
 
-            {/* New Password */}
             <div className="form-group">
               <label className="form-label">New Password</label>
               <div className="password-input-wrapper">
@@ -436,6 +343,7 @@ const ProfileForm = () => {
                   value={formData.newPassword}
                   onChange={handleChange}
                   className="form-input input-editable"
+                  placeholder="Enter new password"
                 />
                 <button
                   type="button"
@@ -447,7 +355,6 @@ const ProfileForm = () => {
               </div>
             </div>
 
-            {/* Confirm New Password */}
             <div className="form-group">
               <label className="form-label">Confirm New Password</label>
               <div className="password-input-wrapper">
@@ -457,6 +364,7 @@ const ProfileForm = () => {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   className="form-input input-editable"
+                  placeholder="Confirm new password"
                 />
                 <button
                   type="button"
@@ -468,31 +376,25 @@ const ProfileForm = () => {
               </div>
             </div>
 
-            {error.password && (
-              <p className="error-message">{error.password}</p>
-            )}
-            {success.password && (
-              <p className="success-message">{success.password}</p>
-            )}
-
             <div className="button-group">
               <button
-                onClick={handleUpdatePassword}
-                disabled={loading.password}
+                onClick={handleUpdateProfile}
+                disabled={loading}
                 className="btn btn-primary"
               >
-                {loading.password ? "Updating..." : "Update Password"}
+                {loading ? "Saving..." : "Save Changes"}
               </button>
               <button
                 onClick={() => {
-                  setEditMode((prev) => ({ ...prev, password: false }));
+                  setEditMode(false);
                   setFormData((prev) => ({
                     ...prev,
+                    username: profile?.username || "",
                     currentPassword: "",
                     newPassword: "",
                     confirmPassword: "",
                   }));
-                  setError((prev) => ({ ...prev, password: "" }));
+                  setError("");
                 }}
                 className="btn btn-secondary"
               >
@@ -501,18 +403,15 @@ const ProfileForm = () => {
             </div>
           </>
         )}
+      </div>
 
-        <div className="section-divider"></div>
-
-        {/* Sign Out Button */}
-        <div className="actions-container">
-          <button
-            onClick={handleSignOut}
-            className="btn btn-danger btn-full-width"
-          >
-            Sign Out
-          </button>
-        </div>
+      <div className="sign-out-button">
+        <button
+          onClick={handleSignOut}
+          className="btn btn-danger btn-full-width"
+        >
+          Sign Out
+        </button>
       </div>
     </div>
   );

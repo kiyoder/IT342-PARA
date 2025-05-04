@@ -1,7 +1,7 @@
 "use client";
 import ProfileForm from "../components/auth/ProfileForm";
 import ProfileMenu from "../components/layout/ProfileMenu";
-import "../styles/Profile.css";
+import "../styles/ProfilePage.css";
 
 const Profile = () => {
   return (
