@@ -5,7 +5,7 @@
   z-index: 1000;
 }
 
-.profile-button {
+.profile-menu-button {
   width: 63px;
   height: 63px;
   background: none;
@@ -17,23 +17,23 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.profile-button:active {
+.profile-menu-button:active {
   transform: scale(0.95);
 }
 
-.profile-button.rotate {
+.profile-menu-button.rotate {
   animation: spin-clockwise 1s ease-in-out;
 }
 
-.profile-button.rotate-counter {
+.profile-menu-button.rotate-counter {
   animation: spin-counterclockwise 1s ease-in-out;
 }
 
-.profile-button:focus {
+.profile-menu-button:focus {
   outline: none;
 }
 
-.profile-button:focus-visible {
+.profile-menu-button:focus-visible {
   outline: 2px solid blue;
 }
 
@@ -112,13 +112,13 @@
   }
 }
 
-.profile-header {
+.profile-menu-header {
   padding: 16px;
   display: flex;
   align-items: center;
 }
 
-.profile-avatar {
+.profile-menu-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -126,13 +126,13 @@
   margin-right: 12px;
 }
 
-.profile-avatar img {
+.profile-menu-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.profile-name {
+.profile-menu-name {
   font-weight: 600;
   font-size: 16px;
 }
@@ -188,6 +188,6 @@
   }
 }
 
-.profile-button:not(.rotate):not(.rotate-counter):hover {
+.profile-menu-button:not(.rotate):not(.rotate-counter):hover {
   animation: pulse 1.5s infinite ease-in-out;
 }

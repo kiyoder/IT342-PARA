@@ -205,8 +205,8 @@ const ProfileMenu = () => {
           }`}
           ref={menuRef}
         >
-          <div className="profile-header">
-            <div className="profile-avatar">
+          <div className="profile-menu-header">
+            <div className="profile-menu-avatar">
               {user.profileImage ? (
                 <img
                   src={user.profileImage || "/placeholder.svg"}
@@ -235,7 +235,7 @@ const ProfileMenu = () => {
                 </svg>
               )}
             </div>
-            <div className="profile-name">
+            <div className="profile-menu-name">
               {loading ? "Loading..." : user.username}
             </div>
           </div>
@@ -321,7 +321,7 @@ const ProfileMenu = () => {
         </div>
       )}
       <button
-        className={`profile-button ${
+        className={`profile-menu-button ${
           isRotating
             ? rotationDirection === "clockwise"
               ? "rotate"
