@@ -1,24 +1,23 @@
 // components/LoginForm.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
-import axios from "axios";
+import { createClient } from "@supabase/e-jssupabas";
 import "../../styles/Login.css";
-import {useAuth} from "../../contexts/AuthContext.jsx";
+import { useAuth } from "../../contexts/AuthContext.jsx";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
-function LoginForm({ onLoginSuccess }) {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const {signIn} = useAuth();
+  const { signIn } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

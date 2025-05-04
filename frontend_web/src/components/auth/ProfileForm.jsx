@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
-import styles from "../../styles/Profile.css";
+import "../styles/Profile.css";
 
 const ProfileForm = () => {
   const { signOut } = useAuth();
@@ -145,53 +145,53 @@ const ProfileForm = () => {
 
   if (loading && !profile) {
     return (
-      <div className={styles.profileCard}>
-        <div className={styles.profileHeader}>
-          <h1 className={styles.profileTitle}>Loading profile...</h1>
+      <div className="profile-card">
+        <div className="profile-header">
+          <h1 className="profile-title">Loading profile...</h1>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.profileCard}>
-      <div className={styles.profileHeader}>
-        <div className={styles.profileAvatar}>
+    <div className="profile-card">
+      <div className="profile-header">
+        <div className="profile-avatar">
           {profile?.username?.charAt(0).toUpperCase() || "U"}
         </div>
-        <h1 className={styles.profileTitle}>Your Profile</h1>
-        {error && <p className={styles.errorMessage}>{error}</p>}
+        <h1 className="profile-title">Your Profile</h1>
+        {error && <p className="error-message">{error}</p>}
       </div>
 
       <div>
         {/* Email (read-only) */}
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Email</label>
+        <div className="form-group">
+          <label className="form-label">Email</label>
           <input
             type="email"
             value={profile?.email || ""}
             readOnly
-            className={styles.input}
+            className="form-input"
           />
         </div>
 
         {/* Username (editable) */}
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Username</label>
+        <div className="form-group">
+          <label className="form-label">Username</label>
           {editMode ? (
             <>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className={`${styles.input} ${styles.inputEditable}`}
+                className="form-input input-editable"
                 autoFocus
               />
-              <div className={styles.buttonGroup}>
+              <div className="button-group">
                 <button
                   onClick={handleUpdateProfile}
                   disabled={loading}
-                  className={`${styles.button} ${styles.primaryButton}`}
+                  className="btn btn-primary"
                 >
                   {loading ? "Saving..." : "Save"}
                 </button>
@@ -200,7 +200,7 @@ const ProfileForm = () => {
                     setEditMode(false);
                     setUsername(profile?.username || "");
                   }}
-                  className={`${styles.button} ${styles.secondaryButton}`}
+                  className="btn btn-secondary"
                 >
                   Cancel
                 </button>
@@ -212,12 +212,12 @@ const ProfileForm = () => {
                 type="text"
                 value={profile?.username || "Not set"}
                 readOnly
-                className={styles.input}
+                className="form-input"
               />
-              <div className={styles.buttonGroup}>
+              <div className="button-group">
                 <button
                   onClick={() => setEditMode(true)}
-                  className={`${styles.button} ${styles.primaryButton}`}
+                  className="btn btn-primary"
                 >
                   Edit
                 </button>
@@ -227,10 +227,10 @@ const ProfileForm = () => {
         </div>
 
         {/* Sign Out Button */}
-        <div className={styles.actionsContainer}>
+        <div className="actions-container">
           <button
             onClick={handleSignOut}
-            className={`${styles.button} ${styles.dangerButton} ${styles.fullWidth}`}
+            className="btn btn-danger btn-full-width"
           >
             Sign Out
           </button>
