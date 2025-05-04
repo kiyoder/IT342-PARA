@@ -405,7 +405,7 @@ const ProfileForm = () => {
         )}
       </div>
 
-      <div className="sign-out-button">
+      <div className="profile-sign-out-button">
         <button
           onClick={handleSignOut}
           className="profile-btn btn-danger btn-full-width"
