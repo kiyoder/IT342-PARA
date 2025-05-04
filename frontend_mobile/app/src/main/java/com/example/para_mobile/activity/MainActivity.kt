@@ -12,6 +12,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.para_mobile.R
@@ -119,6 +120,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .replace(R.id.fragment_container, HomeFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_home)
         }
+
+        /*val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)*/
+
+        // Enable the hamburger icon
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        val hamburgerButton = findViewById<ImageButton>(R.id.btnNavAccent)
+        hamburgerButton.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
 
         // Set up the navigation header with user info
         setupNavHeader()

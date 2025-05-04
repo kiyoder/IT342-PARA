@@ -1420,7 +1420,6 @@ color foreground_material_light
 color highlighted_text_material_dark
 color highlighted_text_material_light
 color ic_launcher_background
-color lavender
 color m3_appbar_overlay_color
 color m3_assist_chip_icon_tint_color
 color m3_assist_chip_stroke_color
@@ -2063,6 +2062,7 @@ color secondary_text_default_material_dark
 color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
 color secondary_text_disabled_material_light
+color splash_background
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
 color switch_thumb_material_dark
@@ -2992,6 +2992,7 @@ drawable ic_call_decline
 drawable ic_call_decline_low
 drawable ic_category
 drawable ic_chevron_right
+drawable ic_chevron_right_customorange
 drawable ic_circle_indicator
 drawable ic_clear
 drawable ic_clear_black_24
@@ -3113,6 +3114,7 @@ drawable mtrl_switch_track
 drawable mtrl_switch_track_decoration
 drawable mtrl_tabs_default_indicator
 drawable nav_about
+drawable nav_header_handle
 drawable nav_logout
 drawable nav_settings
 drawable nav_share
@@ -3154,6 +3156,10 @@ drawable tooltip_frame_light
 drawable twotone_navigation_black_48
 drawable zoom_in
 drawable zoom_out
+font bagel
+font moliga
+font outfit
+font quicksand
 id ALT
 id BOTTOM_END
 id BOTTOM_START
@@ -3265,6 +3271,7 @@ id btnBack
 id btnChangePassword
 id btnEditUsername
 id btnLogin
+id btnNavAccent
 id btnRegister
 id btnSaveProfile
 id btnViewProfile
@@ -3661,6 +3668,7 @@ id snapMargins
 id south
 id spacer
 id special_effects_controller_view_tag
+id splashContent
 id splashLogo
 id spline
 id split_action_bar
@@ -4268,6 +4276,8 @@ string mtrl_switch_track_path
 string mtrl_timepicker_cancel
 string mtrl_timepicker_confirm
 string my_location
+string navigation_drawer_close
+string navigation_drawer_open
 string navigation_menu
 string not_selected
 string offline

@@ -40,12 +40,13 @@
             </intent-filter>
         </activity>
 
+
         <!-- LoginActivity (No longer the launcher) -->
         <activity
             android:name=".activity.LoginActivity"
             android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize">
-            <!-- Removed intent-filter as it's now in SplashActivity -->
+
         </activity>
 
         <!-- MainActivity (Opened after login success) -->

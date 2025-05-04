@@ -36,7 +36,7 @@
                 android:text="Settings"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/lavender" />
+                android:textColor="@color/theme" />
 
             <!-- Divider -->
             <View
@@ -44,7 +44,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="16dp"
-                android:background="@color/lavender" />
+                android:background="@color/theme" />
 
             <!-- Setting Item 1 -->
             <LinearLayout
@@ -113,7 +113,7 @@
                     android:layout_height="24dp"
                     android:src="@android:drawable/ic_menu_info_details"
                     android:contentDescription="About"
-                    app:tint="@color/lavender" />
+                    app:tint="@color/theme" />
             </LinearLayout>
 
         </LinearLayout>

@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <!-- Linear Layout to Center Content -->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/splashContent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Logo Image -->
         <ImageView
             android:id="@+id/splashLogo"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:src="@drawable/ic_launcher_foreground"
-            android:contentDescription="PARA Logo" />
+            android:layout_marginBottom="16dp" /> <!-- Add margin for spacing -->
 
+        <!-- Title Text -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,15 +33,18 @@
             android:textSize="69sp"
             android:textStyle="bold"
             android:textColor="@color/theme"
-            android:layout_marginTop="16dp" />
+            android:fontFamily="@font/bagel"
+            android:layout_marginTop="-60dp" />
 
+        <!-- Subtitle Text -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="The Commute Companion"
             android:textSize="16sp"
             android:textColor="@color/theme"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="-15dp"
+            android:fontFamily="@font/bagel"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

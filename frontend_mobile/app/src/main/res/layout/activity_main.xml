@@ -46,6 +46,17 @@
                 <!-- Include the bottom sheet -->
                 <include layout="@layout/bottom_sheet_container" />
 
+                <ImageButton
+                    android:id="@+id/btnNavAccent"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="50dp"
+                    android:background="@drawable/nav_header_handle"
+                    android:scaleType="centerInside"
+                    android:padding="4dp"
+                    android:contentDescription="Open navigation drawer" />
+
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         </FrameLayout>
@@ -60,8 +71,8 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
-        app:itemIconTint="@color/lavender"
-        app:itemTextColor="@color/lavender"
+        app:itemIconTint="@color/theme"
+        app:itemTextColor="@color/theme"
         tools:ignore="MissingClass"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

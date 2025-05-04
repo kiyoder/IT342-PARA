@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="PARA-mobile.app">
         <option name="selectionMode" value="DIALOG" />
-        <DropdownSelection timestamp="2025-05-03T12:21:48.876127500Z">
+        <DropdownSelection timestamp="2025-05-03T16:09:29.571390600Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=R58MB5J222H" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=Q4XCGYOJMVB69TGU" />
             </handle>
           </Target>
         </DropdownSelection>

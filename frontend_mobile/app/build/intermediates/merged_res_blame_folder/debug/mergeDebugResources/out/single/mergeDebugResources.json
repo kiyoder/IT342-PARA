@@ -1,11 +1,19 @@
 [
     {
+        "merged": "com.example.para_mobile.app-debug-64:/layout_fragment_share.xml.flat",
+        "source": "com.example.para_mobile.app-main-66:/layout/fragment_share.xml"
+    },
+    {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_launcher_foreground.xml.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_launcher_foreground.xml"
     },
     {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_share.xml.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_share.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\font_outfit.ttf.flat",
+        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\font\\outfit.ttf"
     },
     {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_person.xml.flat",
@@ -84,10 +92,6 @@
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.para_mobile.app-debug-64:/drawable_ic_launcher_foreground_scaled.xml.flat",
-        "source": "com.example.para_mobile.app-main-66:/drawable/ic_launcher_foreground_scaled.xml"
-    },
-    {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_clear.xml.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_clear.xml"
     },
@@ -110,6 +114,10 @@
     {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_add.xml.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_add.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_nav_header_handle.xml.flat",
+        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\nav_header_handle.xml"
     },
     {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_route_code_background.xml.flat",
@@ -176,6 +184,14 @@
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\bottom_sheet.xml"
     },
     {
+        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\font_bagel.ttf.flat",
+        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\font\\bagel.ttf"
+    },
+    {
+        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\font_quicksand.ttf.flat",
+        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\font\\quicksand.ttf"
+    },
+    {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
@@ -236,10 +252,6 @@
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_delete.xml"
     },
     {
-        "merged": "com.example.para_mobile.app-debug-64:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.example.para_mobile.app-main-66:/mipmap-anydpi-v26/ic_launcher.xml"
-    },
-    {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_refresh.xml.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_refresh.xml"
     },
@@ -248,16 +260,16 @@
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_visibility_off.xml"
     },
     {
+        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-mdpi_ic_launcher_round.webp.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-mdpi\\ic_launcher_round.webp"
     },
     {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_nav_share.xml.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\nav_share.xml"
-    },
-    {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-hdpi_ic_launcher.webp.flat",
@@ -316,6 +328,10 @@
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\circle_background.xml"
     },
     {
+        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_launcher_foreground_scaled.xml.flat",
+        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_launcher_foreground_scaled.xml"
+    },
+    {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_rounded_button_background.xml.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\rounded_button_background.xml"
     },
@@ -368,6 +384,10 @@
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_favorite_filled.xml"
     },
     {
+        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_chevron_right_customorange.xml.flat",
+        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_chevron_right_customorange.xml"
+    },
+    {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_visibility.xml.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_visibility.xml"
     },
@@ -382,6 +402,10 @@
     {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_lock.xml.flat",
         "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_lock.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\font_moliga.otf.flat",
+        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\font\\moliga.otf"
     },
     {
         "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_fingerprint.xml.flat",

@@ -77,8 +77,6 @@
             android:name="com.example.para_mobile.activity.LoginActivity"
             android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" >
-
-            <!-- Removed intent-filter as it's now in SplashActivity -->
         </activity>
 
         <!-- MainActivity (Opened after login success) -->
