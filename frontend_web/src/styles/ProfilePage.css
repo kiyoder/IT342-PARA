@@ -4,6 +4,7 @@
   background: linear-gradient(135deg, #fff5f2 0%, #fff 100%);
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   padding: 2rem;
   position: relative;
