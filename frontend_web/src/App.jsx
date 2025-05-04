@@ -7,7 +7,7 @@ import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import SavedRoutes from "./pages/SavedRoutes";
 import GoogleCallback from "./components/auth/GoogleCallback";
-import PrivateRoute from "./components/PrivateRoute"; // Ensures routes are protected
+import PrivateRoute from "./components/auth/PrivateRoute";
 import { RouteProvider } from "./contexts/RouteContext";
 import { LocationProvider } from "./contexts/LocationContext";
 import Login from "./pages/Login";

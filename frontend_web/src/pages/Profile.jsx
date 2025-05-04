@@ -6,7 +6,7 @@ import "../styles/ProfilePage.css";
 const Profile = () => {
   return (
     <div className="profile-page-container">
-      <div className="profile-content">
+      <div className="profile-page-content">
         <ProfileForm />
       </div>
       <ProfileMenu />

@@ -239,8 +239,8 @@ const ProfileMenu = () => {
               {loading ? "Loading..." : user.username}
             </div>
           </div>
-          <div className="menu-divider"></div>
-          <ul className="menu-options">
+          <div className="menu-menu-divider"></div>
+          <ul className="menu-menu-options">
             <li onClick={handleHomePage}>
               <svg
                 width="24"

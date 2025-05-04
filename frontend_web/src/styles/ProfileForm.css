@@ -45,21 +45,21 @@
 }
 
 /* Form Elements */
-.form-section {
+.profile-form-section {
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
   width: 85%;
 }
 
-.form-group {
+.profile-form-group {
   margin-bottom: 1.5rem;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.form-label {
+.profile-form-label {
   display: block;
   font-size: 0.9rem;
   font-weight: 500;
@@ -67,7 +67,7 @@
   margin-bottom: 0.5rem;
 }
 
-.form-input {
+.profile-form-input {
   width: 75%;
   border: 2px solid #eee;
   border-radius: 12px;
@@ -76,26 +76,26 @@
   background-color: #f9f9f9;
 }
 
-.form-input:focus {
+.profile-form-input:focus {
   outline: none;
   border-color: #ff3b10;
   background-color: white;
   box-shadow: 0 0 0 3px rgba(255, 59, 16, 0.1);
 }
 
-.input-editable {
+.profile-input-editable {
   background-color: white;
   border-color: #ff3b10;
 }
 
 /* Buttons */
-.button-group {
+.profile-button-group {
   display: flex;
   gap: 0.75rem;
   margin-top: 0.75rem;
 }
 
-.btn {
+.profile-btn {
   padding: 0.9rem 1.5rem;
   border-radius: 12px;
   font-weight: 500;
@@ -105,77 +105,77 @@
   font-size: 0.9rem;
 }
 
-.btn-primary {
+.profile-btn-primary {
   background-color: #ff3b10;
   color: white;
 }
 
-.btn-primary:hover {
+.profile-btn-primary:hover {
   background-color: #e63000;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(255, 59, 16, 0.3);
 }
 
-.btn-primary:active {
+.profile-btn-primary:active {
   transform: translateY(0);
   box-shadow: 0 2px 5px rgba(255, 59, 16, 0.3);
 }
 
-.btn-secondary {
+.profile-btn-secondary {
   background-color: #f1f1f1;
   color: #333;
 }
 
-.btn-secondary:hover {
+.profile-btn-secondary:hover {
   background-color: #e5e5e5;
   transform: translateY(-2px);
 }
 
-.btn-secondary:active {
+.profile-btn-secondary:active {
   transform: translateY(0);
 }
 
-.btn-danger {
+.profile-btn-danger {
   background-color: #ff3b10;
   color: white;
   opacity: 0.9;
 }
 
-.btn-danger:hover {
+.profile-btn-danger:hover {
   opacity: 1;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(255, 59, 16, 0.3);
 }
 
-.btn-danger:active {
+.profile-btn-danger:active {
   transform: translateY(0);
   box-shadow: 0 2px 5px rgba(255, 59, 16, 0.3);
 }
 
-.btn-full-width {
+.profile-btn-full-width {
   width: 100%;
 }
 
 /* Messages */
-.error-message {
+.profile-error-message {
   color: #ff3b10;
   font-size: 0.875rem;
   margin-top: 0.5rem;
 }
 
-.success-message {
+.profile-success-message {
   color: #10b981;
   font-size: 0.875rem;
   margin-top: 0.5rem;
 }
 
 /* Password Field */
-.password-input-wrapper {
+.profile-password-input-wrapper {
   position: relative;
   width: 100%;
 }
 
-.password-toggle-btn {
+.profile-password-toggle-btn {
   position: absolute;
   right: 12px;
   top: 50%;
@@ -190,12 +190,12 @@
   justify-content: center;
 }
 
-.password-toggle-btn:hover {
+.profile-password-toggle-btn:hover {
   color: #ff3b10;
 }
 
 /* Sign Out Button */
-.sign-out-button {
+.profile-sign-out-button {
   margin-top: 2rem;
   width: 100%;
 }

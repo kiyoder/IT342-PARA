@@ -245,46 +245,46 @@ const ProfileForm = () => {
         <p className="profile-subtitle">Manage your account information</p>
       </div>
 
-      <div className="form-section">
+      <div className="profile-form-section">
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">{success}</p>}
 
         {!editMode ? (
           <>
             {/* Read-only view */}
-            <div className="form-group">
-              <label className="form-label">Email</label>
+            <div className="profile-form-group">
+              <label className="profile-form-label">Email</label>
               <input
                 type="email"
                 value={profile?.email || ""}
                 readOnly
-                className="form-input"
+                className="profile-form-input"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Username</label>
+            <div className="profile-form-group">
+              <label className="profile-form-label">Username</label>
               <input
                 type="text"
                 value={profile?.username || "Not set"}
                 readOnly
-                className="form-input"
+                className="profile-form-input"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Password</label>
+            <div className="profile-form-group">
+              <label className="profile-form-label">Password</label>
               <input
                 type="password"
                 value="••••••••"
                 readOnly
-                className="form-input"
+                className="profile-form-input"
               />
             </div>
 
             <button
               onClick={() => setEditMode(true)}
-              className="btn btn-primary"
+              className="profile-btn btn-primary"
             >
               Edit Profile
             </button>
@@ -292,41 +292,41 @@ const ProfileForm = () => {
         ) : (
           <>
             {/* Edit mode */}
-            <div className="form-group">
-              <label className="form-label">Email</label>
+            <div className="profile-form-group">
+              <label className="profile-form-label">Email</label>
               <input
                 type="email"
                 value={profile?.email || ""}
                 readOnly
-                className="form-input"
+                className="profile-form-input"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Username</label>
+            <div className="profile-form-group">
+              <label className="profile-form-label">Username</label>
               <input
                 type="text"
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
-                className="form-input input-editable"
+                className="profile-form-input input-editable"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Current Password</label>
-              <div className="password-input-wrapper">
+            <div className="profile-form-group">
+              <label className="profile-form-label">Current Password</label>
+              <div className="profile-password-input-wrapper">
                 <input
                   type={showPassword.current ? "text" : "password"}
                   name="currentPassword"
                   value={formData.currentPassword}
                   onChange={handleChange}
-                  className="form-input input-editable"
+                  className="profile-form-input input-editable"
                   placeholder="Enter current password to change"
                 />
                 <button
                   type="button"
-                  className="password-toggle-btn"
+                  className="profile-password-toggle-btn"
                   onClick={() => togglePasswordVisibility("current")}
                 >
                   {showPassword.current ? "Hide" : "Show"}
@@ -334,20 +334,20 @@ const ProfileForm = () => {
               </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">New Password</label>
-              <div className="password-input-wrapper">
+            <div className="profile-form-group">
+              <label className="profile-form-label">New Password</label>
+              <div className="profile-password-input-wrapper">
                 <input
                   type={showPassword.new ? "text" : "password"}
                   name="newPassword"
                   value={formData.newPassword}
                   onChange={handleChange}
-                  className="form-input input-editable"
+                  className="profile-form-input input-editable"
                   placeholder="Enter new password"
                 />
                 <button
                   type="button"
-                  className="password-toggle-btn"
+                  className="profile-password-toggle-btn"
                   onClick={() => togglePasswordVisibility("new")}
                 >
                   {showPassword.new ? "Hide" : "Show"}
@@ -355,20 +355,20 @@ const ProfileForm = () => {
               </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Confirm New Password</label>
-              <div className="password-input-wrapper">
+            <div className="profile-form-group">
+              <label className="profile-form-label">Confirm New Password</label>
+              <div className="profile-password-input-wrapper">
                 <input
                   type={showPassword.confirm ? "text" : "password"}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="form-input input-editable"
+                  className="profile-form-input input-editable"
                   placeholder="Confirm new password"
                 />
                 <button
                   type="button"
-                  className="password-toggle-btn"
+                  className="profile-password-toggle-btn"
                   onClick={() => togglePasswordVisibility("confirm")}
                 >
                   {showPassword.confirm ? "Hide" : "Show"}
@@ -380,7 +380,7 @@ const ProfileForm = () => {
               <button
                 onClick={handleUpdateProfile}
                 disabled={loading}
-                className="btn btn-primary"
+                className="profile-btn btn-primary"
               >
                 {loading ? "Saving..." : "Save Changes"}
               </button>
@@ -396,7 +396,7 @@ const ProfileForm = () => {
                   }));
                   setError("");
                 }}
-                className="btn btn-secondary"
+                className="profile-btn btn-secondary"
               >
                 Cancel
               </button>
@@ -408,7 +408,7 @@ const ProfileForm = () => {
       <div className="sign-out-button">
         <button
           onClick={handleSignOut}
-          className="btn btn-danger btn-full-width"
+          className="profile-btn btn-danger btn-full-width"
         >
           Sign Out
         </button>
