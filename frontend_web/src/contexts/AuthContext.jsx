@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { authService } from "../services/AuthService.jsx";
-import userService from "../services/supabaseService.jsx";
+import { authService } from "../services/auth/AuthService.jsx";
+import userService from "../services/auth/supabaseService.jsx";
 
 const AuthContext = createContext();
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
