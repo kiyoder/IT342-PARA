@@ -5,6 +5,7 @@
   width: 100vw;
   max-width: 100%;
   background-color: #f8f9fa;
+  overflow: hidden;
 }
 
 .saved-routes-content {
