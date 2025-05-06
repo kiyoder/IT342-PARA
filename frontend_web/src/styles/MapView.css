@@ -21,7 +21,37 @@
   z-index: 1000 !important;
 }
 
-/* Custom marker styles */
+/* Custom SVG markers */
+.custom-marker {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  z-index: 1000;
+}
+
+.custom-marker svg {
+  position: absolute;
+  top: -30px;
+  left: -15px;
+  width: 30px;
+  height: 30px;
+}
+
+.initial-marker svg,
+.final-marker svg,
+.selected-marker svg {
+  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.3));
+  transform-origin: center bottom;
+  transition: transform 0.3s ease;
+}
+
+.initial-marker svg:hover,
+.final-marker svg:hover,
+.selected-marker svg:hover {
+  transform: scale(1.2);
+}
+
+/* Legacy marker styles - keeping for backward compatibility */
 .marker-pin {
   width: 30px;
   height: 30px;
