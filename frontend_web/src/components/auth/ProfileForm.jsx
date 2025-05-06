@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
-import { Eye, EyeOff } from "lucide-react";
 import "../../styles/ProfileForm.css";
 
 const ProfileForm = () => {
@@ -19,11 +18,7 @@ const ProfileForm = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [showPassword, setShowPassword] = useState({
-    current: false,
-    new: false,
-    confirm: false,
-  });
+  const [showPassword, setShowPassword] = useState(false);
 
   // Fetch profile data from Spring Boot backend
   useEffect(() => {
@@ -110,11 +105,8 @@ const ProfileForm = () => {
   };
 
   // Toggle password visibility
-  const togglePasswordVisibility = (field) => {
-    setShowPassword((prev) => ({
-      ...prev,
-      [field]: !prev[field],
-    }));
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   // Handle profile update
@@ -316,89 +308,51 @@ const ProfileForm = () => {
 
             <div className="profile-form-group">
               <label className="profile-form-label">Current Password</label>
-              <div className="profile-password-input-wrapper">
-                <input
-                  type={showPassword.current ? "text" : "password"}
-                  name="currentPassword"
-                  value={formData.currentPassword}
-                  onChange={handleChange}
-                  className="profile-form-input input-editable"
-                  placeholder="Enter current password to change"
-                />
-                <button
-                  type="button"
-                  className="profile-password-toggle-btn"
-                  onClick={() => togglePasswordVisibility("current")}
-                  aria-label={
-                    showPassword.current ? "Hide password" : "Show password"
-                  }
-                >
-                  {showPassword.current ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </button>
-              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="currentPassword"
+                value={formData.currentPassword}
+                onChange={handleChange}
+                className="profile-form-input input-editable"
+                placeholder="Enter current password to change"
+              />
             </div>
 
             <div className="profile-form-group">
               <label className="profile-form-label">New Password</label>
-              <div className="profile-password-input-wrapper">
-                <input
-                  type={showPassword.new ? "text" : "password"}
-                  name="newPassword"
-                  value={formData.newPassword}
-                  onChange={handleChange}
-                  className="profile-form-input input-editable"
-                  placeholder="Enter new password"
-                />
-                <button
-                  type="button"
-                  className="profile-password-toggle-btn"
-                  onClick={() => togglePasswordVisibility("new")}
-                  aria-label={
-                    showPassword.new ? "Hide password" : "Show password"
-                  }
-                >
-                  {showPassword.new ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </button>
-              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="newPassword"
+                value={formData.newPassword}
+                onChange={handleChange}
+                className="profile-form-input input-editable"
+                placeholder="Enter new password"
+              />
             </div>
 
             <div className="profile-form-group">
               <label className="profile-form-label">Confirm New Password</label>
-              <div className="profile-password-input-wrapper">
-                <input
-                  type={showPassword.confirm ? "text" : "password"}
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="profile-form-input input-editable"
-                  placeholder="Confirm new password"
-                />
-                <button
-                  type="button"
-                  className="profile-password-toggle-btn"
-                  onClick={() => togglePasswordVisibility("confirm")}
-                  aria-label={
-                    showPassword.confirm ? "Hide password" : "Show password"
-                  }
-                >
-                  {showPassword.confirm ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </button>
-              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="profile-form-input input-editable"
+                placeholder="Confirm new password"
+              />
             </div>
 
-            <div className="button-group">
+            <div className="profile-show-password">
+              <input
+                type="checkbox"
+                className="profile-checkbox"
+                checked={showPassword}
+                onChange={togglePasswordVisibility}
+              />
+              <label>Show Password</label>
+            </div>
+
+            <div className="profile-button-group">
               <button
                 onClick={handleUpdateProfile}
                 disabled={loading}

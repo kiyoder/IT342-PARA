@@ -88,6 +88,25 @@
   border-color: #ff3b10;
 }
 
+/* Show Password Checkbox */
+.profile-show-password {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #ff3b10;
+}
+
+.profile-show-password label {
+  font-size: 0.875rem;
+  color: #333;
+}
+
 /* Buttons */
 .profile-button-group {
   display: flex;
