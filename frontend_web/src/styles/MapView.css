@@ -45,7 +45,7 @@
   transform-origin: center bottom;
   transition: transform 0.3s ease;
   /* Adjust the bottom point to align with the actual location */
-  transform: translate(0, -15px);
+  transform: translate(-5px, -5px);
 }
 
 .initial-marker svg:hover,
