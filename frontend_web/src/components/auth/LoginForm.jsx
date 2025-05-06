@@ -58,7 +58,7 @@ function LoginForm() {
 
   return (
     <>
-      <h2 className="form-title">Log in to your account</h2>
+      <h2 className="form-title">Sign in</h2>
       {error && <div className="error-message">{error}</div>}
 
       <form onSubmit={handleSubmit} className="login-form">

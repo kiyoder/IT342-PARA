@@ -97,7 +97,7 @@ function RegisterForm({ onRegisterSuccess }) {
 
   return (
     <>
-      <h2 className="form-title">Create an account</h2>
+      <h2 className="form-title">Sign up</h2>
       {error && <div className="error-message">{error}</div>}
 
       <form onSubmit={handleSubmit} className="register-form">
