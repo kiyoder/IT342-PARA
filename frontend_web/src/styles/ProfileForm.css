@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Bagel";
+  src: url("../assets/font/bagel.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Profile Card */
 .profile-card {
   width: 100%;
@@ -33,6 +41,7 @@
 }
 
 .profile-title {
+  font-family: "Bagel", sans-serif;
   color: #ff3b10;
   font-size: 2rem;
   font-weight: 600;
