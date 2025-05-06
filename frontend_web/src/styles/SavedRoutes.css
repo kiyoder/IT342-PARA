@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Bagel";
+  src: url("../assets/font/bagel.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 .saved-routes-container {
   display: flex;
   flex-direction: column;
@@ -20,9 +28,10 @@
 }
 
 .saved-routes-title {
+  font-family: "Bagel", sans-serif;
   font-size: 2rem;
   font-weight: 600;
-  color: #333;
+  color: #ff3b10;
   margin: 1rem 0 2.5rem; /* Increased bottom margin */
   text-align: center;
   width: 100%;
