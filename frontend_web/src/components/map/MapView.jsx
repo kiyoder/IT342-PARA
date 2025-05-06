@@ -10,6 +10,7 @@ import ConfirmationModal from "../location/ConfirmationModal";
 import JeepneyRoute from "./JeepneyRoute";
 import UserLocationMarker from "./UserLocationMarker";
 import { Crosshair } from "lucide-react";
+import React from "react";
 
 const MapView = ({ disableAutoSearch = false }) => {
   const mapContainerRef = useRef(null);
@@ -95,9 +96,11 @@ const MapView = ({ disableAutoSearch = false }) => {
       !finalMarkerRef.current &&
       !selectedMarkerRef.current
     ) {
+      // Use easeTo instead of flyTo for smoother transitions
       mapRef.current.easeTo({
         center: [userPosition.longitude, userPosition.latitude],
         duration: 500,
+        easing: (t) => t, // Linear easing for smoother movement
       });
     }
   }, [userPosition, mapLoaded, followUserLocation]);
@@ -397,4 +400,6 @@ const MapView = ({ disableAutoSearch = false }) => {
   );
 };
 
-export default MapView;
+// Ensure we're using React.memo to prevent unnecessary re-renders
+// Add this at the end of the file, replacing the existing export
+export default React.memo(MapView);

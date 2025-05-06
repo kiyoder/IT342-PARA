@@ -107,11 +107,12 @@
   transform: rotate(-45deg) scale(1.2);
 }
 
-/* User marker wrapper */
+/* Fix the user marker wrapper and heading indicator styles */
 .user-marker-wrapper {
   position: relative;
   width: 24px;
   height: 24px;
+  z-index: 1000;
 }
 
 /* New circular user location dot */
@@ -129,18 +130,18 @@
   animation: pulse-dot 1.5s infinite;
 }
 
-/* Heading indicator */
+/* Heading indicator - fixed to rotate around the dot */
 .user-heading-indicator {
   position: absolute;
   width: 0;
   height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 16px solid #ff5733; /* Orange color */
-  top: -12px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 12px solid #ff5733; /* Orange color */
   left: 50%;
-  transform: translateX(-50%);
-  transform-origin: center bottom;
+  top: -8px;
+  transform-origin: center 20px; /* This is the key change - set origin to center of the dot */
+  transform: translateX(-50%); /* Initial position */
   z-index: 999;
 }
 

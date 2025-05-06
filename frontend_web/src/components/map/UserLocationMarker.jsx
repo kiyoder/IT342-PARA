@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "../../contexts/LocationContext";
 import mapboxgl from "mapbox-gl";
 
 const UserLocationMarker = ({ map }) => {
   const markerRef = useRef(null);
   const { userPosition, userHeading } = useLocation();
-  const [isInitialized, setIsInitialized] = useState(false);
+  const lastPositionRef = useRef(userPosition);
 
   // Create a custom HTML marker element with heading indicator
   const createUserMarkerElement = () => {
@@ -29,7 +29,16 @@ const UserLocationMarker = ({ map }) => {
 
   // Initialize and update the user marker
   useEffect(() => {
-    if (!map.current || !userPosition) return;
+    if (!map.current) return;
+
+    // Store the last valid position to prevent losing the marker
+    if (userPosition) {
+      lastPositionRef.current = userPosition;
+    }
+
+    // Use the last known position if current position is unavailable
+    const position = userPosition || lastPositionRef.current;
+    if (!position) return;
 
     // If marker doesn't exist yet, create it
     if (!markerRef.current) {
@@ -38,16 +47,11 @@ const UserLocationMarker = ({ map }) => {
         element: el,
         rotationAlignment: "map",
       })
-        .setLngLat([userPosition.longitude, userPosition.latitude])
+        .setLngLat([position.longitude, position.latitude])
         .addTo(map.current);
-
-      setIsInitialized(true);
     } else {
       // Just update the marker position without recreating it
-      markerRef.current.setLngLat([
-        userPosition.longitude,
-        userPosition.latitude,
-      ]);
+      markerRef.current.setLngLat([position.longitude, position.latitude]);
     }
 
     // Update the heading indicator rotation if available

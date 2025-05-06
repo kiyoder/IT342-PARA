@@ -89,7 +89,7 @@ export function LocationProvider({ children }) {
     }
   };
 
-  // Function to start watching user position
+  // Update the watchPosition function to handle position updates more gracefully
   const startWatchingPosition = () => {
     if (!navigator.geolocation) {
       console.error("Geolocation is not supported by your browser.");
@@ -99,7 +99,7 @@ export function LocationProvider({ children }) {
     // Clear any existing watchers
     stopWatchingPosition();
 
-    // Start watching position
+    // Start watching position with better error handling
     watchIdRef.current = navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
@@ -122,11 +122,12 @@ export function LocationProvider({ children }) {
       },
       (error) => {
         console.error("Error watching position:", error);
+        // Don't clear the user position on error - keep the last known position
       },
       {
         enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
+        timeout: 30000, // Increased timeout
+        maximumAge: 5000, // Allow slightly older positions
       }
     );
   };
