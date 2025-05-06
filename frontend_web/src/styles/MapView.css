@@ -77,33 +77,29 @@
 
 /* New circular user location dot */
 .user-location-dot {
-  position: relative; /* make it the positioning parent */
-  z-index: 1000;
-}
-
-/* the expanding ring */
-.user-location-dot::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px; /* same as the dot */
-  height: 20px; /* same as the dot */
+  width: 20px;
+  height: 20px;
+  background: #ff5733;
   border: 3px solid #ff5733;
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-  animation: pulse-ring 1.5s infinite ease-out;
+  border-radius: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 rgba(66, 133, 244, 0.4);
+  animation: pulse-dot 1.5s infinite;
 }
 
-@keyframes pulse-ring {
+/* Pulsing animation for the user location dot */
+@keyframes pulse-dot {
   0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
+    box-shadow: 0 0 0 0 #ff5733;
+  }
+  70% {
+    box-shadow: 0 0 20px 50px #4285f400;
   }
   100% {
-    transform: translate(-50%, -50%) scale(4); /* grow 4× */
-    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(66, 133, 244, 0);
   }
 }
 
