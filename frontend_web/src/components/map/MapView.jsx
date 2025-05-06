@@ -16,7 +16,6 @@ const MapView = ({ disableAutoSearch = false }) => {
   const finalMarkerRef = useRef(null);
   const selectedMarkerRef = useRef(null);
   const userMarkerRef = useRef(null);
-  const [userPosition, setUserPosition] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const directRouteLayerId = useRef("direct-route");
   const directRouteAdded = useRef(false);
@@ -32,29 +31,12 @@ const MapView = ({ disableAutoSearch = false }) => {
     selectedLocations,
     showConfirmationModal,
     setShowConfirmationModal,
+    userPosition,
   } = useLocation();
 
   // Set your Mapbox access token
   mapboxgl.accessToken =
     "pk.eyJ1IjoianJsbGVqYW5lIiwiYSI6ImNtOTB0bHB2bjBweGkya3B2MjR2cm8wazEifQ.NYwhCjeEnhl8Obo6_g-ojQ";
-
-  // Get user's current position
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserPosition({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        },
-        (error) => {
-          console.error("Error getting user position:", error);
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-      );
-    }
-  }, []);
 
   // Initialize the map
   useEffect(() => {
@@ -107,7 +89,7 @@ const MapView = ({ disableAutoSearch = false }) => {
     return el;
   };
 
-  // Add user location marker when available
+  // Add user location marker when available and update it when position changes
   useEffect(() => {
     if (!mapRef.current || !userPosition || !mapLoaded) return;
 

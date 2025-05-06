@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 "use client";
 
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect, useRef } from "react";
 
 // Create a context for location data
 const LocationContext = createContext();
@@ -22,7 +22,7 @@ async function reverseGeocode(lat, lon) {
   return data.display_name;
 }
 
-// Create a provider component
+// Add userPosition state and watchId ref to the LocationProvider component
 export function LocationProvider({ children }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [initialLocation, setInitialLocation] = useState("");
@@ -30,6 +30,8 @@ export function LocationProvider({ children }) {
   const [initialFocused, setInitialFocused] = useState(false);
   const [finalFocused, setFinalFocused] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [userPosition, setUserPosition] = useState(null);
+  const watchIdRef = useRef(null);
 
   // Store selected location coordinates for mapping
   const [selectedLocations, setSelectedLocations] = useState({
@@ -40,6 +42,51 @@ export function LocationProvider({ children }) {
   // Store locations for map pins
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [pinnedLocation, setPinnedLocation] = useState(null);
+
+  // Start watching user position when component mounts
+  useEffect(() => {
+    startWatchingPosition();
+
+    // Clean up when component unmounts
+    return () => {
+      stopWatchingPosition();
+    };
+  }, []);
+
+  // Function to start watching user position
+  const startWatchingPosition = () => {
+    if (!navigator.geolocation) {
+      console.error("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    // Clear any existing watchers
+    stopWatchingPosition();
+
+    // Start watching position
+    watchIdRef.current = navigator.geolocation.watchPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserPosition({ latitude, longitude });
+      },
+      (error) => {
+        console.error("Error watching position:", error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      }
+    );
+  };
+
+  // Function to stop watching user position
+  const stopWatchingPosition = () => {
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current);
+      watchIdRef.current = null;
+    }
+  };
 
   // Update search query based on focus and input values
   useEffect(() => {
@@ -68,39 +115,32 @@ export function LocationProvider({ children }) {
 
   // Set current location as source, with reverse geocode
   const setCurrentLocationAsSource = () => {
-    if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
+    if (!userPosition) {
+      alert(
+        "Your location is not available yet. Please try again in a moment."
+      );
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        let locationName;
-        try {
-          locationName = await reverseGeocode(latitude, longitude);
-        } catch (error) {
-          console.error("Error reverse geocoding:", error);
-          locationName = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
-        }
+    const { latitude, longitude } = userPosition;
+    (async () => {
+      let locationName;
+      try {
+        locationName = await reverseGeocode(latitude, longitude);
+      } catch (error) {
+        console.error("Error reverse geocoding:", error);
+        locationName = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+      }
 
-        // update based on focus
-        if (initialFocused)
-          updateInitialLocation(locationName, { latitude, longitude });
-        else if (finalFocused)
-          updateFinalDestination(locationName, { latitude, longitude });
-        else updateInitialLocation(locationName, { latitude, longitude });
+      // update based on focus
+      if (initialFocused)
+        updateInitialLocation(locationName, { latitude, longitude });
+      else if (finalFocused)
+        updateFinalDestination(locationName, { latitude, longitude });
+      else updateInitialLocation(locationName, { latitude, longitude });
 
-        setSelectedLocation({ latitude, longitude, name: locationName });
-      },
-      (error) => {
-        console.error("Error getting current location:", error);
-        alert(
-          "Unable to get your current location. Please check your browser permissions."
-        );
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    );
+      setSelectedLocation({ latitude, longitude, name: locationName });
+    })();
   };
 
   // Focus handlers
@@ -140,6 +180,7 @@ export function LocationProvider({ children }) {
         selectedLocation,
         pinnedLocation,
         showConfirmationModal,
+        userPosition,
 
         // setters
         setSearchQuery,
@@ -156,6 +197,8 @@ export function LocationProvider({ children }) {
         handleFinalFocus,
         handleFinalBlur,
         swapLocations,
+        startWatchingPosition,
+        stopWatchingPosition,
 
         // utils
         reverseGeocode,
