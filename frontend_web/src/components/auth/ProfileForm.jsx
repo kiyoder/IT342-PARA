@@ -277,7 +277,7 @@ const ProfileForm = () => {
 
             <button
               onClick={() => setEditMode(true)}
-              className="profile-btn btn-primary"
+              className="profile-btn profile-btn-primary profile-btn-full-width"
             >
               Edit Profile
             </button>
@@ -352,11 +352,11 @@ const ProfileForm = () => {
               <label>Show Password</label>
             </div>
 
-            <div className="profile-button-group">
+            <div className="profile-button-row">
               <button
                 onClick={handleUpdateProfile}
                 disabled={loading}
-                className="profile-btn btn-primary"
+                className="profile-btn profile-btn-success profile-btn-half-width"
               >
                 {loading ? "Saving..." : "Save Changes"}
               </button>
@@ -372,7 +372,7 @@ const ProfileForm = () => {
                   }));
                   setError("");
                 }}
-                className="profile-btn btn-secondary"
+                className="profile-btn profile-btn-danger profile-btn-half-width"
               >
                 Cancel
               </button>
@@ -384,7 +384,7 @@ const ProfileForm = () => {
       <div className="profile-sign-out-button">
         <button
           onClick={handleSignOut}
-          className="profile-btn-danger btn-full-width"
+          className="profile-btn profile-btn-danger profile-btn-full-width"
         >
           Sign Out
         </button>
