@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
+import { Eye, EyeOff } from "lucide-react";
 import "../../styles/ProfileForm.css";
 
 const ProfileForm = () => {
@@ -328,8 +329,15 @@ const ProfileForm = () => {
                   type="button"
                   className="profile-password-toggle-btn"
                   onClick={() => togglePasswordVisibility("current")}
+                  aria-label={
+                    showPassword.current ? "Hide password" : "Show password"
+                  }
                 >
-                  {showPassword.current ? "Hide" : "Show"}
+                  {showPassword.current ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </button>
               </div>
             </div>
@@ -349,8 +357,15 @@ const ProfileForm = () => {
                   type="button"
                   className="profile-password-toggle-btn"
                   onClick={() => togglePasswordVisibility("new")}
+                  aria-label={
+                    showPassword.new ? "Hide password" : "Show password"
+                  }
                 >
-                  {showPassword.new ? "Hide" : "Show"}
+                  {showPassword.new ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </button>
               </div>
             </div>
@@ -370,8 +385,15 @@ const ProfileForm = () => {
                   type="button"
                   className="profile-password-toggle-btn"
                   onClick={() => togglePasswordVisibility("confirm")}
+                  aria-label={
+                    showPassword.confirm ? "Hide password" : "Show password"
+                  }
                 >
-                  {showPassword.confirm ? "Hide" : "Show"}
+                  {showPassword.confirm ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </button>
               </div>
             </div>
