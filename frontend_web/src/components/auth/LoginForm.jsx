@@ -99,10 +99,12 @@ function LoginForm() {
         </button>
 
         <div className="account-options">
-          <span>Don't have an account?</span>
-          <Link to="/register" className="register-link">
-            Register
-          </Link>
+          <span>
+            Don't have an account?
+            <Link to="/register" className="register-link">
+              Register
+            </Link>
+          </span>
         </div>
 
         <div className="divider">

@@ -160,10 +160,12 @@ function RegisterForm({ onRegisterSuccess }) {
         </button>
 
         <div className="account-options">
-          <span>Already have an account?</span>
-          <Link to="/login" className="login-link">
-            Log in
-          </Link>
+          <span>
+            Already have an account?
+            <Link to="/login" className="login-link">
+              Log in
+            </Link>
+          </span>
         </div>
 
         <div className="divider">
