@@ -104,20 +104,13 @@ const MapView = ({ disableAutoSearch = false }) => {
     if (markerType === "initial") {
       el.innerHTML = `
         <div class="custom-marker initial-marker">
-          <svg width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clipPath="url(#clip0_initial)">
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M15 8.61335C15 9.82975 13.8813 10.815 12.5 10.815C11.1188 10.815 10 9.82975 10 8.61335C10 7.39694 11.1188 6.4117 12.5 6.4117C13.8813 6.4117 15 7.39694 15 8.61335ZM12.5 19.3802C12.5 19.3802 6.25 11.6745 6.25 8.372C6.25 5.33704 9.05375 2.8679 12.5 2.8679C15.9462 2.8679 18.75 5.33704 18.75 8.372C18.75 11.6745 12.5 19.3802 12.5 19.3802ZM12.5 0.66626C7.6675 0.66626 3.75 4.11623 3.75 8.372C3.75 12.6278 12.5 22.6827 12.5 22.6827C12.5 22.6827 21.25 12.6278 21.25 8.372C21.25 4.11623 17.3325 0.66626 12.5 0.66626Z"
-                fill="#FF3B10"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_initial">
-                <rect width="30" height="30" fill="white" transform="translate(0 0.147705)" />
-              </clipPath>
-            </defs>
+          <svg width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M12.5 8.61335C12.5 9.82975 11.3813 10.815 10 10.815C8.61875 10.815 7.5 9.82975 7.5 8.61335C7.5 7.39694 8.61875 6.4117 10 6.4117C11.3813 6.4117 12.5 7.39694 12.5 8.61335ZM10 19.3802C10 19.3802 3.75 11.6745 3.75 8.372C3.75 5.33704 6.55375 2.8679 10 2.8679C13.4462 2.8679 16.25 5.33704 16.25 8.372C16.25 11.6745 10 19.3802 10 19.3802ZM10 0.66626C5.1675 0.66626 1.25 4.11623 1.25 8.372C1.25 12.6278 10 22.6827 10 22.6827C10 22.6827 18.75 12.6278 18.75 8.372C18.75 4.11623 14.8325 0.66626 10 0.66626Z"
+              fill="#FF3B10"
+            />
           </svg>
         </div>
       `;
@@ -128,20 +121,13 @@ const MapView = ({ disableAutoSearch = false }) => {
     if (markerType === "final") {
       el.innerHTML = `
         <div class="custom-marker final-marker">
-          <svg width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clipPath="url(#clip0_final)">
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M12.5 10.2964C11.1188 10.2964 10 9.3112 10 8.09479C10 6.87838 11.1188 5.89315 12.5 5.89315C13.8813 5.89315 15 6.87838 15 8.09479C15 9.3112 13.8813 10.2964 12.5 10.2964ZM12.5 0.147705C7.6675 0.147705 3.75 3.59768 3.75 7.85345C3.75 12.1092 12.5 22.1641 12.5 22.1641C12.5 22.1641 21.25 12.1092 21.25 7.85345C21.25 3.59768 17.3325 0.147705 12.5 0.147705Z"
-                fill="#FF3B10"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_final">
-                <rect width="30" height="30" fill="white" transform="translate(0 0.147705)" />
-              </clipPath>
-            </defs>
+          <svg width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M10 10.2964C8.61875 10.2964 7.5 9.3112 7.5 8.09479C7.5 6.87838 8.61875 5.89315 10 5.89315C11.3813 5.89315 12.5 6.87838 12.5 8.09479C12.5 9.3112 11.3813 10.2964 10 10.2964ZM10 0.147705C5.1675 0.147705 1.25 3.59768 1.25 7.85345C1.25 12.1092 10 22.1641 10 22.1641C10 22.1641 18.75 12.1092 18.75 7.85345C18.75 3.59768 14.8325 0.147705 10 0.147705Z"
+              fill="#FF3B10"
+            />
           </svg>
         </div>
       `;
@@ -152,20 +138,13 @@ const MapView = ({ disableAutoSearch = false }) => {
     if (markerType === "selected") {
       el.innerHTML = `
         <div class="custom-marker selected-marker">
-          <svg width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clipPath="url(#clip0_selected)">
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M12.5 10.2964C11.1188 10.2964 10 9.3112 10 8.09479C10 6.87838 11.1188 5.89315 12.5 5.89315C13.8813 5.89315 15 6.87838 15 8.09479C15 9.3112 13.8813 10.2964 12.5 10.2964ZM12.5 0.147705C7.6675 0.147705 3.75 3.59768 3.75 7.85345C3.75 12.1092 12.5 22.1641 12.5 22.1641C12.5 22.1641 21.25 12.1092 21.25 7.85345C21.25 3.59768 17.3325 0.147705 12.5 0.147705Z"
-                fill="#FF3B10"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_selected">
-                <rect width="30" height="30" fill="white" transform="translate(0 0.147705)" />
-              </clipPath>
-            </defs>
+          <svg width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M10 10.2964C8.61875 10.2964 7.5 9.3112 7.5 8.09479C7.5 6.87838 8.61875 5.89315 10 5.89315C11.3813 5.89315 12.5 6.87838 12.5 8.09479C12.5 9.3112 11.3813 10.2964 10 10.2964ZM10 0.147705C5.1675 0.147705 1.25 3.59768 1.25 7.85345C1.25 12.1092 10 22.1641 10 22.1641C10 22.1641 18.75 12.1092 18.75 7.85345C18.75 3.59768 14.8325 0.147705 10 0.147705Z"
+              fill="#FF3B10"
+            />
           </svg>
         </div>
       `;

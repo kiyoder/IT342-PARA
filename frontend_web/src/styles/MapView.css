@@ -37,18 +37,21 @@
   height: 30px;
 }
 
+/* Adjust the positioning of the marker to point accurately */
 .initial-marker svg,
 .final-marker svg,
 .selected-marker svg {
   filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.3));
   transform-origin: center bottom;
   transition: transform 0.3s ease;
+  /* Adjust the bottom point to align with the actual location */
+  transform: translate(0, -15px);
 }
 
 .initial-marker svg:hover,
 .final-marker svg:hover,
 .selected-marker svg:hover {
-  transform: scale(1.2);
+  transform: translate(0, -15px) scale(1.2);
 }
 
 /* Legacy marker styles - keeping for backward compatibility */
