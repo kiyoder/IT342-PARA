@@ -163,7 +163,6 @@ export default function SavedRoutes() {
 
   return (
     <div className="saved-routes-container">
-      <TopSearchBar />
       <ProfileMenu />
 
       <div className="saved-routes-content">

@@ -6,7 +6,6 @@
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   border: 1px solid transparent;
-  margin-bottom: 1rem;
   width: 100%;
   max-width: 350px;
 }

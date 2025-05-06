@@ -16,13 +16,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 2rem; /* Added margin to bring content down from ceiling */
 }
 
 .saved-routes-title {
   font-size: 2rem;
   font-weight: 600;
   color: #333;
-  margin: 1rem 0 2rem;
+  margin: 1rem 0 2.5rem; /* Increased bottom margin */
   text-align: center;
   width: 100%;
 }
@@ -65,10 +66,10 @@
   padding: 0 1rem;
   width: 100%;
   max-width: 1200px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
+  display: grid; /* Changed from flex to grid */
+  grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns */
+  gap: 2rem; /* Increased gap between items */
+  justify-items: center; /* Center items horizontally */
 }
 
 .route-loading-overlay {
@@ -94,7 +95,17 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 992px) {
+  .saved-routes-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .saved-routes-list {
+    grid-template-columns: 1fr; /* 1 column on small screens */
+  }
+
   .saved-routes-title {
     font-size: 1.75rem;
     margin-bottom: 1.5rem;
