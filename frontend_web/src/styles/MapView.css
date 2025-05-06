@@ -45,13 +45,13 @@
   transform-origin: center bottom;
   transition: transform 0.3s ease;
   /* Adjust the bottom point to align with the actual location */
-  transform: translate(-5px, -5px);
+  transform: translate(3px, -15px);
 }
 
 .initial-marker svg:hover,
 .final-marker svg:hover,
 .selected-marker svg:hover {
-  transform: translate(0, -15px) scale(1.2);
+  transform: translate(3px, -15px) scale(1.2);
 }
 
 /* Legacy marker styles - keeping for backward compatibility */
