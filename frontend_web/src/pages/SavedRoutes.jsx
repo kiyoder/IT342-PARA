@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "../contexts/LocationContext";
 import { useRoute } from "../contexts/RouteContext";
-import TopSearchBar from "../components/location/TopSearchBar";
 import RouteLoadingSpinner from "../components/loading/RouteLoadingSpinner";
 import SavedRouteCard from "../components/route/SavedRouteCard";
 import EmptyRouteState from "../components/route/EmptyRouteState";
@@ -194,7 +193,7 @@ export default function SavedRoutes() {
 
   return (
     <div className="saved-routes-container">
-      <TopSearchBar />
+      {/* TopSearchBar removed */}
       <ProfileMenu />
 
       <div className="saved-routes-content">
