@@ -8,6 +8,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ConfirmationModal from "../location/ConfirmationModal";
 import JeepneyRoute from "./JeepneyRoute";
+import UserLocationMarker from "./UserLocationMarker";
 import { Crosshair } from "lucide-react";
 
 const MapView = ({ disableAutoSearch = false }) => {
@@ -16,7 +17,6 @@ const MapView = ({ disableAutoSearch = false }) => {
   const initialMarkerRef = useRef(null);
   const finalMarkerRef = useRef(null);
   const selectedMarkerRef = useRef(null);
-  const userMarkerRef = useRef(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const directRouteLayerId = useRef("direct-route");
   const directRouteAdded = useRef(false);
@@ -77,14 +77,6 @@ const MapView = ({ disableAutoSearch = false }) => {
     const el = document.createElement("div");
     el.className = "marker-wrapper";
 
-    // Special case for user location marker - make it circular
-    if (className === "user-location") {
-      const userDot = document.createElement("div");
-      userDot.className = "user-location-dot";
-      el.appendChild(userDot);
-      return el;
-    }
-
     // Regular marker pin for other markers
     const pin = document.createElement("div");
     pin.className = `marker-pin ${className}`;
@@ -92,28 +84,13 @@ const MapView = ({ disableAutoSearch = false }) => {
     return el;
   };
 
-  // Add user location marker when available and update it when position changes
+  // Center map on user when followUserLocation is true
   useEffect(() => {
-    if (!mapRef.current || !userPosition || !mapLoaded) return;
+    if (!mapRef.current || !userPosition || !mapLoaded || !followUserLocation)
+      return;
 
-    // If user marker doesn't exist yet, create it
-    if (!userMarkerRef.current) {
-      const el = createMarkerElement("user-location");
-      userMarkerRef.current = new mapboxgl.Marker(el)
-        .setLngLat([userPosition.longitude, userPosition.latitude])
-        .addTo(mapRef.current);
-    } else {
-      // Just update the marker position without recreating it
-      userMarkerRef.current.setLngLat([
-        userPosition.longitude,
-        userPosition.latitude,
-      ]);
-    }
-
-    // Only center the map on the user if followUserLocation is true
-    // and no other important markers are present
+    // Only center the map if no other important markers are present
     if (
-      followUserLocation &&
       !initialMarkerRef.current &&
       !finalMarkerRef.current &&
       !selectedMarkerRef.current
@@ -377,6 +354,9 @@ const MapView = ({ disableAutoSearch = false }) => {
   return (
     <div className="map-wrapper">
       <div ref={mapContainerRef} className="map-container"></div>
+
+      {/* Separate user location marker component */}
+      {mapLoaded && <UserLocationMarker map={mapRef} />}
 
       {/* Location tracking button */}
       {userPosition && (

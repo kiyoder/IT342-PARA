@@ -31,8 +31,10 @@ export function LocationProvider({ children }) {
   const [finalFocused, setFinalFocused] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [userPosition, setUserPosition] = useState(null);
+  const [userHeading, setUserHeading] = useState(null);
   const [followUserLocation, setFollowUserLocation] = useState(false);
   const watchIdRef = useRef(null);
+  const previousPositionRef = useRef(null);
 
   // Store selected location coordinates for mapping
   const [selectedLocations, setSelectedLocations] = useState({
@@ -47,12 +49,45 @@ export function LocationProvider({ children }) {
   // Start watching user position when component mounts
   useEffect(() => {
     startWatchingPosition();
+    startWatchingHeading();
 
     // Clean up when component unmounts
     return () => {
       stopWatchingPosition();
     };
   }, []);
+
+  // Function to calculate heading based on position changes
+  const calculateHeading = (currentPosition, previousPosition) => {
+    if (!previousPosition) return null;
+
+    const dy = currentPosition.latitude - previousPosition.latitude;
+    const dx = currentPosition.longitude - previousPosition.longitude;
+
+    // Only calculate heading if there's significant movement
+    if (Math.abs(dx) < 0.00001 && Math.abs(dy) < 0.00001) return null;
+
+    // Calculate angle in degrees (0° is North, 90° is East)
+    let angle = Math.atan2(dx, dy) * (180 / Math.PI);
+    if (angle < 0) angle += 360;
+
+    return angle;
+  };
+
+  // Function to start watching device orientation for heading
+  const startWatchingHeading = () => {
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener("deviceorientation", handleDeviceOrientation);
+    }
+  };
+
+  // Handle device orientation event
+  const handleDeviceOrientation = (event) => {
+    // Alpha is the compass direction (in degrees)
+    if (event.alpha !== null) {
+      setUserHeading(event.alpha);
+    }
+  };
 
   // Function to start watching user position
   const startWatchingPosition = () => {
@@ -68,7 +103,22 @@ export function LocationProvider({ children }) {
     watchIdRef.current = navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setUserPosition({ latitude, longitude });
+        const currentPosition = { latitude, longitude };
+
+        // Calculate heading based on movement if device orientation is not available
+        if (userHeading === null && previousPositionRef.current) {
+          const calculatedHeading = calculateHeading(
+            currentPosition,
+            previousPositionRef.current
+          );
+          if (calculatedHeading !== null) {
+            setUserHeading(calculatedHeading);
+          }
+        }
+
+        // Update position
+        setUserPosition(currentPosition);
+        previousPositionRef.current = currentPosition;
       },
       (error) => {
         console.error("Error watching position:", error);
@@ -86,6 +136,11 @@ export function LocationProvider({ children }) {
     if (watchIdRef.current !== null) {
       navigator.geolocation.clearWatch(watchIdRef.current);
       watchIdRef.current = null;
+    }
+
+    // Remove device orientation listener
+    if (window.DeviceOrientationEvent) {
+      window.removeEventListener("deviceorientation", handleDeviceOrientation);
     }
   };
 
@@ -187,6 +242,7 @@ export function LocationProvider({ children }) {
         pinnedLocation,
         showConfirmationModal,
         userPosition,
+        userHeading,
         followUserLocation,
 
         // setters

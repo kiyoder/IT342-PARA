@@ -107,31 +107,53 @@
   transform: rotate(-45deg) scale(1.2);
 }
 
+/* User marker wrapper */
+.user-marker-wrapper {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
 /* New circular user location dot */
 .user-location-dot {
   width: 16px;
   height: 16px;
-  background: #4285f4;
+  background: #ff5733; /* Orange color */
   border: 3px solid white;
   border-radius: 50%;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 rgba(66, 133, 244, 0.4);
+  box-shadow: 0 0 0 rgba(255, 87, 51, 0.4);
   animation: pulse-dot 1.5s infinite;
+}
+
+/* Heading indicator */
+.user-heading-indicator {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 16px solid #ff5733; /* Orange color */
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: center bottom;
+  z-index: 999;
 }
 
 /* Pulsing animation for the user location dot */
 @keyframes pulse-dot {
   0% {
-    box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.7);
+    box-shadow: 0 0 0 0 rgba(255, 87, 51, 0.7);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(66, 133, 244, 0);
+    box-shadow: 0 0 0 10px rgba(255, 87, 51, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(66, 133, 244, 0);
+    box-shadow: 0 0 0 0 rgba(255, 87, 51, 0);
   }
 }
 
