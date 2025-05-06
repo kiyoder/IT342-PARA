@@ -8,6 +8,7 @@ const UserLocationMarker = ({ map }) => {
   const markerRef = useRef(null);
   const { userPosition, userHeading } = useLocation();
   const lastPositionRef = useRef(userPosition);
+  const markerElementRef = useRef(null);
 
   // Create a custom HTML marker element with heading indicator
   const createUserMarkerElement = () => {
@@ -24,6 +25,7 @@ const UserLocationMarker = ({ map }) => {
 
     el.appendChild(userDot);
     el.appendChild(headingIndicator);
+    markerElementRef.current = el;
     return el;
   };
 

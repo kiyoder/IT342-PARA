@@ -8,13 +8,17 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ConfirmationModal from "../location/ConfirmationModal";
 import JeepneyRoute from "./JeepneyRoute";
-import UserLocationMarker from "./UserLocationMarker";
 import { Crosshair } from "lucide-react";
 import React from "react";
 
-const MapView = ({ disableAutoSearch = false }) => {
+// Accept mapRefProp from parent component
+const MapView = ({ disableAutoSearch = false, mapRefProp }) => {
   const mapContainerRef = useRef(null);
-  const mapRef = useRef(null);
+  // Always create a local ref; we'll choose which to use below
+  const innerMapRef = useRef(null);
+  // Use the parent’s mapRefProp if provided, otherwise fall back
+  const mapRef = mapRefProp || innerMapRef;
+
   const initialMarkerRef = useRef(null);
   const finalMarkerRef = useRef(null);
   const selectedMarkerRef = useRef(null);
@@ -71,7 +75,7 @@ const MapView = ({ disableAutoSearch = false }) => {
         mapRef.current = null;
       }
     };
-  }, [userPosition]);
+  }, [userPosition, mapRef]);
 
   // Create a custom HTML marker element
   const createMarkerElement = (className) => {
@@ -358,8 +362,7 @@ const MapView = ({ disableAutoSearch = false }) => {
     <div className="map-wrapper">
       <div ref={mapContainerRef} className="map-container"></div>
 
-      {/* Separate user location marker component */}
-      {mapLoaded && <UserLocationMarker map={mapRef} />}
+      {/* Removed UserLocationMarker from here - now in Home.jsx */}
 
       {/* Location tracking button */}
       {userPosition && (
@@ -401,5 +404,4 @@ const MapView = ({ disableAutoSearch = false }) => {
 };
 
 // Ensure we're using React.memo to prevent unnecessary re-renders
-// Add this at the end of the file, replacing the existing export
 export default React.memo(MapView);
