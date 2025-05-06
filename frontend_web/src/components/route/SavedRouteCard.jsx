@@ -70,6 +70,10 @@ const SavedRouteCard = ({
       className={`saved-route-card ${isSelected ? "selected" : ""}`}
       onClick={() => onSelect(route)}
     >
+      {route.routeNumber && (
+        <div className="route-number-badge">{route.routeNumber}</div>
+      )}
+
       <div className="route-locations">
         <div className="location from-location">
           <div className="location-marker from-marker"></div>
@@ -118,6 +122,7 @@ SavedRouteCard.propTypes = {
     initialLon: PropTypes.number.isRequired,
     finalLat: PropTypes.number.isRequired,
     finalLon: PropTypes.number.isRequired,
+    routeNumber: PropTypes.string,
   }).isRequired,
   isSelected: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,
