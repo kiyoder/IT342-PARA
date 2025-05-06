@@ -187,7 +187,3 @@
     transform: scale(1);
   }
 }
-
-.profile-menu-button:not(.rotate):not(.rotate-counter):hover {
-  animation: pulse 1.5s infinite ease-in-out;
-}
