@@ -8,20 +8,15 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ConfirmationModal from "../location/ConfirmationModal";
 import JeepneyRoute from "./JeepneyRoute";
-import { Crosshair } from "lucide-react";
-import React from "react";
 
-// Accept mapRefProp from parent component
-const MapView = ({ disableAutoSearch = false, mapRefProp }) => {
+const MapView = ({ disableAutoSearch = false }) => {
   const mapContainerRef = useRef(null);
-  // Always create a local ref; we'll choose which to use below
-  const innerMapRef = useRef(null);
-  // Use the parent’s mapRefProp if provided, otherwise fall back
-  const mapRef = mapRefProp || innerMapRef;
-
+  const mapRef = useRef(null);
   const initialMarkerRef = useRef(null);
   const finalMarkerRef = useRef(null);
   const selectedMarkerRef = useRef(null);
+  const userMarkerRef = useRef(null);
+  const [userPosition, setUserPosition] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const directRouteLayerId = useRef("direct-route");
   const directRouteAdded = useRef(false);
@@ -37,14 +32,29 @@ const MapView = ({ disableAutoSearch = false, mapRefProp }) => {
     selectedLocations,
     showConfirmationModal,
     setShowConfirmationModal,
-    userPosition,
-    followUserLocation,
-    toggleFollowUserLocation,
   } = useLocation();
 
   // Set your Mapbox access token
   mapboxgl.accessToken =
     "pk.eyJ1IjoianJsbGVqYW5lIiwiYSI6ImNtOTB0bHB2bjBweGkya3B2MjR2cm8wazEifQ.NYwhCjeEnhl8Obo6_g-ojQ";
+
+  // Get user's current position
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserPosition({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error("Error getting user position:", error);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    }
+  }, []);
 
   // Initialize the map
   useEffect(() => {
@@ -75,12 +85,20 @@ const MapView = ({ disableAutoSearch = false, mapRefProp }) => {
         mapRef.current = null;
       }
     };
-  }, [userPosition, mapRef]);
+  }, [userPosition]);
 
   // Create a custom HTML marker element
   const createMarkerElement = (className) => {
     const el = document.createElement("div");
     el.className = "marker-wrapper";
+
+    // Special case for user location marker - make it circular
+    if (className === "user-location") {
+      const userDot = document.createElement("div");
+      userDot.className = "user-location-dot";
+      el.appendChild(userDot);
+      return el;
+    }
 
     // Regular marker pin for other markers
     const pin = document.createElement("div");
@@ -89,25 +107,36 @@ const MapView = ({ disableAutoSearch = false, mapRefProp }) => {
     return el;
   };
 
-  // Center map on user when followUserLocation is true
+  // Add user location marker when available
   useEffect(() => {
-    if (!mapRef.current || !userPosition || !mapLoaded || !followUserLocation)
-      return;
+    if (!mapRef.current || !userPosition || !mapLoaded) return;
 
-    // Only center the map if no other important markers are present
+    // Remove existing user marker if it exists
+    if (userMarkerRef.current) {
+      userMarkerRef.current.remove();
+      userMarkerRef.current = null;
+    }
+
+    // Create a user location marker
+    const el = createMarkerElement("user-location");
+
+    userMarkerRef.current = new mapboxgl.Marker(el)
+      .setLngLat([userPosition.longitude, userPosition.latitude])
+      .addTo(mapRef.current);
+
+    // If no other markers, center on user location
     if (
       !initialMarkerRef.current &&
       !finalMarkerRef.current &&
       !selectedMarkerRef.current
     ) {
-      // Use easeTo instead of flyTo for smoother transitions
-      mapRef.current.easeTo({
+      mapRef.current.flyTo({
         center: [userPosition.longitude, userPosition.latitude],
-        duration: 500,
-        easing: (t) => t, // Linear easing for smoother movement
+        zoom: 15,
+        essential: true,
       });
     }
-  }, [userPosition, mapLoaded, followUserLocation]);
+  }, [userPosition, mapLoaded]);
 
   // Handle selected location (temporary selection before confirmation)
   useEffect(() => {
@@ -362,25 +391,6 @@ const MapView = ({ disableAutoSearch = false, mapRefProp }) => {
     <div className="map-wrapper">
       <div ref={mapContainerRef} className="map-container"></div>
 
-      {/* Removed UserLocationMarker from here - now in Home.jsx */}
-
-      {/* Location tracking button */}
-      {userPosition && (
-        <button
-          className={`location-tracking-button ${
-            followUserLocation ? "active" : ""
-          }`}
-          onClick={toggleFollowUserLocation}
-          aria-label={
-            followUserLocation
-              ? "Stop following location"
-              : "Follow my location"
-          }
-        >
-          <Crosshair size={20} />
-        </button>
-      )}
-
       {/* Show confirmation modal after map animation completes */}
       {showConfirmationModal && selectedLocation && (
         <ConfirmationModal
@@ -403,5 +413,4 @@ const MapView = ({ disableAutoSearch = false, mapRefProp }) => {
   );
 };
 
-// Ensure we're using React.memo to prevent unnecessary re-renders
-export default React.memo(MapView);
+export default MapView;

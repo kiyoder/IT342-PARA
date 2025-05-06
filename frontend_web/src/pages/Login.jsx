@@ -8,7 +8,7 @@ function Login() {
 
   const handleLoginSuccess = (token) => {
     localStorage.setItem("token", token);
-    navigate("/");
+    navigate("/home");
   };
 
   return (

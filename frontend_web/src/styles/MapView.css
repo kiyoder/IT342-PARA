@@ -13,38 +13,6 @@
   height: 100%;
 }
 
-/* Location tracking button */
-.location-tracking-button {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  background-color: white;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  transition: all 0.2s ease;
-}
-
-.location-tracking-button:hover {
-  background-color: #f0f0f0;
-}
-
-.location-tracking-button.active {
-  background-color: #4285f4;
-  color: white;
-}
-
-.location-tracking-button.active:hover {
-  background-color: #3367d6;
-}
-
 /* Marker wrapper to ensure proper positioning */
 .marker-wrapper {
   position: relative;
@@ -107,53 +75,31 @@
   transform: rotate(-45deg) scale(1.2);
 }
 
-/* User marker wrapper */
-.user-marker-wrapper {
-  position: relative;
-  width: 24px;
-  height: 24px;
-}
-
 /* New circular user location dot */
 .user-location-dot {
   width: 16px;
   height: 16px;
-  background: #ff5733; /* Orange color */
-  border: 3px solid white;
+  background: #ff5733;
+  border: 3px solid #ff5733;
   border-radius: 50%;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 rgba(255, 87, 51, 0.4);
+  box-shadow: 0 0 0 rgba(66, 133, 244, 0.4);
   animation: pulse-dot 1.5s infinite;
-}
-
-/* Completely redesigned heading indicator to rotate around the circle */
-.user-heading-indicator {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 10px solid #ff5733; /* Orange color */
-  left: 50%;
-  top: -2px; /* Position it at the top edge of the circle */
-  transform-origin: bottom center; /* Set rotation origin to bottom center */
-  transform: translateX(-50%); /* Center horizontally */
-  z-index: 999;
 }
 
 /* Pulsing animation for the user location dot */
 @keyframes pulse-dot {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 87, 51, 0.7);
+    box-shadow: 0 0 0 0 #ff5733;
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(255, 87, 51, 0);
+    box-shadow: 0 0 0 20px #4285f400;
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(255, 87, 51, 0);
+    box-shadow: 0 0 0 0 rgba(66, 133, 244, 0);
   }
 }
 
