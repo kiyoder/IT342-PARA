@@ -44,7 +44,8 @@
 }
 
 .loading-message {
-  color: #666;
+  font-family: "Outfit", sans-serif;
+  color: #ff3b10;
   font-size: 1rem;
   margin: 0;
 }
