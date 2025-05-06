@@ -31,6 +31,7 @@ export function LocationProvider({ children }) {
   const [finalFocused, setFinalFocused] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [userPosition, setUserPosition] = useState(null);
+  const [followUserLocation, setFollowUserLocation] = useState(false);
   const watchIdRef = useRef(null);
 
   // Store selected location coordinates for mapping
@@ -86,6 +87,11 @@ export function LocationProvider({ children }) {
       navigator.geolocation.clearWatch(watchIdRef.current);
       watchIdRef.current = null;
     }
+  };
+
+  // Toggle follow user location
+  const toggleFollowUserLocation = () => {
+    setFollowUserLocation((prev) => !prev);
   };
 
   // Update search query based on focus and input values
@@ -181,6 +187,7 @@ export function LocationProvider({ children }) {
         pinnedLocation,
         showConfirmationModal,
         userPosition,
+        followUserLocation,
 
         // setters
         setSearchQuery,
@@ -190,6 +197,7 @@ export function LocationProvider({ children }) {
         setSelectedLocation,
         setPinnedLocation,
         setShowConfirmationModal,
+        setFollowUserLocation,
 
         // actions
         handleInitialFocus,
@@ -199,6 +207,7 @@ export function LocationProvider({ children }) {
         swapLocations,
         startWatchingPosition,
         stopWatchingPosition,
+        toggleFollowUserLocation,
 
         // utils
         reverseGeocode,

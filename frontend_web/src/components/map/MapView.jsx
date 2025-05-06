@@ -8,6 +8,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ConfirmationModal from "../location/ConfirmationModal";
 import JeepneyRoute from "./JeepneyRoute";
+import { Crosshair } from "lucide-react";
 
 const MapView = ({ disableAutoSearch = false }) => {
   const mapContainerRef = useRef(null);
@@ -32,6 +33,8 @@ const MapView = ({ disableAutoSearch = false }) => {
     showConfirmationModal,
     setShowConfirmationModal,
     userPosition,
+    followUserLocation,
+    toggleFollowUserLocation,
   } = useLocation();
 
   // Set your Mapbox access token
@@ -93,32 +96,34 @@ const MapView = ({ disableAutoSearch = false }) => {
   useEffect(() => {
     if (!mapRef.current || !userPosition || !mapLoaded) return;
 
-    // Remove existing user marker if it exists
-    if (userMarkerRef.current) {
-      userMarkerRef.current.remove();
-      userMarkerRef.current = null;
+    // If user marker doesn't exist yet, create it
+    if (!userMarkerRef.current) {
+      const el = createMarkerElement("user-location");
+      userMarkerRef.current = new mapboxgl.Marker(el)
+        .setLngLat([userPosition.longitude, userPosition.latitude])
+        .addTo(mapRef.current);
+    } else {
+      // Just update the marker position without recreating it
+      userMarkerRef.current.setLngLat([
+        userPosition.longitude,
+        userPosition.latitude,
+      ]);
     }
 
-    // Create a user location marker
-    const el = createMarkerElement("user-location");
-
-    userMarkerRef.current = new mapboxgl.Marker(el)
-      .setLngLat([userPosition.longitude, userPosition.latitude])
-      .addTo(mapRef.current);
-
-    // If no other markers, center on user location
+    // Only center the map on the user if followUserLocation is true
+    // and no other important markers are present
     if (
+      followUserLocation &&
       !initialMarkerRef.current &&
       !finalMarkerRef.current &&
       !selectedMarkerRef.current
     ) {
-      mapRef.current.flyTo({
+      mapRef.current.easeTo({
         center: [userPosition.longitude, userPosition.latitude],
-        zoom: 15,
-        essential: true,
+        duration: 500,
       });
     }
-  }, [userPosition, mapLoaded]);
+  }, [userPosition, mapLoaded, followUserLocation]);
 
   // Handle selected location (temporary selection before confirmation)
   useEffect(() => {
@@ -372,6 +377,23 @@ const MapView = ({ disableAutoSearch = false }) => {
   return (
     <div className="map-wrapper">
       <div ref={mapContainerRef} className="map-container"></div>
+
+      {/* Location tracking button */}
+      {userPosition && (
+        <button
+          className={`location-tracking-button ${
+            followUserLocation ? "active" : ""
+          }`}
+          onClick={toggleFollowUserLocation}
+          aria-label={
+            followUserLocation
+              ? "Stop following location"
+              : "Follow my location"
+          }
+        >
+          <Crosshair size={20} />
+        </button>
+      )}
 
       {/* Show confirmation modal after map animation completes */}
       {showConfirmationModal && selectedLocation && (
