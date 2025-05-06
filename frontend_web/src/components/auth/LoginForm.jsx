@@ -94,7 +94,7 @@ function LoginForm() {
           <label>Show Password</label>
         </div>
 
-        <button type="submit" className="login-button" disabled={isLoading}>
+        <button type="submit" className="sign-in-button" disabled={isLoading}>
           {isLoading ? "Processing..." : "Log In"}
         </button>
 
