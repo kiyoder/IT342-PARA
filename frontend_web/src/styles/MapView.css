@@ -77,8 +77,8 @@
 
 /* New circular user location dot */
 .user-location-dot {
-  width: 16px;
-  height: 16px;
+  width: 32px;
+  height: 32px;
   background: #ff5733;
   border: 3px solid #ff5733;
   border-radius: 50%;
