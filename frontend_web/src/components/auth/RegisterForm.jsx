@@ -161,7 +161,7 @@ function RegisterForm({ onRegisterSuccess }) {
 
         <div className="account-options">
           <span>
-            Already have an account?
+            Already have an account? &esmp;
             <Link to="/login" className="login-link">
               Log in
             </Link>

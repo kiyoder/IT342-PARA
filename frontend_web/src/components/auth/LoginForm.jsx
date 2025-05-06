@@ -100,7 +100,7 @@ function LoginForm() {
 
         <div className="account-options">
           <span>
-            Don't have an account?
+            Don't have an account? &esmp;
             <Link to="/register" className="register-link">
               Register
             </Link>
