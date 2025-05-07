@@ -11,7 +11,7 @@ import {
   testWeatherService,
   getFallbackTemperature,
 } from "../../services/api/WeatherService";
-import { error, info } from "../utils/logger";
+import { error, info } from "../../services/utils/logger";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
 const CONTEXT = "SearchResults";
