@@ -5,20 +5,52 @@ const API_KEY = "37adbc1df68d54a44d9952c5c4493cdc"; // Free OpenWeatherMap API k
 const CONTEXT = "WeatherService"; // Context for logging
 
 /**
+ * Normalize coordinates to ensure consistent format
+ * @param {Object} coords - Coordinates object with either lat/lon or latitude/longitude
+ * @returns {Object|null} - Normalized coordinates {lat, lon} or null if invalid
+ */
+export const normalizeCoordinates = (coords) => {
+  try {
+    // Extract lat/lon from either format
+    const lat = coords.latitude !== undefined ? coords.latitude : coords.lat;
+    const lon = coords.longitude !== undefined ? coords.longitude : coords.lon;
+
+    // Convert to numbers and validate
+    const numLat = Number(lat);
+    const numLon = Number(lon);
+
+    if (isNaN(numLat) || isNaN(numLon)) {
+      error(CONTEXT, "Invalid coordinates in normalization", { coords });
+      return null;
+    }
+
+    return { lat: numLat, lon: numLon };
+  } catch (err) {
+    error(CONTEXT, "Error normalizing coordinates", {
+      error: err.message,
+      coords,
+    });
+    return null;
+  }
+};
+
+/**
  * Fetch current temperature for a specific location
- * @param {number} lat - Latitude
- * @param {number} lon - Longitude
+ * @param {Object} coords - Coordinates object with either lat/lon or latitude/longitude
  * @returns {Promise<number|null>} - Temperature in Celsius or null if error
  */
-export const fetchTemperature = async (lat, lon) => {
+export const fetchTemperature = async (coords) => {
   const requestId = `req_${Math.random().toString(36).substring(2, 10)}`;
 
   try {
-    // Validate inputs
-    if (lat == null || lon == null || isNaN(lat) || isNaN(lon)) {
-      error(CONTEXT, `Invalid coordinates [${requestId}]`, { lat, lon });
+    // Normalize coordinates
+    const normalizedCoords = normalizeCoordinates(coords);
+    if (!normalizedCoords) {
+      error(CONTEXT, `Invalid coordinates [${requestId}]`, { coords });
       return null;
     }
+
+    const { lat, lon } = normalizedCoords;
 
     info(CONTEXT, `Fetching weather [${requestId}]`, { lat, lon });
 
@@ -29,8 +61,6 @@ export const fetchTemperature = async (lat, lon) => {
       error(CONTEXT, `Request timeout [${requestId}]`, { lat, lon });
     }, 10000); // 10 second timeout
 
-    // Use a proxy server to avoid CORS issues
-    // This is a workaround for the OpenWeatherMap API
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
     debug(CONTEXT, `Request URL [${requestId}]`, {
       url: url.replace(API_KEY, "API_KEY_HIDDEN"),
@@ -80,15 +110,14 @@ export const fetchTemperature = async (lat, lon) => {
   } catch (err) {
     // Check if it's an abort error
     if (err.name === "AbortError") {
-      error(CONTEXT, `Request aborted [${requestId}]`, { lat, lon });
+      error(CONTEXT, `Request aborted [${requestId}]`, { coords });
       return null;
     }
 
     error(CONTEXT, `Error fetching temperature [${requestId}]`, {
       message: err.message,
       stack: err.stack,
-      lat,
-      lon,
+      coords,
     });
     return null;
   }
@@ -182,11 +211,17 @@ const CEBU_FALLBACK_TEMPS = {
 /**
  * Get fallback temperature for a location
  * Uses average temperature data for Cebu or nearby locations
- * @param {number} lat - Latitude
- * @param {number} lon - Longitude
+ * @param {Object} coords - Coordinates object with either lat/lon or latitude/longitude
  * @returns {number} - Estimated temperature in Celsius
  */
-export const getFallbackTemperature = (lat, lon) => {
+export const getFallbackTemperature = (coords) => {
+  const normalizedCoords = normalizeCoordinates(coords);
+  if (!normalizedCoords) {
+    return 28; // Default fallback
+  }
+
+  const { lat, lon } = normalizedCoords;
+
   // Check if coordinates are in Cebu area (approximate)
   const isCebuArea = lat >= 9.5 && lat <= 11.5 && lon >= 123 && lon <= 124.5;
 
@@ -197,43 +232,4 @@ export const getFallbackTemperature = (lat, lon) => {
 
   // Default fallback for other areas
   return 28; // Average temperature for Philippines
-};
-
-/**
- * Test the weather service with a known location
- * Useful for debugging API issues
- */
-export const testWeatherService = async () => {
-  info(CONTEXT, "Testing weather service");
-
-  // Test with a location in Cebu City
-  const lat = 10.3157;
-  const lon = 123.8854;
-
-  try {
-    // Clear any existing cache for this location
-    const cacheKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
-    const cache = JSON.parse(localStorage.getItem("temperatureCache") || "{}");
-    delete cache[cacheKey];
-    localStorage.setItem("temperatureCache", JSON.stringify(cache));
-
-    info(CONTEXT, "Cache cleared for test location", { lat, lon });
-
-    // Test the API
-    const temp = await fetchTemperature(lat, lon);
-
-    if (temp === null) {
-      error(CONTEXT, "Test failed - null temperature returned", { lat, lon });
-      return { success: false, message: "API call failed" };
-    }
-
-    info(CONTEXT, "Test successful", { lat, lon, temp });
-    return { success: true, temperature: temp };
-  } catch (err) {
-    error(CONTEXT, "Test failed with exception", {
-      error: err.message,
-      stack: err.stack,
-    });
-    return { success: false, error: err.message };
-  }
 };

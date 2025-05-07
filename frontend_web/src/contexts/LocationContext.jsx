@@ -2,9 +2,19 @@
 "use client";
 
 import { createContext, useState, useContext, useEffect } from "react";
+import {
+  fetchTemperature,
+  getCachedTemperature,
+  cacheTemperature,
+  getFallbackTemperature,
+  normalizeCoordinates,
+} from "../services/api/WeatherService";
+import { info, error } from "../services/utils/logger";
 
 // Create a context for location data
 const LocationContext = createContext();
+
+const CONTEXT = "LocationContext";
 
 // Reverse geocoding utility using OpenStreetMap Nominatim
 async function reverseGeocode(lat, lon) {
@@ -41,6 +51,9 @@ export function LocationProvider({ children }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [pinnedLocation, setPinnedLocation] = useState(null);
 
+  // Store weather data
+  const [weatherData, setWeatherData] = useState({});
+
   // Update search query based on focus and input values
   useEffect(() => {
     if (initialFocused) setSearchQuery(initialLocation);
@@ -50,20 +63,121 @@ export function LocationProvider({ children }) {
   // Update locations
   const updateInitialLocation = (location, coords = null) => {
     setInitialLocation(location);
-    if (coords)
+    if (coords) {
+      const newCoords = { lat: coords.latitude, lon: coords.longitude };
       setSelectedLocations((prev) => ({
         ...prev,
-        initial: { lat: coords.latitude, lon: coords.longitude },
+        initial: newCoords,
       }));
+
+      // Fetch weather for this location
+      fetchWeatherForLocation(coords);
+    }
   };
 
   const updateFinalDestination = (destination, coords = null) => {
     setFinalDestination(destination);
-    if (coords)
+    if (coords) {
+      const newCoords = { lat: coords.latitude, lon: coords.longitude };
       setSelectedLocations((prev) => ({
         ...prev,
-        final: { lat: coords.latitude, lon: coords.longitude },
+        final: newCoords,
       }));
+
+      // Fetch weather for this location
+      fetchWeatherForLocation(coords);
+    }
+  };
+
+  // Fetch weather for a location
+  const fetchWeatherForLocation = async (coords) => {
+    if (!coords) return;
+
+    const normalizedCoords = normalizeCoordinates(coords);
+    if (!normalizedCoords) {
+      error(CONTEXT, "Invalid coordinates for weather fetch", { coords });
+      return;
+    }
+
+    const { lat, lon } = normalizedCoords;
+    const locationKey = `${lat},${lon}`;
+
+    // Skip if we already have data for this location
+    if (
+      weatherData[locationKey] &&
+      weatherData[locationKey].status !== "loading"
+    ) {
+      return;
+    }
+
+    // Set loading state
+    setWeatherData((prev) => ({
+      ...prev,
+      [locationKey]: { status: "loading" },
+    }));
+
+    try {
+      info(CONTEXT, "Fetching weather for location", { lat, lon });
+
+      const cacheKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
+      let temp = getCachedTemperature(cacheKey);
+
+      // If not in cache, fetch it
+      if (temp === null) {
+        temp = await fetchTemperature(coords);
+        if (temp !== null) {
+          cacheTemperature(temp, cacheKey);
+        }
+      }
+
+      // If API failed, use fallback temperature
+      if (temp === null) {
+        temp = getFallbackTemperature(coords);
+        info(CONTEXT, "Using fallback temperature", {
+          coords,
+          fallbackTemp: temp,
+        });
+
+        setWeatherData((prev) => ({
+          ...prev,
+          [locationKey]: {
+            status: "success",
+            temperature: temp,
+            isFallback: true,
+          },
+        }));
+      } else {
+        setWeatherData((prev) => ({
+          ...prev,
+          [locationKey]: {
+            status: "success",
+            temperature: temp,
+            isFallback: false,
+          },
+        }));
+      }
+
+      info(CONTEXT, "Weather fetched successfully", {
+        coords,
+        temp,
+      });
+    } catch (err) {
+      error(CONTEXT, "Weather fetch failed", {
+        error: err.message,
+        coords,
+      });
+
+      // Use fallback temperature
+      const temp = getFallbackTemperature(coords);
+      setWeatherData((prev) => ({
+        ...prev,
+        [locationKey]: {
+          status: "success",
+          temperature: temp,
+          isFallback: true,
+        },
+      }));
+    }
   };
 
   // Set current location as source, with reverse geocode
@@ -84,14 +198,17 @@ export function LocationProvider({ children }) {
           locationName = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
         }
 
-        // update based on focus
-        if (initialFocused)
-          updateInitialLocation(locationName, { latitude, longitude });
-        else if (finalFocused)
-          updateFinalDestination(locationName, { latitude, longitude });
-        else updateInitialLocation(locationName, { latitude, longitude });
+        const coords = { latitude, longitude };
 
-        setSelectedLocation({ latitude, longitude, name: locationName });
+        // update based on focus
+        if (initialFocused) updateInitialLocation(locationName, coords);
+        else if (finalFocused) updateFinalDestination(locationName, coords);
+        else updateInitialLocation(locationName, coords);
+
+        setSelectedLocation({ ...coords, name: locationName });
+
+        // Fetch weather for current location
+        fetchWeatherForLocation(coords);
       },
       (error) => {
         console.error("Error getting current location:", error);
@@ -127,6 +244,19 @@ export function LocationProvider({ children }) {
     });
   };
 
+  // Get weather for a location
+  const getWeatherForLocation = (coords) => {
+    if (!coords) return null;
+
+    const normalizedCoords = normalizeCoordinates(coords);
+    if (!normalizedCoords) return null;
+
+    const { lat, lon } = normalizedCoords;
+    const locationKey = `${lat},${lon}`;
+
+    return weatherData[locationKey] || null;
+  };
+
   return (
     <LocationContext.Provider
       value={{
@@ -140,6 +270,7 @@ export function LocationProvider({ children }) {
         selectedLocation,
         pinnedLocation,
         showConfirmationModal,
+        weatherData,
 
         // setters
         setSearchQuery,
@@ -156,6 +287,10 @@ export function LocationProvider({ children }) {
         handleFinalFocus,
         handleFinalBlur,
         swapLocations,
+
+        // weather functions
+        fetchWeatherForLocation,
+        getWeatherForLocation,
 
         // utils
         reverseGeocode,

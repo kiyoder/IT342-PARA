@@ -4,21 +4,20 @@ import { useState, useEffect } from "react";
 import "../../styles/SearchResults.css";
 import { useLocation } from "../../contexts/LocationContext";
 import { fetchPlaces } from "../../services/api/Nominatim";
-import {
-  fetchTemperature,
-  getCachedTemperature,
-  cacheTemperature,
-  testWeatherService,
-  getFallbackTemperature,
-} from "../../services/api/WeatherService";
 import { error, info } from "../../services/utils/logger";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
 const CONTEXT = "SearchResults";
 
 const SearchResults = ({ onLocationSelected }) => {
-  const { searchQuery, setSelectedLocation, initialFocused, finalFocused } =
-    useLocation();
+  const {
+    searchQuery,
+    setSelectedLocation,
+    initialFocused,
+    finalFocused,
+    fetchWeatherForLocation,
+    getWeatherForLocation,
+  } = useLocation();
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,9 +25,6 @@ const SearchResults = ({ onLocationSelected }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [loadingCurrentLocation, setLoadingCurrentLocation] = useState(false);
   const [userPosition, setUserPosition] = useState(null);
-  const [weatherData, setWeatherData] = useState({});
-  const [diagnosticResult, setDiagnosticResult] = useState(null);
-  const [showDiagnostics, setShowDiagnostics] = useState(false);
 
   // Get user's position when component mounts
   useEffect(() => {
@@ -105,13 +101,11 @@ const SearchResults = ({ onLocationSelected }) => {
       // If user position is available, calculate distance for each place
       if (userPosition) {
         places.forEach((place) => {
-          const lat = place.latitude ?? parseFloat(place.lat);
-          const lon = place.longitude ?? parseFloat(place.lon);
           place.distance = calculateDistance(
             userPosition.latitude,
             userPosition.longitude,
-            lat,
-            lon
+            place.latitude,
+            place.longitude
           );
         });
       }
@@ -152,98 +146,28 @@ const SearchResults = ({ onLocationSelected }) => {
 
   // Fetch weather data for all places
   useEffect(() => {
-    const fetchWeatherForResults = async () => {
-      if (!results.length) return;
+    if (!results.length) return;
 
-      info(CONTEXT, "Fetching weather for results", { count: results.length });
-      // Prepare batch updates
-      const updatedWeather = { ...weatherData };
+    info(CONTEXT, "Fetching weather for results", { count: results.length });
 
-      // Mark all as loading
-      for (const place of results) {
-        const lat = place.latitude ?? parseFloat(place.lat);
-        const lon = place.longitude ?? parseFloat(place.lon);
-        const cacheKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
-        updatedWeather[cacheKey] = { status: "loading" };
-      }
-      setWeatherData(updatedWeather);
-
-      // Fetch each
-      for (const place of results) {
-        const lat = place.latitude ?? parseFloat(place.lat);
-        const lon = place.longitude ?? parseFloat(place.lon);
-        const cacheKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
-
-        let temp = getCachedTemperature(cacheKey);
-        if (temp === null) {
-          temp = await fetchTemperature(lat, lon);
-          if (temp !== null) cacheTemperature(temp, cacheKey);
-        }
-
-        if (temp === null) {
-          temp = getFallbackTemperature(lat, lon);
-          info(CONTEXT, "Using fallback temperature", {
-            name: place.name,
-            fallbackTemp: temp,
-          });
-        }
-
-        updatedWeather[cacheKey] = {
-          status: "success",
-          temperature: temp,
-          isFallback: temp === getFallbackTemperature(lat, lon),
-        };
-      }
-
-      setWeatherData({ ...updatedWeather });
-    };
-
-    fetchWeatherForResults();
-  }, [results]);
+    // Fetch weather for each place
+    results.forEach((place) => {
+      fetchWeatherForLocation({
+        latitude: place.latitude,
+        longitude: place.longitude,
+      });
+    });
+  }, [results, fetchWeatherForLocation]);
 
   // Fetch weather for current location if set
   useEffect(() => {
-    const fetchCurrentLocationWeather = async () => {
-      if (!currentLocation) return;
+    if (!currentLocation) return;
 
-      const lat =
-        currentLocation.latitude != null
-          ? currentLocation.latitude
-          : parseFloat(currentLocation.lat);
-      const lon =
-        currentLocation.longitude != null
-          ? currentLocation.longitude
-          : parseFloat(currentLocation.lon);
-      const cacheKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
-
-      // Set loading state
-      setWeatherData((prev) => ({
-        ...prev,
-        [cacheKey]: { status: "loading" },
-      }));
-
-      try {
-        let temp = getCachedTemperature(cacheKey);
-        if (temp === null) {
-          temp = await fetchTemperature(lat, lon);
-          if (temp !== null) cacheTemperature(temp, cacheKey);
-        }
-        setWeatherData((prev) => ({
-          ...prev,
-          [cacheKey]: { status: "success", temperature: temp },
-        }));
-      } catch {
-        setWeatherData((prev) => ({
-          ...prev,
-          [cacheKey]: { status: "failed" },
-        }));
-      }
-    };
-
-    if (currentLocation) {
-      fetchCurrentLocationWeather();
-    }
-  }, [currentLocation]);
+    fetchWeatherForLocation({
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
+    });
+  }, [currentLocation, fetchWeatherForLocation]);
 
   // Calculate distance between two coordinates in meters
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -260,7 +184,9 @@ const SearchResults = ({ onLocationSelected }) => {
       Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
       Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
+    const distance = R * c;
+
+    return distance;
   };
 
   const handleSelectLocation = (place) => {
@@ -276,6 +202,7 @@ const SearchResults = ({ onLocationSelected }) => {
 
     // Call the parent component's handler to show confirmation
     if (onLocationSelected) {
+      // Pass the focus information to the parent
       onLocationSelected({
         ...place,
         isInitial: initialFocused,
@@ -292,18 +219,25 @@ const SearchResults = ({ onLocationSelected }) => {
         (position) => {
           const { latitude, longitude } = position.coords;
 
-          setUserPosition({ latitude, longitude });
+          // Update user position state
+          setUserPosition({
+            latitude: latitude,
+            longitude: longitude,
+          });
 
+          // Reverse geocode to get address from coordinates
           fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
-            { headers: { "User-Agent": "CebuLocationSearchApp" } }
+            {
+              headers: { "User-Agent": "CebuLocationSearchApp" },
+            }
           )
             .then((response) => response.json())
             .then((data) => {
               const locationObj = {
                 name: data.display_name,
-                latitude,
-                longitude,
+                latitude: latitude,
+                longitude: longitude,
                 type: "current_location",
                 details: {
                   road: data.address?.road || "",
@@ -313,11 +247,12 @@ const SearchResults = ({ onLocationSelected }) => {
                   postcode: data.address?.postcode || "6000",
                   housenumber: data.address?.house_number || "",
                 },
-                distance: 0,
+                distance: 0, // Current location is always 0m away
               };
 
               setCurrentLocation(locationObj);
 
+              // Call the parent component's handler to show confirmation
               if (onLocationSelected) {
                 onLocationSelected(locationObj);
               }
@@ -330,8 +265,8 @@ const SearchResults = ({ onLocationSelected }) => {
                 name: `Current Location (${latitude.toFixed(
                   6
                 )}, ${longitude.toFixed(6)})`,
-                latitude,
-                longitude,
+                latitude: latitude,
+                longitude: longitude,
                 type: "current_location",
                 details: {
                   road: "Current Location",
@@ -340,13 +275,19 @@ const SearchResults = ({ onLocationSelected }) => {
                 },
                 distance: 0,
               };
+
               setCurrentLocation(locationObj);
-              if (onLocationSelected) onLocationSelected(locationObj);
+
+              // Call the parent component's handler to show confirmation
+              if (onLocationSelected) {
+                onLocationSelected(locationObj);
+              }
+
               setLoadingCurrentLocation(false);
             });
         },
-        (err) => {
-          console.error("Error getting current location:", err);
+        (_) => {
+          console.error("Error getting current location:", _);
           setLoadingCurrentLocation(false);
           alert(
             "Unable to get your current location. Please check your browser permissions."
@@ -363,162 +304,68 @@ const SearchResults = ({ onLocationSelected }) => {
   // Format the address in a Google Maps style
   const formatDetailedAddress = (place) => {
     const parts = [];
+
+    // Add street number and road if available
     if (place.details.housenumber) {
       parts.push(`${place.details.housenumber} ${place.details.road || ""}`);
     } else if (place.details.road) {
       parts.push(place.details.road);
     }
-    if (place.details.suburb) parts.push(place.details.suburb);
+
+    // Add neighborhood/suburb if available
+    if (place.details.suburb) {
+      parts.push(place.details.suburb);
+    }
+
+    // Add city and postal code if available
     const cityPart = [];
-    if (place.details.city) cityPart.push(place.details.city);
-    else if (place.details.town) cityPart.push(place.details.town);
-    else if (place.details.village) cityPart.push(place.details.village);
-    else cityPart.push("Cebu City");
-    if (place.details.postcode) cityPart.push(place.details.postcode);
-    else cityPart.push("6000");
-    parts.push(cityPart.join(" "), "Cebu");
+    if (place.details.city) {
+      cityPart.push(place.details.city);
+    } else if (place.details.town) {
+      cityPart.push(place.details.town);
+    } else if (place.details.village) {
+      cityPart.push(place.details.village);
+    } else {
+      cityPart.push("Cebu City");
+    }
+
+    if (place.details.postcode) {
+      cityPart.push(place.details.postcode);
+    } else {
+      cityPart.push("6000");
+    }
+
+    parts.push(cityPart.join(" "));
+    // Add province
+    parts.push("Cebu");
+
     return parts.filter(Boolean).join(", ");
   };
 
   // Get weather display text for a location
   const getWeatherDisplay = (place) => {
-    const lat = place.latitude ?? parseFloat(place.lat);
-    const lon = place.longitude ?? parseFloat(place.lon);
-    const cacheKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
-    const data = weatherData[cacheKey];
-    if (!data) return "";
-    if (data.status === "loading") return " • Weather: Loading";
-    if (data.status === "failed") return " • Weather: Failed";
-    return data.isFallback
-      ? ` • ~${data.temperature}°C (est.)`
-      : ` • ${data.temperature}°C`;
-  };
+    const weatherInfo = getWeatherForLocation({
+      latitude: place.latitude,
+      longitude: place.longitude,
+    });
 
-  const runDiagnostics = async () => {
-    setDiagnosticResult({ status: "running" });
-    try {
-      const testResult = await testWeatherService();
-      const networkStatus = navigator.onLine ? "online" : "offline";
-      let storageStatus = "available";
-      try {
-        localStorage.setItem("test", "test");
-        localStorage.removeItem("test");
-      } catch {
-        storageStatus = "unavailable";
-      }
-      setDiagnosticResult({
-        status: "complete",
-        timestamp: new Date().toISOString(),
-        weatherTest: testResult,
-        network: networkStatus,
-        storage: storageStatus,
-        userAgent: navigator.userAgent,
-        screenSize: `${window.innerWidth}x${window.innerHeight}`,
-      });
-    } catch (err) {
-      setDiagnosticResult({ status: "error", error: err.message });
+    if (!weatherInfo) return "";
+
+    if (weatherInfo.status === "loading") {
+      return " • Weather: Loading";
+    } else if (weatherInfo.status === "failed") {
+      return " • Weather: Failed";
+    } else if (weatherInfo.temperature !== null) {
+      return weatherInfo.isFallback
+        ? ` • ~${weatherInfo.temperature}°C (est.)`
+        : ` • ${weatherInfo.temperature}°C`;
     }
+
+    return "";
   };
 
-  const renderDiagnostics = () => {
-    if (!showDiagnostics) {
-      return (
-        <div className="diagnostics-toggle">
-          <button
-            onClick={() => setShowDiagnostics(true)}
-            style={{
-              padding: "5px 10px",
-              fontSize: "12px",
-              backgroundColor: "#f0f0f0",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              marginTop: "10px",
-            }}
-          >
-            Show Diagnostics
-          </button>
-        </div>
-      );
-    }
-    return (
-      <div
-        className="diagnostics-panel"
-        style={{
-          marginTop: "20px",
-          padding: "10px",
-          backgroundColor: "#f5f5f5",
-          borderRadius: "8px",
-          fontSize: "14px",
-        }}
-      >
-        <h3 style={{ margin: "0 0 10px 0" }}>Weather Service Diagnostics</h3>
-        <button
-          onClick={runDiagnostics}
-          style={{
-            padding: "8px 12px",
-            backgroundColor: "#007bff",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            marginRight: "10px",
-          }}
-        >
-          Run Diagnostics
-        </button>
-        <button
-          onClick={() => setShowDiagnostics(false)}
-          style={{
-            padding: "8px 12px",
-            backgroundColor: "#6c757d",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-          }}
-        >
-          Hide
-        </button>
-        {diagnosticResult && (
-          <div
-            style={{
-              marginTop: "15px",
-              backgroundColor: "white",
-              padding: "10px",
-              borderRadius: "4px",
-              border: "1px solid #ddd",
-              maxHeight: "300px",
-              overflow: "auto",
-            }}
-          >
-            <p>
-              <strong>Timestamp:</strong> {diagnosticResult.timestamp}
-            </p>
-            <p>
-              <strong>Network:</strong> {diagnosticResult.network}
-            </p>
-            <p>
-              <strong>Storage:</strong> {diagnosticResult.storage}
-            </p>
-            <p>
-              <strong>Weather Test:</strong>{" "}
-              {diagnosticResult.weatherTest.success
-                ? `Success (${diagnosticResult.weatherTest.temperature}°C)`
-                : `Failed (${
-                    diagnosticResult.weatherTest.message ||
-                    diagnosticResult.weatherTest.error
-                  })`}
-            </p>
-            <p>
-              <strong>User Agent:</strong> {diagnosticResult.userAgent}
-            </p>
-            <p>
-              <strong>Screen Size:</strong> {diagnosticResult.screenSize}
-            </p>
-          </div>
-        )}
-      </div>
-    );
-  };
-
+  // Only render if we have results, are loading, or have no results but user is searching
+  // or if we're showing current location
   if (
     !loading &&
     !loadingCurrentLocation &&
@@ -526,7 +373,7 @@ const SearchResults = ({ onLocationSelected }) => {
     !noResults &&
     !currentLocation
   ) {
-    return <div>{renderDiagnostics()}</div>;
+    return <div></div>;
   }
 
   return (
@@ -625,8 +472,6 @@ const SearchResults = ({ onLocationSelected }) => {
                 No locations found in Cebu. Try a different search term.
               </div>
             )}
-
-          {renderDiagnostics()}
         </>
       )}
     </div>
