@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import "../../styles/SearchResults.css";
 import { useLocation } from "../../contexts/LocationContext";
 import { fetchPlaces } from "../../services/api/Nominatim";
+import WeatherWidget from "../weather/WeatherWidget";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
 const SearchResults = ({ onLocationSelected }) => {
@@ -16,6 +17,7 @@ const SearchResults = ({ onLocationSelected }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [loadingCurrentLocation, setLoadingCurrentLocation] = useState(false);
   const [userPosition, setUserPosition] = useState(null);
+  const [selectedResult, setSelectedResult] = useState(null);
 
   // Get user's position when component mounts
   useEffect(() => {
@@ -143,6 +145,9 @@ const SearchResults = ({ onLocationSelected }) => {
   };
 
   const handleSelectLocation = (place) => {
+    // Set the selected result for weather display
+    setSelectedResult(place);
+
     // Set the selected location for the map pin temporarily
     setSelectedLocation({
       latitude: place.latitude,
@@ -204,6 +209,7 @@ const SearchResults = ({ onLocationSelected }) => {
               };
 
               setCurrentLocation(locationObj);
+              setSelectedResult(locationObj);
 
               // Call the parent component's handler to show confirmation
               if (onLocationSelected) {
@@ -230,6 +236,7 @@ const SearchResults = ({ onLocationSelected }) => {
               };
 
               setCurrentLocation(locationObj);
+              setSelectedResult(locationObj);
 
               // Call the parent component's handler to show confirmation
               if (onLocationSelected) {
@@ -308,86 +315,98 @@ const SearchResults = ({ onLocationSelected }) => {
   }
 
   return (
-    <div className="search-results">
-      {loading ? (
-        <div className="loading">Searching locations in Cebu...</div>
-      ) : loadingCurrentLocation ? (
-        <div className="loading">Getting your current location...</div>
-      ) : (
-        <>
-          <ul>
-            {/* Show current location at the top if available */}
-            {currentLocation && (
-              <li
-                key="current-location"
-                onClick={() => handleSelectLocation(currentLocation)}
-                className="current-location-item"
-              >
-                <div className="location-icon">📍</div>
-                <div className="location-details">
-                  <div className="location-main-text">
-                    {currentLocation.details.road || "Current Location"}
+    <div className="search-results-container">
+      <div className="search-results">
+        {loading ? (
+          <div className="loading">Searching locations in Cebu...</div>
+        ) : loadingCurrentLocation ? (
+          <div className="loading">Getting your current location...</div>
+        ) : (
+          <>
+            <ul>
+              {/* Show current location at the top if available */}
+              {currentLocation && (
+                <li
+                  key="current-location"
+                  onClick={() => handleSelectLocation(currentLocation)}
+                  className="current-location-item"
+                >
+                  <div className="location-icon">📍</div>
+                  <div className="location-details">
+                    <div className="location-main-text">
+                      {currentLocation.details.road || "Current Location"}
+                    </div>
+                    <div className="location-secondary-text">
+                      {formatDetailedAddress(currentLocation)}
+                    </div>
                   </div>
-                  <div className="location-secondary-text">
-                    {formatDetailedAddress(currentLocation)}
+                </li>
+              )}
+
+              {/* Show search results */}
+              {results &&
+                results.map((place, index) => (
+                  <li key={index} onClick={() => handleSelectLocation(place)}>
+                    <div className="location-icon">📍</div>
+                    <div className="location-details">
+                      <div className="location-main-text">
+                        {place.name.split(",")[0]}
+                        {place.distance !== undefined && (
+                          <span className="distance-text">
+                            {" "}
+                            {place.distance < 1000
+                              ? `${Math.round(place.distance)}m away`
+                              : `${(place.distance / 1000).toFixed(1)}km away`}
+                          </span>
+                        )}
+                      </div>
+                      <div className="location-secondary-text">
+                        {formatDetailedAddress(place)}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+            </ul>
+
+            {/* Always show the "use current location" option */}
+            {!currentLocation && (
+              <li
+                className="use-current-location"
+                onClick={handleUseCurrentLocation}
+              >
+                <div className="location-details">
+                  <div
+                    className="location-secondary-text"
+                    style={{ paddingLeft: "20px" }}
+                  >
+                    or use current location
                   </div>
                 </div>
               </li>
             )}
 
-            {/* Show search results */}
-            {results &&
-              results.map((place, index) => (
-                <li key={index} onClick={() => handleSelectLocation(place)}>
-                  <div className="location-icon">📍</div>
-                  <div className="location-details">
-                    <div className="location-main-text">
-                      {place.name.split(",")[0]}
-                      {place.distance !== undefined && (
-                        <span className="distance-text">
-                          {" "}
-                          {place.distance < 1000
-                            ? `${Math.round(place.distance)}m away`
-                            : `${(place.distance / 1000).toFixed(1)}km away`}
-                        </span>
-                      )}
-                    </div>
-                    <div className="location-secondary-text">
-                      {formatDetailedAddress(place)}
-                    </div>
-                  </div>
-                </li>
-              ))}
-          </ul>
-
-          {/* Always show the "use current location" option */}
-          {!currentLocation && (
-            <li
-              className="use-current-location"
-              onClick={handleUseCurrentLocation}
-            >
-              <div className="location-details">
-                <div
-                  className="location-secondary-text"
-                  style={{ paddingLeft: "20px" }}
-                >
-                  or use current location
+            {/* Show no results message if needed */}
+            {searchQuery &&
+              searchQuery.trim() &&
+              noResults &&
+              results.length === 0 &&
+              !currentLocation && (
+                <div className="no-results">
+                  No locations found in Cebu. Try a different search term.
                 </div>
-              </div>
-            </li>
-          )}
+              )}
+          </>
+        )}
+      </div>
 
-          {/* Show no results message if needed */}
-          {searchQuery &&
-            searchQuery.trim() &&
-            noResults &&
-            results.length === 0 &&
-            !currentLocation && (
-              <div className="no-results">
-                No locations found in Cebu. Try a different search term.
-              </div>
-            )}
-        </>
+      {/* Weather widget */}
+      {selectedResult && (
+        <div className="weather-container">
+          <WeatherWidget
+            latitude={selectedResult.latitude}
+            longitude={selectedResult.longitude}
+          />
+        </div>
       )}
     </div>
   );

@@ -1,17 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,300;1,400;1,500&display=swap");
 
-.search-results {
+.search-results-container {
   position: absolute;
   top: 100%;
   align-self: center;
   max-height: 300px;
-  overflow-y: auto;
   z-index: 100;
   margin-top: 5px;
   width: 35%;
+  display: flex;
+}
+
+.search-results {
+  flex: 1;
+  overflow-y: auto;
   border: 2px solid #ff5733;
   border-radius: 0 0 15px 15px;
+  background-color: white;
+}
+
+.weather-container {
+  align-self: flex-start;
 }
 
 .search-results ul {
@@ -112,4 +122,16 @@
   color: #666;
   font-weight: normal;
   margin-left: 5px;
+}
+
+@media (max-width: 768px) {
+  .search-results-container {
+    width: 90%;
+    flex-direction: column;
+  }
+
+  .weather-container {
+    margin-top: 10px;
+    align-self: center;
+  }
 }
