@@ -403,8 +403,10 @@ const SearchResults = ({ onLocationSelected }) => {
       {selectedResult && (
         <div className="weather-container">
           <WeatherWidget
-            latitude={selectedResult.latitude}
-            longitude={selectedResult.longitude}
+            latitude={parseFloat(selectedResult.lat ?? selectedResult.latitude)}
+            longitude={parseFloat(
+              selectedResult.lon ?? selectedResult.longitude
+            )}
           />
         </div>
       )}
