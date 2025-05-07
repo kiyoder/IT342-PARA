@@ -143,15 +143,21 @@ const SearchResults = ({ onLocationSelected }) => {
         setWeatherData({ ...newWeatherData });
 
         try {
-          // Try cache first
-          const cacheKey = `${place.latitude.toFixed(
-            2
-          )},${place.longitude.toFixed(2)}`;
+          // pull out either form—.latitude/.longitude or .lat/.lon
+          const lat =
+            place.latitude != null
+              ? place.latitude
+              : Number.parseFloat(place.lat);
+          const lon =
+            place.longitude != null
+              ? place.longitude
+              : Number.parseFloat(place.lon);
+          const cacheKey = `${lat.toFixed(2)},${lon.toFixed(2)}`;
           let temp = getCachedTemperature(cacheKey);
 
           // If not in cache, fetch it
           if (temp === null) {
-            temp = await fetchTemperature(place.latitude, place.longitude);
+            temp = await fetchTemperature(lat, lon);
             if (temp !== null) {
               cacheTemperature(temp, cacheKey);
             }
@@ -186,18 +192,21 @@ const SearchResults = ({ onLocationSelected }) => {
       }));
 
       try {
-        // Try cache first
-        const cacheKey = `${currentLocation.latitude.toFixed(
-          2
-        )},${currentLocation.longitude.toFixed(2)}`;
+        // pull out either form—.latitude/.longitude or .lat/.lon
+        const lat =
+          currentLocation.latitude != null
+            ? currentLocation.latitude
+            : Number.parseFloat(currentLocation.lat);
+        const lon =
+          currentLocation.longitude != null
+            ? currentLocation.longitude
+            : Number.parseFloat(currentLocation.lon);
+        const cacheKey = `${lat.toFixed(2)},${lon.toFixed(2)}`;
         let temp = getCachedTemperature(cacheKey);
 
         // If not in cache, fetch it
         if (temp === null) {
-          temp = await fetchTemperature(
-            currentLocation.latitude,
-            currentLocation.longitude
-          );
+          temp = await fetchTemperature(lat, lon);
           if (temp !== null) {
             cacheTemperature(temp, cacheKey);
           }

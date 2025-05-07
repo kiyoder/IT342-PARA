@@ -9,6 +9,14 @@ const API_KEY = "37adbc1df68d54a44d9952c5c4493cdc"; // Free OpenWeatherMap API k
  */
 export const fetchTemperature = async (lat, lon) => {
   try {
+    // Validate inputs
+    if (lat == null || lon == null || isNaN(lat) || isNaN(lon)) {
+      console.error("Invalid coordinates:", { lat, lon });
+      return null;
+    }
+
+    console.log(`Fetching weather for ${lat}, ${lon}`);
+
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
     );
@@ -18,6 +26,7 @@ export const fetchTemperature = async (lat, lon) => {
     }
 
     const data = await response.json();
+    console.log(`Weather data received for ${lat}, ${lon}:`, data.main);
     return Math.round(data.main.temp);
   } catch (error) {
     console.error("Error fetching temperature:", error);
