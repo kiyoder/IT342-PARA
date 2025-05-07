@@ -8,8 +8,12 @@ import {
   fetchTemperature,
   getCachedTemperature,
   cacheTemperature,
+  testWeatherService,
 } from "../../services/api/WeatherService";
+import { error, info } from "../utils/logger";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
+
+const CONTEXT = "SearchResults";
 
 const SearchResults = ({ onLocationSelected }) => {
   const { searchQuery, setSelectedLocation, initialFocused, finalFocused } =
@@ -22,6 +26,8 @@ const SearchResults = ({ onLocationSelected }) => {
   const [loadingCurrentLocation, setLoadingCurrentLocation] = useState(false);
   const [userPosition, setUserPosition] = useState(null);
   const [weatherData, setWeatherData] = useState({});
+  const [diagnosticResult, setDiagnosticResult] = useState(null);
+  const [showDiagnostics, setShowDiagnostics] = useState(false);
 
   // Get user's position when component mounts
   useEffect(() => {
@@ -33,8 +39,8 @@ const SearchResults = ({ onLocationSelected }) => {
             longitude: position.coords.longitude,
           });
         },
-        (_) => {
-          console.error("Error getting user position:", _);
+        (err) => {
+          error(CONTEXT, "Error getting user position", err);
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
@@ -59,12 +65,16 @@ const SearchResults = ({ onLocationSelected }) => {
         enhancedQuery = `${enhancedQuery}, Cebu, Philippines`;
       }
 
+      info(CONTEXT, "Fetching places", { query: enhancedQuery });
+
       // Fetch initial set of places
       const places = await fetchPlaces(enhancedQuery, {
         lat: userPosition?.latitude,
         lon: userPosition?.longitude,
         radius: 5000, // 5km radius
       });
+
+      info(CONTEXT, "Places fetched", { count: places.length });
 
       // If no results, attempt some alternative queries
       if (places.length === 0) {
@@ -76,9 +86,14 @@ const SearchResults = ({ onLocationSelected }) => {
         ];
 
         for (const altQuery of altQueries) {
+          info(CONTEXT, "Trying alternative query", { altQuery });
           const altPlaces = await fetchPlaces(altQuery);
           if (altPlaces.length > 0) {
             // Optionally, you could also run fuzzy matching here
+            info(CONTEXT, "Found results with alternative query", {
+              altQuery,
+              count: altPlaces.length,
+            });
             setResults(altPlaces);
             setLoading(false);
             return;
@@ -107,9 +122,13 @@ const SearchResults = ({ onLocationSelected }) => {
         const fuse = new Fuse(places, fuseOptions);
         const fuseResults = fuse.search(searchQuery);
         if (fuseResults.length > 0) {
+          info(CONTEXT, "Fuzzy search results", { count: fuseResults.length });
           setResults(fuseResults.map((result) => result.item));
         } else {
           // fallback to original order if fuzzy search gives no results
+          info(CONTEXT, "Using original results (no fuzzy matches)", {
+            count: places.length,
+          });
           setResults(places);
         }
       } else {
@@ -133,6 +152,7 @@ const SearchResults = ({ onLocationSelected }) => {
     const fetchWeatherForResults = async () => {
       if (!results.length) return;
 
+      info(CONTEXT, "Fetching weather for results", { count: results.length });
       const newWeatherData = { ...weatherData };
 
       for (const place of results) {
@@ -166,6 +186,12 @@ const SearchResults = ({ onLocationSelected }) => {
             throw new Error("Invalid coordinates");
           }
 
+          info(CONTEXT, "Fetching weather for location", {
+            name: place.name,
+            lat,
+            lon,
+          });
+
           const cacheKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
           let temp = getCachedTemperature(cacheKey);
 
@@ -181,12 +207,20 @@ const SearchResults = ({ onLocationSelected }) => {
             throw new Error("Failed to fetch temperature");
           }
 
+          info(CONTEXT, "Weather fetched successfully", {
+            name: place.name,
+            temp,
+          });
+
           newWeatherData[locationKey] = {
             status: "success",
             temperature: temp,
           };
-        } catch (error) {
-          console.error(`Weather fetch failed for ${locationKey}:`, error);
+        } catch (err) {
+          error(CONTEXT, `Weather fetch failed for ${place.name}`, {
+            error: err.message,
+            coordinates: `${place.latitude},${place.longitude}`,
+          });
           newWeatherData[locationKey] = { status: "failed" };
         }
 
@@ -443,6 +477,155 @@ const SearchResults = ({ onLocationSelected }) => {
     return "";
   };
 
+  // Add a diagnostic function
+  const runDiagnostics = async () => {
+    setDiagnosticResult({ status: "running" });
+
+    try {
+      // Test the weather service
+      const testResult = await testWeatherService();
+
+      // Check network connectivity
+      const networkStatus = navigator.onLine ? "online" : "offline";
+
+      // Check localStorage
+      let storageStatus = "available";
+      try {
+        localStorage.setItem("test", "test");
+        localStorage.removeItem("test");
+      } catch {
+        storageStatus = "unavailable";
+      }
+
+      setDiagnosticResult({
+        status: "complete",
+        timestamp: new Date().toISOString(),
+        weatherTest: testResult,
+        network: networkStatus,
+        storage: storageStatus,
+        userAgent: navigator.userAgent,
+        screenSize: `${window.innerWidth}x${window.innerHeight}`,
+      });
+    } catch (err) {
+      setDiagnosticResult({
+        status: "error",
+        error: err.message,
+      });
+    }
+  };
+
+  // Add this at the end of your return statement, before the closing tag
+  const renderDiagnostics = () => {
+    if (!showDiagnostics) {
+      return (
+        <div className="diagnostics-toggle">
+          <button
+            onClick={() => setShowDiagnostics(true)}
+            style={{
+              padding: "5px 10px",
+              fontSize: "12px",
+              backgroundColor: "#f0f0f0",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              marginTop: "10px",
+            }}
+          >
+            Show Diagnostics
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className="diagnostics-panel"
+        style={{
+          marginTop: "20px",
+          padding: "10px",
+          backgroundColor: "#f5f5f5",
+          borderRadius: "8px",
+          fontSize: "14px",
+        }}
+      >
+        <h3 style={{ margin: "0 0 10px 0" }}>Weather Service Diagnostics</h3>
+
+        <button
+          onClick={runDiagnostics}
+          style={{
+            padding: "8px 12px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            marginRight: "10px",
+          }}
+        >
+          Run Diagnostics
+        </button>
+
+        <button
+          onClick={() => setShowDiagnostics(false)}
+          style={{
+            padding: "8px 12px",
+            backgroundColor: "#6c757d",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+          }}
+        >
+          Hide
+        </button>
+
+        {diagnosticResult && (
+          <div style={{ marginTop: "15px" }}>
+            <h4 style={{ margin: "0 0 10px 0" }}>Results:</h4>
+            {diagnosticResult.status === "running" ? (
+              <p>Running diagnostics...</p>
+            ) : diagnosticResult.status === "error" ? (
+              <p style={{ color: "red" }}>Error: {diagnosticResult.error}</p>
+            ) : (
+              <div
+                style={{
+                  backgroundColor: "white",
+                  padding: "10px",
+                  borderRadius: "4px",
+                  border: "1px solid #ddd",
+                  maxHeight: "300px",
+                  overflow: "auto",
+                }}
+              >
+                <p>
+                  <strong>Timestamp:</strong> {diagnosticResult.timestamp}
+                </p>
+                <p>
+                  <strong>Network:</strong> {diagnosticResult.network}
+                </p>
+                <p>
+                  <strong>Storage:</strong> {diagnosticResult.storage}
+                </p>
+                <p>
+                  <strong>Weather Test:</strong>{" "}
+                  {diagnosticResult.weatherTest.success
+                    ? `Success (${diagnosticResult.weatherTest.temperature}°C)`
+                    : `Failed (${
+                        diagnosticResult.weatherTest.message ||
+                        diagnosticResult.weatherTest.error
+                      })`}
+                </p>
+                <p>
+                  <strong>User Agent:</strong> {diagnosticResult.userAgent}
+                </p>
+                <p>
+                  <strong>Screen Size:</strong> {diagnosticResult.screenSize}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   // Only render if we have results, are loading, or have no results but user is searching
   // or if we're showing current location
   if (
@@ -452,7 +635,7 @@ const SearchResults = ({ onLocationSelected }) => {
     !noResults &&
     !currentLocation
   ) {
-    return null;
+    return <div>{renderDiagnostics()}</div>;
   }
 
   return (
@@ -551,6 +734,8 @@ const SearchResults = ({ onLocationSelected }) => {
                 No locations found in Cebu. Try a different search term.
               </div>
             )}
+
+          {renderDiagnostics()}
         </>
       )}
     </div>
