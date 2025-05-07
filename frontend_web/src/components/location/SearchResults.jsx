@@ -21,7 +21,7 @@ const SearchResults = ({ onLocationSelected }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [loadingCurrentLocation, setLoadingCurrentLocation] = useState(false);
   const [userPosition, setUserPosition] = useState(null);
-  const [temperatures, setTemperatures] = useState({});
+  const [weatherData, setWeatherData] = useState({});
 
   // Get user's position when component mounts
   useEffect(() => {
@@ -33,73 +33,13 @@ const SearchResults = ({ onLocationSelected }) => {
             longitude: position.coords.longitude,
           });
         },
-        (error) => {
-          console.error("Error getting user position:", error);
+        (_) => {
+          console.error("Error getting user position:", _);
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
     }
   }, []);
-
-  // Fetch temperature for a place
-  const getTemperature = async (place) => {
-    const lat = place.latitude || place.lat;
-    const lon = place.longitude || place.lon;
-
-    if (!lat || !lon) return null;
-
-    const cacheKey = `${lat.toFixed(2)},${lon.toFixed(2)}`;
-
-    // Check cache first
-    const cachedTemp = getCachedTemperature(cacheKey);
-    if (cachedTemp !== null) {
-      return cachedTemp;
-    }
-
-    // Fetch fresh data
-    const temp = await fetchTemperature(lat, lon);
-    if (temp !== null) {
-      cacheTemperature(temp, cacheKey);
-    }
-    return temp;
-  };
-
-  // Fetch temperatures for all results
-  useEffect(() => {
-    const fetchTemperatures = async () => {
-      if (!results.length) return;
-
-      const tempData = {};
-
-      for (const place of results) {
-        const temp = await getTemperature(place);
-        if (temp !== null) {
-          tempData[place.latitude + "," + place.longitude] = temp;
-        }
-      }
-
-      setTemperatures(tempData);
-    };
-
-    fetchTemperatures();
-  }, [results]);
-
-  // Fetch temperature for current location
-  useEffect(() => {
-    const fetchCurrentLocationTemp = async () => {
-      if (!currentLocation) return;
-
-      const temp = await getTemperature(currentLocation);
-      if (temp !== null) {
-        setTemperatures((prev) => ({
-          ...prev,
-          [currentLocation.latitude + "," + currentLocation.longitude]: temp,
-        }));
-      }
-    };
-
-    fetchCurrentLocationTemp();
-  }, [currentLocation]);
 
   useEffect(() => {
     // Add a null check before calling trim()
@@ -187,6 +127,101 @@ const SearchResults = ({ onLocationSelected }) => {
 
     return () => clearTimeout(timer);
   }, [searchQuery, userPosition]);
+
+  // Fetch weather data for all places
+  useEffect(() => {
+    const fetchWeatherForResults = async () => {
+      if (!results.length) return;
+
+      const newWeatherData = { ...weatherData };
+
+      for (const place of results) {
+        const locationKey = `${place.latitude},${place.longitude}`;
+
+        // Set loading state for this location
+        newWeatherData[locationKey] = { status: "loading" };
+        setWeatherData({ ...newWeatherData });
+
+        try {
+          // Try cache first
+          const cacheKey = `${place.latitude.toFixed(
+            2
+          )},${place.longitude.toFixed(2)}`;
+          let temp = getCachedTemperature(cacheKey);
+
+          // If not in cache, fetch it
+          if (temp === null) {
+            temp = await fetchTemperature(place.latitude, place.longitude);
+            if (temp !== null) {
+              cacheTemperature(temp, cacheKey);
+            }
+          }
+
+          newWeatherData[locationKey] = {
+            status: "success",
+            temperature: temp,
+          };
+        } catch {
+          newWeatherData[locationKey] = { status: "failed" };
+        }
+      }
+
+      setWeatherData(newWeatherData);
+    };
+
+    fetchWeatherForResults();
+  }, [results, weatherData]);
+
+  // Fetch weather for current location if set
+  useEffect(() => {
+    const fetchCurrentLocationWeather = async () => {
+      if (!currentLocation) return;
+
+      const locationKey = `${currentLocation.latitude},${currentLocation.longitude}`;
+
+      // Set loading state
+      setWeatherData((prev) => ({
+        ...prev,
+        [locationKey]: { status: "loading" },
+      }));
+
+      try {
+        // Try cache first
+        const cacheKey = `${currentLocation.latitude.toFixed(
+          2
+        )},${currentLocation.longitude.toFixed(2)}`;
+        let temp = getCachedTemperature(cacheKey);
+
+        // If not in cache, fetch it
+        if (temp === null) {
+          temp = await fetchTemperature(
+            currentLocation.latitude,
+            currentLocation.longitude
+          );
+          if (temp !== null) {
+            cacheTemperature(temp, cacheKey);
+          }
+        }
+
+        setWeatherData((prev) => ({
+          ...prev,
+          [locationKey]: {
+            status: "success",
+            temperature: temp,
+          },
+        }));
+      } catch {
+        setWeatherData((prev) => ({
+          ...prev,
+          [locationKey]: { status: "failed" },
+        }));
+      }
+    };
+
+    if (currentLocation) {
+      fetchCurrentLocationWeather();
+    }
+  }, [currentLocation]);
 
   // Calculate distance between two coordinates in meters
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -278,8 +313,8 @@ const SearchResults = ({ onLocationSelected }) => {
 
               setLoadingCurrentLocation(false);
             })
-            .catch((error) => {
-              console.error("Error getting location name:", error);
+            .catch((_) => {
+              console.error("Error getting location name:", _);
               const locationObj = {
                 name: `Current Location (${latitude.toFixed(
                   6
@@ -305,8 +340,8 @@ const SearchResults = ({ onLocationSelected }) => {
               setLoadingCurrentLocation(false);
             });
         },
-        (error) => {
-          console.error("Error getting current location:", error);
+        (_) => {
+          console.error("Error getting current location:", _);
           setLoadingCurrentLocation(false);
           alert(
             "Unable to get your current location. Please check your browser permissions."
@@ -361,6 +396,24 @@ const SearchResults = ({ onLocationSelected }) => {
     return parts.filter(Boolean).join(", ");
   };
 
+  // Get weather display text for a location
+  const getWeatherDisplay = (place) => {
+    const locationKey = `${place.latitude},${place.longitude}`;
+    const data = weatherData[locationKey];
+
+    if (!data) return "";
+
+    if (data.status === "loading") {
+      return " • Weather: Loading";
+    } else if (data.status === "failed") {
+      return " • Weather: Failed";
+    } else if (data.temperature !== null) {
+      return ` • ${data.temperature}°C`;
+    }
+
+    return "";
+  };
+
   // Only render if we have results, are loading, or have no results but user is searching
   // or if we're showing current location
   if (
@@ -393,30 +446,18 @@ const SearchResults = ({ onLocationSelected }) => {
                 <div className="location-details">
                   <div className="location-main-text">
                     {currentLocation.details.road || "Current Location"}
-                    {currentLocation.distance !== undefined && (
+                    <div className="location-meta">
                       <span className="distance-text">
-                        {" "}
                         {currentLocation.distance < 1000
                           ? `${Math.round(currentLocation.distance)}m away`
                           : `${(currentLocation.distance / 1000).toFixed(
                               1
                             )}km away`}
                       </span>
-                    )}
-                    {temperatures[
-                      currentLocation.latitude + "," + currentLocation.longitude
-                    ] !== undefined && (
-                      <span className="temperature-box">
-                        {
-                          temperatures[
-                            currentLocation.latitude +
-                              "," +
-                              currentLocation.longitude
-                          ]
-                        }
-                        °C
+                      <span className="weather-text">
+                        {getWeatherDisplay(currentLocation)}
                       </span>
-                    )}
+                    </div>
                   </div>
                   <div className="location-secondary-text">
                     {formatDetailedAddress(currentLocation)}
@@ -433,21 +474,18 @@ const SearchResults = ({ onLocationSelected }) => {
                   <div className="location-details">
                     <div className="location-main-text">
                       {place.name.split(",")[0]}
-                      {place.distance !== undefined && (
+                      <div className="location-meta">
                         <span className="distance-text">
-                          {" "}
-                          {place.distance < 1000
-                            ? `${Math.round(place.distance)}m away`
-                            : `${(place.distance / 1000).toFixed(1)}km away`}
+                          {place.distance !== undefined
+                            ? place.distance < 1000
+                              ? `${Math.round(place.distance)}m away`
+                              : `${(place.distance / 1000).toFixed(1)}km away`
+                            : ""}
                         </span>
-                      )}
-                      {temperatures[place.latitude + "," + place.longitude] !==
-                        undefined && (
-                        <span className="temperature-box">
-                          {temperatures[place.latitude + "," + place.longitude]}
-                          °C
+                        <span className="weather-text">
+                          {getWeatherDisplay(place)}
                         </span>
-                      )}
+                      </div>
                     </div>
                     <div className="location-secondary-text">
                       {formatDetailedAddress(place)}
