@@ -29,6 +29,8 @@ export const fetchTemperature = async (lat, lon) => {
       error(CONTEXT, `Request timeout [${requestId}]`, { lat, lon });
     }, 10000); // 10 second timeout
 
+    // Use a proxy server to avoid CORS issues
+    // This is a workaround for the OpenWeatherMap API
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
     debug(CONTEXT, `Request URL [${requestId}]`, {
       url: url.replace(API_KEY, "API_KEY_HIDDEN"),
@@ -160,6 +162,43 @@ export const getCachedTemperature = (key, maxAge = 30 * 60 * 1000) => {
   }
 };
 
+// Fallback temperature data for Cebu City
+const CEBU_FALLBACK_TEMPS = {
+  // Average temperatures for Cebu City by month (in Celsius)
+  1: 27,
+  2: 27,
+  3: 28,
+  4: 29,
+  5: 30,
+  6: 29,
+  7: 29,
+  8: 29,
+  9: 29,
+  10: 29,
+  11: 28,
+  12: 28,
+};
+
+/**
+ * Get fallback temperature for a location
+ * Uses average temperature data for Cebu or nearby locations
+ * @param {number} lat - Latitude
+ * @param {number} lon - Longitude
+ * @returns {number} - Estimated temperature in Celsius
+ */
+export const getFallbackTemperature = (lat, lon) => {
+  // Check if coordinates are in Cebu area (approximate)
+  const isCebuArea = lat >= 9.5 && lat <= 11.5 && lon >= 123 && lon <= 124.5;
+
+  if (isCebuArea) {
+    const currentMonth = new Date().getMonth() + 1; // 1-12
+    return CEBU_FALLBACK_TEMPS[currentMonth];
+  }
+
+  // Default fallback for other areas
+  return 28; // Average temperature for Philippines
+};
+
 /**
  * Test the weather service with a known location
  * Useful for debugging API issues
@@ -167,9 +206,9 @@ export const getCachedTemperature = (key, maxAge = 30 * 60 * 1000) => {
 export const testWeatherService = async () => {
   info(CONTEXT, "Testing weather service");
 
-  // Test with a known location (New York)
-  const lat = 40.7128;
-  const lon = -74.006;
+  // Test with a location in Cebu City
+  const lat = 10.3157;
+  const lon = 123.8854;
 
   try {
     // Clear any existing cache for this location

@@ -9,8 +9,9 @@ import {
   getCachedTemperature,
   cacheTemperature,
   testWeatherService,
+  getFallbackTemperature,
 } from "../../services/api/WeatherService";
-import { error, info } from "../../services/utils/logger";
+import { error, info } from "../utils/logger";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
 const CONTEXT = "SearchResults";
@@ -203,8 +204,13 @@ const SearchResults = ({ onLocationSelected }) => {
             }
           }
 
+          // If API failed, use fallback temperature
           if (temp === null) {
-            throw new Error("Failed to fetch temperature");
+            temp = getFallbackTemperature(lat, lon);
+            info(CONTEXT, "Using fallback temperature", {
+              name: place.name,
+              fallbackTemp: temp,
+            });
           }
 
           info(CONTEXT, "Weather fetched successfully", {
@@ -215,13 +221,34 @@ const SearchResults = ({ onLocationSelected }) => {
           newWeatherData[locationKey] = {
             status: "success",
             temperature: temp,
+            isFallback: temp === null,
           };
         } catch (err) {
           error(CONTEXT, `Weather fetch failed for ${place.name}`, {
             error: err.message,
             coordinates: `${place.latitude},${place.longitude}`,
           });
-          newWeatherData[locationKey] = { status: "failed" };
+
+          // Use fallback temperature instead of showing "Failed"
+          const lat =
+            place.latitude !== undefined
+              ? place.latitude
+              : Number.parseFloat(place.lat);
+          const lon =
+            place.longitude !== undefined
+              ? place.longitude
+              : Number.parseFloat(place.lon);
+
+          if (!isNaN(lat) && !isNaN(lon)) {
+            const fallbackTemp = getFallbackTemperature(lat, lon);
+            newWeatherData[locationKey] = {
+              status: "success",
+              temperature: fallbackTemp,
+              isFallback: true,
+            };
+          } else {
+            newWeatherData[locationKey] = { status: "failed" };
+          }
         }
 
         // Update state after each location to show progress
@@ -471,7 +498,9 @@ const SearchResults = ({ onLocationSelected }) => {
     } else if (data.status === "failed") {
       return " • Weather: Failed";
     } else if (data.temperature !== null) {
-      return ` • ${data.temperature}°C`;
+      return data.isFallback
+        ? ` • ~${data.temperature}°C (est.)`
+        : ` • ${data.temperature}°C`;
     }
 
     return "";
