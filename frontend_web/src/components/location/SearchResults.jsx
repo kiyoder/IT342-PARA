@@ -138,21 +138,35 @@ const SearchResults = ({ onLocationSelected }) => {
       for (const place of results) {
         const locationKey = `${place.latitude},${place.longitude}`;
 
+        // Skip if we already have data for this location
+        if (
+          newWeatherData[locationKey] &&
+          newWeatherData[locationKey].status !== "loading"
+        ) {
+          continue;
+        }
+
         // Set loading state for this location
         newWeatherData[locationKey] = { status: "loading" };
         setWeatherData({ ...newWeatherData });
 
         try {
-          // pull out either form—.latitude/.longitude or .lat/.lon
+          // Extract coordinates properly
           const lat =
-            place.latitude != null
+            place.latitude !== undefined
               ? place.latitude
               : Number.parseFloat(place.lat);
           const lon =
-            place.longitude != null
+            place.longitude !== undefined
               ? place.longitude
               : Number.parseFloat(place.lon);
-          const cacheKey = `${lat.toFixed(2)},${lon.toFixed(2)}`;
+
+          // Skip if coordinates are invalid
+          if (isNaN(lat) || isNaN(lon)) {
+            throw new Error("Invalid coordinates");
+          }
+
+          const cacheKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
           let temp = getCachedTemperature(cacheKey);
 
           // If not in cache, fetch it
@@ -163,20 +177,26 @@ const SearchResults = ({ onLocationSelected }) => {
             }
           }
 
+          if (temp === null) {
+            throw new Error("Failed to fetch temperature");
+          }
+
           newWeatherData[locationKey] = {
             status: "success",
             temperature: temp,
           };
-        } catch {
+        } catch (error) {
+          console.error(`Weather fetch failed for ${locationKey}:`, error);
           newWeatherData[locationKey] = { status: "failed" };
         }
-      }
 
-      setWeatherData(newWeatherData);
+        // Update state after each location to show progress
+        setWeatherData({ ...newWeatherData });
+      }
     };
 
     fetchWeatherForResults();
-  }, [results, weatherData]);
+  }, [results]);
 
   // Fetch weather for current location if set
   useEffect(() => {
