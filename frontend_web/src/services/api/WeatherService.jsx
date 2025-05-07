@@ -29,32 +29,15 @@ export const fetchTemperature = async (lat, lon) => {
       error(CONTEXT, `Request timeout [${requestId}]`, { lat, lon });
     }, 10000); // 10 second timeout
 
-    // Use a direct URL without proxy
+    // Use a proxy server to avoid CORS issues
+    // This is a workaround for the OpenWeatherMap API
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
     debug(CONTEXT, `Request URL [${requestId}]`, {
       url: url.replace(API_KEY, "API_KEY_HIDDEN"),
     });
 
     const startTime = Date.now();
-
-    // Log the exact request being made
-    console.log(
-      `[WEATHER DEBUG] Making request to: ${url.replace(
-        API_KEY,
-        "API_KEY_HIDDEN"
-      )}`
-    );
-
-    const response = await fetch(url, {
-      signal: controller.signal,
-      // Add cache control headers to prevent caching
-      headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
-      },
-    });
-
+    const response = await fetch(url, { signal: controller.signal });
     const responseTime = Date.now() - startTime;
 
     clearTimeout(timeoutId);
@@ -109,44 +92,6 @@ export const fetchTemperature = async (lat, lon) => {
     });
     return null;
   }
-};
-
-/**
- * Normalize coordinates to ensure we can handle both formats
- * @param {Object} location - Location object with either lat/lon or latitude/longitude
- * @returns {Object} - Normalized coordinates with lat and lon properties
- */
-export const normalizeCoordinates = (location) => {
-  if (!location) return null;
-
-  // Handle both coordinate formats
-  const lat =
-    location.lat !== undefined
-      ? location.lat
-      : location.latitude !== undefined
-      ? location.latitude
-      : null;
-
-  const lon =
-    location.lon !== undefined
-      ? location.lon
-      : location.longitude !== undefined
-      ? location.longitude
-      : null;
-
-  if (
-    lat === null ||
-    lon === null ||
-    isNaN(Number(lat)) ||
-    isNaN(Number(lon))
-  ) {
-    return null;
-  }
-
-  return {
-    lat: Number(lat),
-    lon: Number(lon),
-  };
 };
 
 /**
@@ -261,8 +206,7 @@ export const getFallbackTemperature = (lat, lon) => {
 export const testWeatherService = async () => {
   info(CONTEXT, "Testing weather service");
 
-  // Test with the exact same location as the search result
-  // This will help us determine if there's a location-specific issue
+  // Test with a location in Cebu City
   const lat = 10.3157;
   const lon = 123.8854;
 
@@ -275,8 +219,7 @@ export const testWeatherService = async () => {
 
     info(CONTEXT, "Cache cleared for test location", { lat, lon });
 
-    // Test the API with the same parameters as the actual search
-    console.log(`[WEATHER TEST] Testing with coordinates: ${lat}, ${lon}`);
+    // Test the API
     const temp = await fetchTemperature(lat, lon);
 
     if (temp === null) {
