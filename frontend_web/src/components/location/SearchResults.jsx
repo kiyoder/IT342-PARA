@@ -4,7 +4,11 @@ import { useState, useEffect } from "react";
 import "../../styles/SearchResults.css";
 import { useLocation } from "../../contexts/LocationContext";
 import { fetchPlaces } from "../../services/api/Nominatim";
-import WeatherWidget from "../weather/WeatherWidget";
+import {
+  fetchTemperature,
+  getCachedTemperature,
+  cacheTemperature,
+} from "../../services/api/WeatherService";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
 const SearchResults = ({ onLocationSelected }) => {
@@ -17,7 +21,7 @@ const SearchResults = ({ onLocationSelected }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [loadingCurrentLocation, setLoadingCurrentLocation] = useState(false);
   const [userPosition, setUserPosition] = useState(null);
-  const [selectedResult, setSelectedResult] = useState(null);
+  const [temperatures, setTemperatures] = useState({});
 
   // Get user's position when component mounts
   useEffect(() => {
@@ -36,6 +40,66 @@ const SearchResults = ({ onLocationSelected }) => {
       );
     }
   }, []);
+
+  // Fetch temperature for a place
+  const getTemperature = async (place) => {
+    const lat = place.latitude || place.lat;
+    const lon = place.longitude || place.lon;
+
+    if (!lat || !lon) return null;
+
+    const cacheKey = `${lat.toFixed(2)},${lon.toFixed(2)}`;
+
+    // Check cache first
+    const cachedTemp = getCachedTemperature(cacheKey);
+    if (cachedTemp !== null) {
+      return cachedTemp;
+    }
+
+    // Fetch fresh data
+    const temp = await fetchTemperature(lat, lon);
+    if (temp !== null) {
+      cacheTemperature(temp, cacheKey);
+    }
+    return temp;
+  };
+
+  // Fetch temperatures for all results
+  useEffect(() => {
+    const fetchTemperatures = async () => {
+      if (!results.length) return;
+
+      const tempData = {};
+
+      for (const place of results) {
+        const temp = await getTemperature(place);
+        if (temp !== null) {
+          tempData[place.latitude + "," + place.longitude] = temp;
+        }
+      }
+
+      setTemperatures(tempData);
+    };
+
+    fetchTemperatures();
+  }, [results]);
+
+  // Fetch temperature for current location
+  useEffect(() => {
+    const fetchCurrentLocationTemp = async () => {
+      if (!currentLocation) return;
+
+      const temp = await getTemperature(currentLocation);
+      if (temp !== null) {
+        setTemperatures((prev) => ({
+          ...prev,
+          [currentLocation.latitude + "," + currentLocation.longitude]: temp,
+        }));
+      }
+    };
+
+    fetchCurrentLocationTemp();
+  }, [currentLocation]);
 
   useEffect(() => {
     // Add a null check before calling trim()
@@ -145,9 +209,6 @@ const SearchResults = ({ onLocationSelected }) => {
   };
 
   const handleSelectLocation = (place) => {
-    // Set the selected result for weather display
-    setSelectedResult(place);
-
     // Set the selected location for the map pin temporarily
     setSelectedLocation({
       latitude: place.latitude,
@@ -209,7 +270,6 @@ const SearchResults = ({ onLocationSelected }) => {
               };
 
               setCurrentLocation(locationObj);
-              setSelectedResult(locationObj);
 
               // Call the parent component's handler to show confirmation
               if (onLocationSelected) {
@@ -236,7 +296,6 @@ const SearchResults = ({ onLocationSelected }) => {
               };
 
               setCurrentLocation(locationObj);
-              setSelectedResult(locationObj);
 
               // Call the parent component's handler to show confirmation
               if (onLocationSelected) {
@@ -315,100 +374,117 @@ const SearchResults = ({ onLocationSelected }) => {
   }
 
   return (
-    <div className="search-results-container">
-      <div className="search-results">
-        {loading ? (
-          <div className="loading">Searching locations in Cebu...</div>
-        ) : loadingCurrentLocation ? (
-          <div className="loading">Getting your current location...</div>
-        ) : (
-          <>
-            <ul>
-              {/* Show current location at the top if available */}
-              {currentLocation && (
-                <li
-                  key="current-location"
-                  onClick={() => handleSelectLocation(currentLocation)}
-                  className="current-location-item"
-                >
-                  <div className="location-icon">📍</div>
-                  <div className="location-details">
-                    <div className="location-main-text">
-                      {currentLocation.details.road || "Current Location"}
-                    </div>
-                    <div className="location-secondary-text">
-                      {formatDetailedAddress(currentLocation)}
-                    </div>
-                  </div>
-                </li>
-              )}
-
-              {/* Show search results */}
-              {results &&
-                results.map((place, index) => (
-                  <li key={index} onClick={() => handleSelectLocation(place)}>
-                    <div className="location-icon">📍</div>
-                    <div className="location-details">
-                      <div className="location-main-text">
-                        {place.name.split(",")[0]}
-                        {place.distance !== undefined && (
-                          <span className="distance-text">
-                            {" "}
-                            {place.distance < 1000
-                              ? `${Math.round(place.distance)}m away`
-                              : `${(place.distance / 1000).toFixed(1)}km away`}
-                          </span>
-                        )}
-                      </div>
-                      <div className="location-secondary-text">
-                        {formatDetailedAddress(place)}
-                      </div>
-                    </div>
-                  </li>
-                ))}
-            </ul>
-
-            {/* Always show the "use current location" option */}
-            {!currentLocation && (
+    <div className="search-results">
+      {loading ? (
+        <div className="loading">Searching locations in Cebu...</div>
+      ) : loadingCurrentLocation ? (
+        <div className="loading">Getting your current location...</div>
+      ) : (
+        <>
+          <ul>
+            {/* Show current location at the top if available */}
+            {currentLocation && (
               <li
-                className="use-current-location"
-                onClick={handleUseCurrentLocation}
+                key="current-location"
+                onClick={() => handleSelectLocation(currentLocation)}
+                className="current-location-item"
               >
+                <div className="location-icon">📍</div>
                 <div className="location-details">
-                  <div
-                    className="location-secondary-text"
-                    style={{ paddingLeft: "20px" }}
-                  >
-                    or use current location
+                  <div className="location-main-text">
+                    {currentLocation.details.road || "Current Location"}
+                    {currentLocation.distance !== undefined && (
+                      <span className="distance-text">
+                        {" "}
+                        {currentLocation.distance < 1000
+                          ? `${Math.round(currentLocation.distance)}m away`
+                          : `${(currentLocation.distance / 1000).toFixed(
+                              1
+                            )}km away`}
+                      </span>
+                    )}
+                    {temperatures[
+                      currentLocation.latitude + "," + currentLocation.longitude
+                    ] !== undefined && (
+                      <span className="temperature-box">
+                        {
+                          temperatures[
+                            currentLocation.latitude +
+                              "," +
+                              currentLocation.longitude
+                          ]
+                        }
+                        °C
+                      </span>
+                    )}
+                  </div>
+                  <div className="location-secondary-text">
+                    {formatDetailedAddress(currentLocation)}
                   </div>
                 </div>
               </li>
             )}
 
-            {/* Show no results message if needed */}
-            {searchQuery &&
-              searchQuery.trim() &&
-              noResults &&
-              results.length === 0 &&
-              !currentLocation && (
-                <div className="no-results">
-                  No locations found in Cebu. Try a different search term.
-                </div>
-              )}
-          </>
-        )}
-      </div>
+            {/* Show search results */}
+            {results &&
+              results.map((place, index) => (
+                <li key={index} onClick={() => handleSelectLocation(place)}>
+                  <div className="location-icon">📍</div>
+                  <div className="location-details">
+                    <div className="location-main-text">
+                      {place.name.split(",")[0]}
+                      {place.distance !== undefined && (
+                        <span className="distance-text">
+                          {" "}
+                          {place.distance < 1000
+                            ? `${Math.round(place.distance)}m away`
+                            : `${(place.distance / 1000).toFixed(1)}km away`}
+                        </span>
+                      )}
+                      {temperatures[place.latitude + "," + place.longitude] !==
+                        undefined && (
+                        <span className="temperature-box">
+                          {temperatures[place.latitude + "," + place.longitude]}
+                          °C
+                        </span>
+                      )}
+                    </div>
+                    <div className="location-secondary-text">
+                      {formatDetailedAddress(place)}
+                    </div>
+                  </div>
+                </li>
+              ))}
+          </ul>
 
-      {/* Weather widget */}
-      {selectedResult && (
-        <div className="weather-container">
-          <WeatherWidget
-            latitude={parseFloat(selectedResult.lat ?? selectedResult.latitude)}
-            longitude={parseFloat(
-              selectedResult.lon ?? selectedResult.longitude
+          {/* Always show the "use current location" option */}
+          {!currentLocation && (
+            <li
+              className="use-current-location"
+              onClick={handleUseCurrentLocation}
+            >
+              <div className="location-details">
+                <div
+                  className="location-secondary-text"
+                  style={{ paddingLeft: "20px" }}
+                >
+                  or use current location
+                </div>
+              </div>
+            </li>
+          )}
+
+          {/* Show no results message if needed */}
+          {searchQuery &&
+            searchQuery.trim() &&
+            noResults &&
+            results.length === 0 &&
+            !currentLocation && (
+              <div className="no-results">
+                No locations found in Cebu. Try a different search term.
+              </div>
             )}
-          />
-        </div>
+        </>
       )}
     </div>
   );
