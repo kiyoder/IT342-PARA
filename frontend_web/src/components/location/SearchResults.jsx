@@ -10,8 +10,9 @@ import {
   cacheTemperature,
   testWeatherService,
   getFallbackTemperature,
+  normalizeCoordinates,
 } from "../../services/api/WeatherService";
-import { error, info } from "../../services/utils/logger";
+import { error, info, debug } from "../../services/utils/logger";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
 const CONTEXT = "SearchResults";
@@ -68,12 +69,8 @@ const SearchResults = ({ onLocationSelected }) => {
 
       info(CONTEXT, "Fetching places", { query: enhancedQuery });
 
-      // Fetch initial set of places
-      const places = await fetchPlaces(enhancedQuery, {
-        lat: userPosition?.latitude,
-        lon: userPosition?.longitude,
-        radius: 5000, // 5km radius
-      });
+      // Fetch places using the existing Nominatim service
+      const places = await fetchPlaces(enhancedQuery);
 
       info(CONTEXT, "Places fetched", { count: places.length });
 
@@ -157,6 +154,19 @@ const SearchResults = ({ onLocationSelected }) => {
       const newWeatherData = { ...weatherData };
 
       for (const place of results) {
+        // Log the place object to debug
+        debug(CONTEXT, "Processing place for weather", {
+          place_name: place.name,
+          place_coords: `${place.latitude},${place.longitude}`,
+        });
+
+        // Use the same approach as the diagnostic test
+        const coords = normalizeCoordinates(place);
+        if (!coords) {
+          error(CONTEXT, "Invalid coordinates for place", { place });
+          continue;
+        }
+
         const locationKey = `${place.latitude},${place.longitude}`;
 
         // Skip if we already have data for this location
@@ -172,33 +182,23 @@ const SearchResults = ({ onLocationSelected }) => {
         setWeatherData({ ...newWeatherData });
 
         try {
-          // Extract coordinates properly
-          const lat =
-            place.latitude !== undefined
-              ? place.latitude
-              : Number.parseFloat(place.lat);
-          const lon =
-            place.longitude !== undefined
-              ? place.longitude
-              : Number.parseFloat(place.lon);
-
-          // Skip if coordinates are invalid
-          if (isNaN(lat) || isNaN(lon)) {
-            throw new Error("Invalid coordinates");
-          }
-
           info(CONTEXT, "Fetching weather for location", {
             name: place.name,
-            lat,
-            lon,
+            lat: coords.lat,
+            lon: coords.lon,
           });
 
-          const cacheKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
+          const cacheKey = `${coords.lat.toFixed(4)},${coords.lon.toFixed(4)}`;
           let temp = getCachedTemperature(cacheKey);
 
           // If not in cache, fetch it
           if (temp === null) {
-            temp = await fetchTemperature(lat, lon);
+            // Add a small delay between requests to avoid rate limiting
+            await new Promise((resolve) => setTimeout(resolve, 300));
+
+            // Use the exact same approach as the diagnostic test
+            temp = await fetchTemperature(coords.lat, coords.lon);
+
             if (temp !== null) {
               cacheTemperature(temp, cacheKey);
             }
@@ -206,49 +206,42 @@ const SearchResults = ({ onLocationSelected }) => {
 
           // If API failed, use fallback temperature
           if (temp === null) {
-            temp = getFallbackTemperature(lat, lon);
+            temp = getFallbackTemperature(coords.lat, coords.lon);
             info(CONTEXT, "Using fallback temperature", {
               name: place.name,
               fallbackTemp: temp,
             });
-          }
 
-          info(CONTEXT, "Weather fetched successfully", {
-            name: place.name,
-            temp,
-          });
-
-          newWeatherData[locationKey] = {
-            status: "success",
-            temperature: temp,
-            isFallback: temp === null,
-          };
-        } catch (err) {
-          error(CONTEXT, `Weather fetch failed for ${place.name}`, {
-            error: err.message,
-            coordinates: `${place.latitude},${place.longitude}`,
-          });
-
-          // Use fallback temperature instead of showing "Failed"
-          const lat =
-            place.latitude !== undefined
-              ? place.latitude
-              : Number.parseFloat(place.lat);
-          const lon =
-            place.longitude !== undefined
-              ? place.longitude
-              : Number.parseFloat(place.lon);
-
-          if (!isNaN(lat) && !isNaN(lon)) {
-            const fallbackTemp = getFallbackTemperature(lat, lon);
             newWeatherData[locationKey] = {
               status: "success",
-              temperature: fallbackTemp,
+              temperature: temp,
               isFallback: true,
             };
           } else {
-            newWeatherData[locationKey] = { status: "failed" };
+            info(CONTEXT, "Weather fetched successfully", {
+              name: place.name,
+              temp,
+            });
+
+            newWeatherData[locationKey] = {
+              status: "success",
+              temperature: temp,
+              isFallback: false,
+            };
           }
+        } catch (err) {
+          error(CONTEXT, `Weather fetch failed for ${place.name}`, {
+            error: err.message,
+            coordinates: `${coords.lat},${coords.lon}`,
+          });
+
+          // Use fallback temperature instead of showing "Failed"
+          const fallbackTemp = getFallbackTemperature(coords.lat, coords.lon);
+          newWeatherData[locationKey] = {
+            status: "success",
+            temperature: fallbackTemp,
+            isFallback: true,
+          };
         }
 
         // Update state after each location to show progress
@@ -264,6 +257,14 @@ const SearchResults = ({ onLocationSelected }) => {
     const fetchCurrentLocationWeather = async () => {
       if (!currentLocation) return;
 
+      const coords = normalizeCoordinates(currentLocation);
+      if (!coords) {
+        error(CONTEXT, "Invalid coordinates for current location", {
+          currentLocation,
+        });
+        return;
+      }
+
       const locationKey = `${currentLocation.latitude},${currentLocation.longitude}`;
 
       // Set loading state
@@ -273,37 +274,54 @@ const SearchResults = ({ onLocationSelected }) => {
       }));
 
       try {
-        // pull out either form—.latitude/.longitude or .lat/.lon
-        const lat =
-          currentLocation.latitude != null
-            ? currentLocation.latitude
-            : Number.parseFloat(currentLocation.lat);
-        const lon =
-          currentLocation.longitude != null
-            ? currentLocation.longitude
-            : Number.parseFloat(currentLocation.lon);
-        const cacheKey = `${lat.toFixed(2)},${lon.toFixed(2)}`;
+        info(CONTEXT, "Fetching weather for current location", {
+          lat: coords.lat,
+          lon: coords.lon,
+        });
+
+        const cacheKey = `${coords.lat.toFixed(4)},${coords.lon.toFixed(4)}`;
         let temp = getCachedTemperature(cacheKey);
 
         // If not in cache, fetch it
         if (temp === null) {
-          temp = await fetchTemperature(lat, lon);
+          temp = await fetchTemperature(coords.lat, coords.lon);
           if (temp !== null) {
             cacheTemperature(temp, cacheKey);
           }
         }
 
+        // If API failed, use fallback temperature
+        if (temp === null) {
+          temp = getFallbackTemperature(coords.lat, coords.lon);
+
+          setWeatherData((prev) => ({
+            ...prev,
+            [locationKey]: {
+              status: "success",
+              temperature: temp,
+              isFallback: true,
+            },
+          }));
+        } else {
+          setWeatherData((prev) => ({
+            ...prev,
+            [locationKey]: {
+              status: "success",
+              temperature: temp,
+              isFallback: false,
+            },
+          }));
+        }
+      } catch {
+        // Use fallback temperature
+        const fallbackTemp = getFallbackTemperature(coords.lat, coords.lon);
         setWeatherData((prev) => ({
           ...prev,
           [locationKey]: {
             status: "success",
-            temperature: temp,
+            temperature: fallbackTemp,
+            isFallback: true,
           },
-        }));
-      } catch {
-        setWeatherData((prev) => ({
-          ...prev,
-          [locationKey]: { status: "failed" },
         }));
       }
     };

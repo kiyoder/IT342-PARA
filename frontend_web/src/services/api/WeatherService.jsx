@@ -29,15 +29,32 @@ export const fetchTemperature = async (lat, lon) => {
       error(CONTEXT, `Request timeout [${requestId}]`, { lat, lon });
     }, 10000); // 10 second timeout
 
-    // Use a proxy server to avoid CORS issues
-    // This is a workaround for the OpenWeatherMap API
+    // Use a direct URL without proxy
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
     debug(CONTEXT, `Request URL [${requestId}]`, {
       url: url.replace(API_KEY, "API_KEY_HIDDEN"),
     });
 
     const startTime = Date.now();
-    const response = await fetch(url, { signal: controller.signal });
+
+    // Log the exact request being made
+    console.log(
+      `[WEATHER DEBUG] Making request to: ${url.replace(
+        API_KEY,
+        "API_KEY_HIDDEN"
+      )}`
+    );
+
+    const response = await fetch(url, {
+      signal: controller.signal,
+      // Add cache control headers to prevent caching
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
+
     const responseTime = Date.now() - startTime;
 
     clearTimeout(timeoutId);
@@ -92,6 +109,40 @@ export const fetchTemperature = async (lat, lon) => {
     });
     return null;
   }
+};
+
+/**
+ * Normalize coordinates to handle different formats from LocationContext and Nominatim
+ * @param {Object} location - Location object with coordinates
+ * @returns {Object|null} - Normalized coordinates with lat and lon properties
+ */
+export const normalizeCoordinates = (location) => {
+  if (!location) return null;
+
+  // Handle both coordinate formats
+  let lat, lon;
+
+  // Check for latitude/longitude format (from LocationContext)
+  if (location.latitude !== undefined && location.longitude !== undefined) {
+    lat = Number(location.latitude);
+    lon = Number(location.longitude);
+  }
+  // Check for lat/lon format (from selectedLocations in LocationContext)
+  else if (location.lat !== undefined && location.lon !== undefined) {
+    lat = Number(location.lat);
+    lon = Number(location.lon);
+  }
+  // If we can't find coordinates, return null
+  else {
+    return null;
+  }
+
+  // Validate the coordinates
+  if (isNaN(lat) || isNaN(lon)) {
+    return null;
+  }
+
+  return { lat, lon };
 };
 
 /**
