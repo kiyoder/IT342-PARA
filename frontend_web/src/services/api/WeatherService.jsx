@@ -1,5 +1,5 @@
 // Weather service to fetch weather data from OpenWeatherMap API
-const API_KEY = "4da2a855f0c9c4f7fd9a7d3b7b4c67a3"; // Free OpenWeatherMap API key
+const API_KEY = "37adbc1df68d54a44d9952c5c4493cdc"; // Free OpenWeatherMap API key
 
 /**
  * Fetch current temperature for a specific location
