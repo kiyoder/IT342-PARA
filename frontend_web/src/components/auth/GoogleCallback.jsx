@@ -56,7 +56,8 @@ function GoogleCallback() {
       localStorage.setItem("email", user.email);
 
       // await signIn(user.email, session.access_token);
-      window.location.href = "/profile";
+      // window.location.href = "/profile";
+      navigate("/profile");
     } catch (err) {
       console.error("Registration error:", err);
       setError(
@@ -94,6 +95,7 @@ function GoogleCallback() {
           throw new Error("Could not fetch user details");
         }
 
+
         setUser(user);
         console.log("User authenticated:", user.id);
         localStorage.setItem("token", session.access_token);
@@ -123,7 +125,7 @@ function GoogleCallback() {
 
             localStorage.setItem("username", profile.data.username || "");
             localStorage.setItem("email", profile.data.email || "");
-            await signIn(user.email, session.access_token);
+            // await signIn(user.email, session.access_token);
             navigate("/profile");
           } else {
             // New user - show username form
