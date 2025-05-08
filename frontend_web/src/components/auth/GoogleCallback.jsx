@@ -51,12 +51,11 @@ function GoogleCallback() {
         }
       );
 
-      localStorage.setItem("token", response.data.accessToken);
+      localStorage.setItem("token", response.data.accessToken || session.access_token);
       localStorage.setItem("username", username);
       localStorage.setItem("email", user.email);
 
-      await signIn(user.email, response.data.accessToken);
-      // window.location.href = "/profile";
+      // await signIn(user.email, response.data.accessToken);
       navigate("/profile");
     } catch (err) {
       console.error("Registration error:", err);
@@ -125,7 +124,7 @@ function GoogleCallback() {
 
             localStorage.setItem("username", profile.data.username || "");
             localStorage.setItem("email", profile.data.email || "");
-            await signIn(user.email, session.access_token);
+            // await signIn(user.email, session.access_token);
             navigate("/profile");
           } else {
             // New user - show username form
