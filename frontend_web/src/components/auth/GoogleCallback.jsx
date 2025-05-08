@@ -60,7 +60,7 @@ function GoogleCallback() {
       localStorage.setItem("email", user.email);
 
       // Call signIn to update auth context
-      await signIn(user.email, accessToken);
+      await signIn(user.email, accessToken, true);
 
 
       // await signIn(user.email, response.data.accessToken);
