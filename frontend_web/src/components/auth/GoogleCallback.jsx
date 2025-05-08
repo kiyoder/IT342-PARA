@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import axios from "axios";
 import "../../styles/GoogleCallback.css";
+import {useAuth} from "../../contexts/AuthContext.jsx";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -10,6 +11,7 @@ const supabase = createClient(
 );
 
 function GoogleCallback() {
+  const { signIn } = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
@@ -52,6 +54,8 @@ function GoogleCallback() {
       localStorage.setItem("token", response.data.accessToken);
       localStorage.setItem("username", username);
       localStorage.setItem("email", user.email);
+
+      await signIn(user.email, session.access_token);
       window.location.href = "/profile";
     } catch (err) {
       console.error("Registration error:", err);
@@ -92,31 +96,44 @@ function GoogleCallback() {
 
         setUser(user);
         console.log("User authenticated:", user.id);
+        localStorage.setItem("token", session.access_token);
 
         try {
-          localStorage.setItem("token", session.access_token);
-          // Check user existence with proper auth headers
+          // Check if user exists in our system
           const profileResponse = await axios.get(
-            `${import.meta.env.VITE_API_BASE_URL}/api/users/profile`,
-            {
-              headers: {
-                Authorization: `Bearer ${session.access_token}`,
-                "Content-Type": "application/json",
-              },
-            }
+              `${import.meta.env.VITE_API_BASE_URL}/api/users/check-user`,
+              {
+                params: { supabaseUid: user.id },
+                headers: {
+                  Authorization: `Bearer ${session.access_token}`,
+                },
+              }
           );
 
-          localStorage.setItem("username", profileResponse.data.username || "");
-          localStorage.setItem("email", profileResponse.data.email || "");
-          window.location.href = "/profile";
-        } catch (err) {
-          console.error("Profile fetch error:", err);
-          if (err.response?.status === 404) {
+          if (profileResponse.data.exists) {
+            // User exists - get profile and redirect
+            const profile = await axios.get(
+                `${import.meta.env.VITE_API_BASE_URL}/api/users/profile`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${session.access_token}`,
+                  },
+                }
+            );
+
+            localStorage.setItem("username", profile.data.username || "");
+            localStorage.setItem("email", profile.data.email || "");
+            await signIn(user.email, session.access_token);
+            navigate("/profile");
+          } else {
             // New user - show username form
             setShowUsernameForm(true);
+          }
+        } catch (err) {
+          if (err.response?.status === 404) {
+            setShowUsernameForm(true);
           } else {
-            setError("Failed to fetch profile. Please try again.");
-            navigate("/login");
+            throw err;
           }
         }
       } catch (error) {
@@ -129,7 +146,7 @@ function GoogleCallback() {
     }
 
     handleCallback();
-  }, [navigate]);
+  }, [navigate, signIn]);
 
   if (loading) {
     return (
