@@ -4,6 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import "../../styles/Register.css";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 
+
 // Supabase setup
 const supabase = createClient(
   "https://lqeeloeqlznjgkkjejpu.supabase.co",
@@ -180,7 +181,22 @@ function RegisterForm({ onRegisterSuccess }) {
           onClick={handleGoogleSignIn}
           disabled={isLoading}
         >
-          {isLoading ? "Redirecting..." : "Sign up with Google"}
+          {isLoading ? (
+              "Redirecting..."
+          ) : (
+              <>
+                <svg viewBox="0 0 18 18" style={{ width: '24px', height: '24px' }}>
+                  <g>
+                    <path fill="#4285F4" d="M4.5 17.2h9c.4 0 .7-.3.7-.7V1.5c0-.4-.3-.7-.7-.7h-9c-.4 0-.7.3-.7.7v15c0 .4.3.7.7.7z"/>
+                    <path fill="#34A853" d="M17.3 9c0-.4-.3-.7-.7-.7H4.5c-.4 0-.7.3-.7.7v8.2c0 .4.3.7.7.7h12.1c.4 0 .7-.3.7-.7V9z"/>
+                    <path fill="#FBBC05" d="M4.5.8h9c.4 0 .7.3.7.7v8.2c0 .4-.3.7-.7.7H4.5c-.4 0-.7-.3-.7-.7V1.5c0-.4.3-.7.7-.7z"/>
+                    <path fill="#EA4335" d="M.7 9c0 .4.3.7.7.7h12.1c.4 0 .7-.3.7-.7V.8c0-.4-.3-.7-.7-.7H1.4c-.4 0-.7.3-.7.7V9z"/>
+                  </g>
+                </svg>
+                {/* You might still want to add text for accessibility or clarity */}
+                {/* <span>Sign in with Google</span> */}
+              </>
+          )}
         </button>
       </form>
     </>
