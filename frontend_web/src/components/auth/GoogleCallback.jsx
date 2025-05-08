@@ -50,10 +50,18 @@ function GoogleCallback() {
           },
         }
       );
-
+      const accessToken = response.data.accessToken || session.access_token;
       localStorage.setItem("token", response.data.accessToken || session.access_token);
       localStorage.setItem("username", username);
       localStorage.setItem("email", user.email);
+
+      localStorage.setItem("token", accessToken);
+      localStorage.setItem("username", username);
+      localStorage.setItem("email", user.email);
+
+      // Call signIn to update auth context
+      await signIn(user.email, accessToken);
+
 
       // await signIn(user.email, response.data.accessToken);
       navigate("/profile");
