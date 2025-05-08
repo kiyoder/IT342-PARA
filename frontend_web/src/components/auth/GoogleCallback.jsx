@@ -55,7 +55,7 @@ function GoogleCallback() {
       localStorage.setItem("username", username);
       localStorage.setItem("email", user.email);
 
-      await signIn(user.email, session.access_token);
+      // await signIn(user.email, session.access_token);
       window.location.href = "/profile";
     } catch (err) {
       console.error("Registration error:", err);
