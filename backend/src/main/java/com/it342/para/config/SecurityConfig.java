@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/signup").permitAll()
                         .requestMatchers("/api/auth/google-callback").permitAll()
                         .requestMatchers("/api/auth/**").authenticated()
-                        .requestMatchers("api/routes/**", "/api/saved-routes/**").permitAll()
+                        .requestMatchers("api/routes/**", "/api/saved-routes/**").authenticated()
                         .anyRequest().authenticated());
         return http.build();
     }
