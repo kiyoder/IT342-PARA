@@ -79,13 +79,18 @@ public class SavedRouteController {
 
             boolean success = supabaseService.createSavedRoute(savedRoute, token);
             if (success) {
-                return ResponseEntity.ok(Map.of("message", "Route saved successfully"));
+                return ResponseEntity.ok(Map.of(
+                        "message", "Route saved successfully",
+                        "alreadyExists", false
+                ));
             } else {
-                return ResponseEntity.status(500).body(Map.of("error", "Failed to save route"));
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Map.of("error", "Failed to save route"));
             }
         } catch (Exception e) {
             logger.error("Failed to save route", e);
-            return ResponseEntity.status(500).body(Map.of("error", "Failed to save route: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
         }
     }
 

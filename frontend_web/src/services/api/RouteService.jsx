@@ -33,6 +33,7 @@ export const getSavedRoutes = async () => {
 
 export const saveRoute = async (routeData) => {
   try {
+    console.log("Attempting to save route:", routeData);
     const response = await axios.post(
       `${API_BASE_URL}/saved-routes`,
       routeData,
@@ -40,6 +41,7 @@ export const saveRoute = async (routeData) => {
     );
     return response.data;
   } catch (error) {
+    console.error("Detailed save route error:", error.response?.data || error);
     handleAxiosError(error, "saving route");
   }
 };
