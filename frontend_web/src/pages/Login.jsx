@@ -8,6 +8,7 @@ function Login() {
 
   const handleLoginSuccess = (token) => {
     localStorage.setItem("token", token);
+    await new Promise(resolve => setTimeout(resolve, 100));
     navigate("/home");
   };
 

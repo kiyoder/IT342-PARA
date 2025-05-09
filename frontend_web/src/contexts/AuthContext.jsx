@@ -68,8 +68,20 @@ export function AuthProvider({ children }) {
           // Handle token-based auth
           localStorage.setItem("token", passwordOrToken);
           const userData = await authService.getUserFromToken(passwordOrToken);
-          setUser(userData);
-          await loadUserProfile(passwordOrToken);
+          if (!userData) throw new Error("Invalid token");
+
+          await Promise.all([
+            setUser({
+              id: userData.id,
+              email: userData.email,
+              username: userData.username || "",
+            }),
+            loadUserProfile(passwordOrToken)
+          ]);
+
+
+          // setUser(userData);
+          // await loadUserProfile(passwordOrToken);
           return { accessToken: passwordOrToken };
         } else {
           // Original email/password flow
