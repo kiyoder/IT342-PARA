@@ -71,10 +71,13 @@ export function AuthProvider({ children }) {
           if (!userData) throw new Error("Invalid token");
 
           await Promise.all([
-            setUser({
-              id: userData.id,
-              email: userData.email,
-              username: userData.username || "",
+            new Promise(resolve => {
+              setUser({
+                id: userData.id,
+                email: userData.email,
+                username: userData.username || "",
+              });
+              resolve();
             }),
             loadUserProfile(passwordOrToken)
           ]);

@@ -51,9 +51,6 @@ function GoogleCallback() {
         }
       );
       const accessToken = response.data.accessToken || session.access_token;
-      localStorage.setItem("token", response.data.accessToken || session.access_token);
-      localStorage.setItem("username", username);
-      localStorage.setItem("email", user.email);
 
       localStorage.setItem("token", accessToken);
       localStorage.setItem("username", username);
@@ -132,7 +129,7 @@ function GoogleCallback() {
 
             localStorage.setItem("username", profile.data.username || "");
             localStorage.setItem("email", profile.data.email || "");
-            // await signIn(user.email, session.access_token);
+            await signIn(user.email, session.access_token, true);
             navigate("/profile");
           } else {
             // New user - show username form
