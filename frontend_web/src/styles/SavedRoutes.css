@@ -1,9 +1,19 @@
+@font-face {
+  font-family: "Bagel";
+  src: url("../assets/font/bagel.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 .saved-routes-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  width: 100%;
+  width: 100vw;
+  max-width: 100%;
   background-color: #f8f9fa;
+  overflow: hidden;
 }
 
 .saved-routes-content {
@@ -13,15 +23,18 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin-top: 2rem; /* Added margin to bring content down from ceiling */
 }
 
 .saved-routes-title {
+  font-family: "Bagel", sans-serif;
   font-size: 2rem;
   font-weight: 600;
-  color: #333;
-  margin: 1rem 0 2rem;
-  text-align: left;
-  padding-left: 1rem;
+  color: #ff3b10;
+  margin: 1rem 0 2.5rem; /* Increased bottom margin */
+  text-align: center;
+  width: 100%;
 }
 
 .loading-container {
@@ -61,6 +74,11 @@
 .saved-routes-list {
   padding: 0 1rem;
   width: 100%;
+  max-width: 1200px;
+  display: grid; /* Changed from flex to grid */
+  grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns */
+  gap: 3rem; /* Increased gap between items */
+  justify-items: center; /* Center items horizontally */
 }
 
 .route-loading-overlay {
@@ -86,7 +104,17 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 992px) {
+  .saved-routes-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .saved-routes-list {
+    grid-template-columns: 1fr; /* 1 column on small screens */
+  }
+
   .saved-routes-title {
     font-size: 1.75rem;
     margin-bottom: 1.5rem;

@@ -61,16 +61,40 @@ export function AuthProvider({ children }) {
     profile,
     loading,
     error,
-    signIn: async (email, password) => {
+    signIn: async (email, passwordOrToken, isToken = false) => {
       try {
-        const response = await authService.login(email, password);
-        localStorage.setItem("token", response.accessToken); // Store token
-        const userData = await authService.getUserFromToken(
-          response.accessToken
-        );
-        setUser(userData);
-        await loadUserProfile(response.token);
-        return response;
+        let response;
+        if (isToken) {
+          // Handle token-based auth
+          localStorage.setItem("token", passwordOrToken);
+          const userData = await authService.getUserFromToken(passwordOrToken);
+          if (!userData) throw new Error("Invalid token");
+
+          await Promise.all([
+            new Promise(resolve => {
+              setUser({
+                id: userData.id,
+                email: userData.email,
+                username: userData.username || "",
+              });
+              resolve();
+            }),
+            loadUserProfile(passwordOrToken)
+          ]);
+
+
+          // setUser(userData);
+          // await loadUserProfile(passwordOrToken);
+          return { accessToken: passwordOrToken };
+        } else {
+          // Original email/password flow
+          response = await authService.login(email, passwordOrToken);
+          localStorage.setItem("token", response.accessToken);
+          const userData = await authService.getUserFromToken(response.accessToken);
+          setUser(userData);
+          await loadUserProfile(response.accessToken);
+          return response;
+        }
       } catch (error) {
         setError(error);
         throw error;

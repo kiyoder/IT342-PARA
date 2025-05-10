@@ -88,21 +88,72 @@ const MapView = ({ disableAutoSearch = false }) => {
   }, [userPosition]);
 
   // Create a custom HTML marker element
-  const createMarkerElement = (className) => {
+  const createMarkerElement = (markerType) => {
     const el = document.createElement("div");
     el.className = "marker-wrapper";
 
     // Special case for user location marker - make it circular
-    if (className === "user-location") {
+    if (markerType === "user-location") {
       const userDot = document.createElement("div");
       userDot.className = "user-location-dot";
       el.appendChild(userDot);
       return el;
     }
 
-    // Regular marker pin for other markers
+    // For initial location marker
+    if (markerType === "initial") {
+      el.innerHTML = `
+        <div class="custom-marker initial-marker">
+          <svg width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M12.5 8.61335C12.5 9.82975 11.3813 10.815 10 10.815C8.61875 10.815 7.5 9.82975 7.5 8.61335C7.5 7.39694 8.61875 6.4117 10 6.4117C11.3813 6.4117 12.5 7.39694 12.5 8.61335ZM10 19.3802C10 19.3802 3.75 11.6745 3.75 8.372C3.75 5.33704 6.55375 2.8679 10 2.8679C13.4462 2.8679 16.25 5.33704 16.25 8.372C16.25 11.6745 10 19.3802 10 19.3802ZM10 0.66626C5.1675 0.66626 1.25 4.11623 1.25 8.372C1.25 12.6278 10 22.6827 10 22.6827C10 22.6827 18.75 12.6278 18.75 8.372C18.75 4.11623 14.8325 0.66626 10 0.66626Z"
+              fill="#FF3B10"
+            />
+          </svg>
+        </div>
+      `;
+      return el;
+    }
+
+    // For final location marker
+    if (markerType === "final") {
+      el.innerHTML = `
+        <div class="custom-marker final-marker">
+          <svg width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M10 10.2964C8.61875 10.2964 7.5 9.3112 7.5 8.09479C7.5 6.87838 8.61875 5.89315 10 5.89315C11.3813 5.89315 12.5 6.87838 12.5 8.09479C12.5 9.3112 11.3813 10.2964 10 10.2964ZM10 0.147705C5.1675 0.147705 1.25 3.59768 1.25 7.85345C1.25 12.1092 10 22.1641 10 22.1641C10 22.1641 18.75 12.1092 18.75 7.85345C18.75 3.59768 14.8325 0.147705 10 0.147705Z"
+              fill="#FF3B10"
+            />
+          </svg>
+        </div>
+      `;
+      return el;
+    }
+
+    // For selected location marker
+    if (markerType === "selected") {
+      el.innerHTML = `
+        <div class="custom-marker selected-marker">
+          <svg width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M10 10.2964C8.61875 10.2964 7.5 9.3112 7.5 8.09479C7.5 6.87838 8.61875 5.89315 10 5.89315C11.3813 5.89315 12.5 6.87838 12.5 8.09479C12.5 9.3112 11.3813 10.2964 10 10.2964ZM10 0.147705C5.1675 0.147705 1.25 3.59768 1.25 7.85345C1.25 12.1092 10 22.1641 10 22.1641C10 22.1641 18.75 12.1092 18.75 7.85345C18.75 3.59768 14.8325 0.147705 10 0.147705Z"
+              fill="#FF3B10"
+            />
+          </svg>
+        </div>
+      `;
+      return el;
+    }
+
+    // Fallback to regular marker pin
     const pin = document.createElement("div");
-    pin.className = `marker-pin ${className}`;
+    pin.className = `marker-pin ${markerType}`;
     el.appendChild(pin);
     return el;
   };

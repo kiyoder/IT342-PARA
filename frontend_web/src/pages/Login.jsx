@@ -6,8 +6,9 @@ import "../styles/Login.css";
 function Login() {
   const navigate = useNavigate();
 
-  const handleLoginSuccess = (token) => {
+  const handleLoginSuccess = async (token) => {
     localStorage.setItem("token", token);
+    await new Promise(resolve => setTimeout(resolve, 100));
     navigate("/home");
   };
 

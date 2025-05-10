@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Bagel";
+  src: url("../assets/font/bagel.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Main container */
 .register-container {
   display: flex;
@@ -27,6 +35,7 @@
 }
 
 .para-title {
+  font-family: "Bagel", sans-serif;
   color: #ff3b10;
   font-size: 4rem;
   font-weight: 700;
@@ -60,6 +69,7 @@
 
 /* Form title */
 .form-title {
+  font-family: "Bagel", sans-serif;
   color: #ff3b10;
   font-size: 2.25rem;
   font-weight: 600;
@@ -218,6 +228,11 @@
   border-radius: 0.375rem;
   cursor: pointer;
   transition: background-color 0.15s ease-in-out;
+  color:black;
+}
+
+.google-sign-in svg {
+  flex-shrink: 0;
 }
 
 .google-sign-in:hover {
@@ -313,4 +328,3 @@
     width: 100%;
   }
 }
-

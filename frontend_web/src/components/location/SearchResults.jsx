@@ -4,11 +4,20 @@ import { useState, useEffect } from "react";
 import "../../styles/SearchResults.css";
 import { useLocation } from "../../contexts/LocationContext";
 import { fetchPlaces } from "../../services/api/Nominatim";
+import { error, info } from "../../services/utils/logger";
 import Fuse from "fuse.js"; // Import Fuse for fuzzy matching
 
+const CONTEXT = "SearchResults";
+
 const SearchResults = ({ onLocationSelected }) => {
-  const { searchQuery, setSelectedLocation, initialFocused, finalFocused } =
-    useLocation();
+  const {
+    searchQuery,
+    setSelectedLocation,
+    initialFocused,
+    finalFocused,
+    fetchWeatherForLocation,
+    getWeatherForLocation,
+  } = useLocation();
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,8 +36,8 @@ const SearchResults = ({ onLocationSelected }) => {
             longitude: position.coords.longitude,
           });
         },
-        (error) => {
-          console.error("Error getting user position:", error);
+        (err) => {
+          error(CONTEXT, "Error getting user position", err);
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
@@ -53,12 +62,16 @@ const SearchResults = ({ onLocationSelected }) => {
         enhancedQuery = `${enhancedQuery}, Cebu, Philippines`;
       }
 
+      info(CONTEXT, "Fetching places", { query: enhancedQuery });
+
       // Fetch initial set of places
       const places = await fetchPlaces(enhancedQuery, {
         lat: userPosition?.latitude,
         lon: userPosition?.longitude,
         radius: 5000, // 5km radius
       });
+
+      info(CONTEXT, "Places fetched", { count: places.length });
 
       // If no results, attempt some alternative queries
       if (places.length === 0) {
@@ -70,9 +83,14 @@ const SearchResults = ({ onLocationSelected }) => {
         ];
 
         for (const altQuery of altQueries) {
+          info(CONTEXT, "Trying alternative query", { altQuery });
           const altPlaces = await fetchPlaces(altQuery);
           if (altPlaces.length > 0) {
             // Optionally, you could also run fuzzy matching here
+            info(CONTEXT, "Found results with alternative query", {
+              altQuery,
+              count: altPlaces.length,
+            });
             setResults(altPlaces);
             setLoading(false);
             return;
@@ -101,9 +119,13 @@ const SearchResults = ({ onLocationSelected }) => {
         const fuse = new Fuse(places, fuseOptions);
         const fuseResults = fuse.search(searchQuery);
         if (fuseResults.length > 0) {
+          info(CONTEXT, "Fuzzy search results", { count: fuseResults.length });
           setResults(fuseResults.map((result) => result.item));
         } else {
           // fallback to original order if fuzzy search gives no results
+          info(CONTEXT, "Using original results (no fuzzy matches)", {
+            count: places.length,
+          });
           setResults(places);
         }
       } else {
@@ -121,6 +143,31 @@ const SearchResults = ({ onLocationSelected }) => {
 
     return () => clearTimeout(timer);
   }, [searchQuery, userPosition]);
+
+  // Fetch weather data for all places
+  useEffect(() => {
+    if (!results.length) return;
+
+    info(CONTEXT, "Fetching weather for results", { count: results.length });
+
+    // Fetch weather for each place
+    results.forEach((place) => {
+      fetchWeatherForLocation({
+        latitude: place.latitude,
+        longitude: place.longitude,
+      });
+    });
+  }, [results, fetchWeatherForLocation]);
+
+  // Fetch weather for current location if set
+  useEffect(() => {
+    if (!currentLocation) return;
+
+    fetchWeatherForLocation({
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
+    });
+  }, [currentLocation, fetchWeatherForLocation]);
 
   // Calculate distance between two coordinates in meters
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -212,8 +259,8 @@ const SearchResults = ({ onLocationSelected }) => {
 
               setLoadingCurrentLocation(false);
             })
-            .catch((error) => {
-              console.error("Error getting location name:", error);
+            .catch((_) => {
+              console.error("Error getting location name:", _);
               const locationObj = {
                 name: `Current Location (${latitude.toFixed(
                   6
@@ -239,8 +286,8 @@ const SearchResults = ({ onLocationSelected }) => {
               setLoadingCurrentLocation(false);
             });
         },
-        (error) => {
-          console.error("Error getting current location:", error);
+        (_) => {
+          console.error("Error getting current location:", _);
           setLoadingCurrentLocation(false);
           alert(
             "Unable to get your current location. Please check your browser permissions."
@@ -295,6 +342,28 @@ const SearchResults = ({ onLocationSelected }) => {
     return parts.filter(Boolean).join(", ");
   };
 
+  // Get weather display text for a location
+  const getWeatherDisplay = (place) => {
+    const weatherInfo = getWeatherForLocation({
+      latitude: place.latitude,
+      longitude: place.longitude,
+    });
+
+    if (!weatherInfo) return "";
+
+    if (weatherInfo.status === "loading") {
+      return " • Weather: Loading";
+    } else if (weatherInfo.status === "failed") {
+      return " • Weather: Failed";
+    } else if (weatherInfo.temperature !== null) {
+      return weatherInfo.isFallback
+        ? ` • ~${weatherInfo.temperature}°C (est.)`
+        : ` • ${weatherInfo.temperature}°C`;
+    }
+
+    return "";
+  };
+
   // Only render if we have results, are loading, or have no results but user is searching
   // or if we're showing current location
   if (
@@ -304,7 +373,7 @@ const SearchResults = ({ onLocationSelected }) => {
     !noResults &&
     !currentLocation
   ) {
-    return null;
+    return <div></div>;
   }
 
   return (
@@ -327,6 +396,18 @@ const SearchResults = ({ onLocationSelected }) => {
                 <div className="location-details">
                   <div className="location-main-text">
                     {currentLocation.details.road || "Current Location"}
+                    <div className="location-meta">
+                      <span className="distance-text">
+                        {currentLocation.distance < 1000
+                          ? `${Math.round(currentLocation.distance)}m away`
+                          : `${(currentLocation.distance / 1000).toFixed(
+                              1
+                            )}km away`}
+                      </span>
+                      <span className="weather-text">
+                        {getWeatherDisplay(currentLocation)}
+                      </span>
+                    </div>
                   </div>
                   <div className="location-secondary-text">
                     {formatDetailedAddress(currentLocation)}
@@ -343,14 +424,18 @@ const SearchResults = ({ onLocationSelected }) => {
                   <div className="location-details">
                     <div className="location-main-text">
                       {place.name.split(",")[0]}
-                      {place.distance !== undefined && (
+                      <div className="location-meta">
                         <span className="distance-text">
-                          {" "}
-                          {place.distance < 1000
-                            ? `${Math.round(place.distance)}m away`
-                            : `${(place.distance / 1000).toFixed(1)}km away`}
+                          {place.distance !== undefined
+                            ? place.distance < 1000
+                              ? `${Math.round(place.distance)}m away`
+                              : `${(place.distance / 1000).toFixed(1)}km away`
+                            : ""}
                         </span>
-                      )}
+                        <span className="weather-text">
+                          {getWeatherDisplay(place)}
+                        </span>
+                      </div>
                     </div>
                     <div className="location-secondary-text">
                       {formatDetailedAddress(place)}

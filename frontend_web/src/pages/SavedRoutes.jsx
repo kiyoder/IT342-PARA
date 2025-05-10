@@ -4,11 +4,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "../contexts/LocationContext";
 import { useRoute } from "../contexts/RouteContext";
-import TopSearchBar from "../components/location/TopSearchBar";
 import RouteLoadingSpinner from "../components/loading/RouteLoadingSpinner";
 import SavedRouteCard from "../components/route/SavedRouteCard";
 import EmptyRouteState from "../components/route/EmptyRouteState";
-import { getSavedRoutes, deleteSavedRoute } from "../services/api/RouteService";
+import {
+  getSavedRoutes,
+  deleteSavedRoute,
+  fetchAllRoutes,
+} from "../services/api/RouteService";
 import "../styles/SavedRoutes.css";
 import ProfileMenu from "../components/layout/ProfileMenu";
 
@@ -21,6 +24,7 @@ export default function SavedRoutes() {
   const [deletingRouteId, setDeletingRouteId] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedRouteId, setSelectedRouteId] = useState(null);
+  const [allRoutes, setAllRoutes] = useState([]);
 
   const { reverseGeocode, updateInitialLocation, updateFinalDestination } =
     useLocation();
@@ -30,6 +34,20 @@ export default function SavedRoutes() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
+  }, []);
+
+  // Fetch all routes for route number lookup
+  useEffect(() => {
+    const getRoutes = async () => {
+      try {
+        const routes = await fetchAllRoutes();
+        setAllRoutes(routes);
+      } catch (err) {
+        console.error("Error fetching all routes:", err);
+      }
+    };
+
+    getRoutes();
   }, []);
 
   // Fetch and enrich saved routes
@@ -45,7 +63,16 @@ export default function SavedRoutes() {
               route.initialLon
             );
             const toName = await reverseGeocode(route.finalLat, route.finalLon);
-            return { ...route, fromName, toName };
+
+            // Find the route number from allRoutes
+            const matchingRoute = allRoutes.find(
+              (r) => r.relationId === route.relationId
+            );
+            const routeNumber = matchingRoute
+              ? matchingRoute.routeNumber
+              : null;
+
+            return { ...route, fromName, toName, routeNumber };
           })
         );
         setSavedRoutes(enriched);
@@ -61,8 +88,11 @@ export default function SavedRoutes() {
         setLoading(false);
       }
     };
-    fetchSavedRoutes();
-  }, [isAuthenticated, reverseGeocode]);
+
+    if (allRoutes.length > 0) {
+      fetchSavedRoutes();
+    }
+  }, [isAuthenticated, reverseGeocode, allRoutes]);
 
   const handleRouteClick = async (route) => {
     setSelectedRouteId(route.relationId);
@@ -163,7 +193,7 @@ export default function SavedRoutes() {
 
   return (
     <div className="saved-routes-container">
-      <TopSearchBar />
+      {/* TopSearchBar removed */}
       <ProfileMenu />
 
       <div className="saved-routes-content">

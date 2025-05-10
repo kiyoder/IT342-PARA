@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -534,6 +535,12 @@ public class SupabaseService {
             );
 
             return response.getStatusCode() == HttpStatus.CREATED;
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.CONFLICT) {
+                logger.info("Route already exists for user");
+                return true; // Treat as success since it already exists
+            }
+            return false;
         } catch (Exception e) {
             logger.error("Failed to create saved route: {}", e.getMessage());
             return false;
