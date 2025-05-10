@@ -5,7 +5,6 @@ import MapView from "../components/map/MapView";
 import SearchBox from "../components/location/SearchBox";
 import TopSearchBar from "../components/location/TopSearchBar";
 import ProfileMenu from "../components/layout/ProfileMenu";
-import RouteSearch from "../components/route/RouteSearch";
 import RouteResults from "../components/route/RouteResults";
 import { useRoute } from "../contexts/RouteContext";
 
@@ -24,7 +23,6 @@ const Home = () => {
       {!isSearching && !showRouteResults && (
         <>
           <TopSearchBar />
-          <RouteSearch />
         </>
       )}
 
