@@ -6,14 +6,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.para_mobile.R
-import com.example.para_mobile.fragment.ActionButtonsFragment
-import com.example.para_mobile.fragment.FavoritesFragment
-import com.example.para_mobile.fragment.JeepneyRouteFragment
-import com.example.para_mobile.fragment.RecentsFragment
-import com.example.para_mobile.fragment.SearchAndClearFragment
+import com.example.para_mobile.fragment.*
+import com.example.para_mobile.util.JeepneyRouteOverlay
+import com.example.para_mobile.util.RouteOverlay
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import androidx.core.content.ContextCompat
 
 class BottomSheetManager(
     private val context: Context,
@@ -21,7 +19,8 @@ class BottomSheetManager(
     private val fragmentManager: FragmentManager,
     private val onSearchQuery: (String) -> Unit,
     private val onMarkLocation: () -> Unit,
-    private val onClearRoute: () -> Unit
+    private val onClearRoute: () -> Unit,
+    private val searchService: SearchService
 ) {
     private val bottomSheetBehavior: BottomSheetBehavior<View> = BottomSheetBehavior.from(bottomSheet)
 
@@ -35,9 +34,16 @@ class BottomSheetManager(
     // Store user's current location
     private var userCurrentLocation: Pair<Double, Double>? = null
 
-    // Reference to MapView and RouteOverlay
+    // Map references
     private var mapView: MapView? = null
-    private var routeOverlay: com.example.para_mobile.util.RouteOverlay? = null
+    private var routeOverlay: RouteOverlay? = null
+    private var mapManager: MapManager? = null
+
+    // ✅ Added JeepneyRouteOverlay reference
+    private var jeepneyRouteOverlay: JeepneyRouteOverlay? = null
+
+    // Reference to the current CustomLocationOverlay (orange dot)
+    private var customLocationOverlay: com.example.para_mobile.util.CustomLocationOverlay? = null
 
     init {
         setupBottomSheet()
@@ -45,42 +51,39 @@ class BottomSheetManager(
         setupFragmentListeners()
     }
 
-    fun setMapView(mapView: MapView, routeOverlay: com.example.para_mobile.util.RouteOverlay) {
+    // ✅ Updated to accept JeepneyRouteOverlay
+    fun setMapView(mapView: MapView, routeOverlay: RouteOverlay, jeepneyRouteOverlay: JeepneyRouteOverlay) {
         this.mapView = mapView
         this.routeOverlay = routeOverlay
+        this.jeepneyRouteOverlay = jeepneyRouteOverlay
+    }
+
+    fun setMapManager(mapManager: MapManager) {
+        this.mapManager = mapManager
     }
 
     private fun setupBottomSheet() {
-        // Set the initial state (collapsed but visible)
+        // Set peek height to 30% of the screen
+        val displayMetrics = context.resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels
+        val peekHeight = (screenHeight * 0.3).toInt()
+        bottomSheetBehavior.peekHeight = peekHeight
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        // Set up bottom sheet callbacks
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        // Focus on search when expanded if search fragment is visible
-                        if (bottomSheet.findViewById<View>(R.id.search_and_clear_container).visibility == View.VISIBLE) {
-                            searchAndClearFragment.focusSearchField()
-                        }
-                    }
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        // Handle collapsed state if needed
-                    }
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                        // Handle hidden state if needed
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    if (bottomSheet.findViewById<View>(R.id.search_and_clear_container).visibility == View.VISIBLE) {
+                        searchAndClearFragment.focusSearchField()
                     }
                 }
             }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // Handle sliding behavior if needed
-            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
     }
 
     private fun setupFragments() {
-        // Find existing fragments or create new ones
         searchAndClearFragment = findOrCreateFragment(SearchAndClearFragment::class.java, R.id.search_and_clear_container)
         favoritesFragment = findOrCreateFragment(FavoritesFragment::class.java, R.id.favorites_container)
         recentsFragment = findOrCreateFragment(RecentsFragment::class.java, R.id.recents_container)
@@ -90,57 +93,45 @@ class BottomSheetManager(
     private inline fun <reified T : Fragment> findOrCreateFragment(clazz: Class<T>, containerId: Int): T {
         val tag = clazz.simpleName
         val existingFragment = fragmentManager.findFragmentByTag(tag) as? T
-
-        if (existingFragment != null) {
-            return existingFragment
-        }
+        if (existingFragment != null) return existingFragment
 
         val newFragment = clazz.newInstance()
         fragmentManager.beginTransaction()
             .replace(containerId, newFragment, tag)
             .commit()
-
         return newFragment
     }
 
     private fun setupFragmentListeners() {
-        searchAndClearFragment.setOnSearchListener { query, lat, lng ->
-            if (query.isNotEmpty()) {
-                onSearchQuery(query)
-
-                // Get the user's current location or use a default location in Cebu
-                val currentLocation = userCurrentLocation ?: Pair(10.3157, 123.8854) // Default to Cebu City center
-
-                // Create and launch the JeepneyRouteFragment with the current location and searched destination
+        searchAndClearFragment.setOnSearchListener { initialName: String, initialLat: Double, initialLon: Double, destName: String, destLat: Double, destLon: Double ->
+            if (destName.isNotEmpty() && initialName.isNotEmpty()) {
+                // Always remove custom location overlay after search
+                mapView?.let { map ->
+                    customLocationOverlay?.let { map.overlays.remove(it) }
+                    customLocationOverlay = null
+                }
+                // Hide suggestions in the fragment and bottom sheet
+                searchAndClearFragment.hideSuggestions()
+                bottomSheet.findViewById<View?>(R.id.search_suggestion_container)?.visibility = View.GONE
                 val jeepneyRouteFragment = JeepneyRouteFragment()
-
-                // Get a readable location name for the current location
-                val currentLocationName = "Current Location"
-
-                // Set the route data with current location as origin and searched location as destination
                 jeepneyRouteFragment.setRouteData(
-                    currentLocationName,
-                    query,
-                    currentLocation.first,
-                    currentLocation.second,
-                    lat as Double,
-                    lng as Double
+                    initialLat,
+                    initialLon,
+                    destLat,
+                    destLon
                 )
-
-                // Launch the fragment in the bottom sheet
                 launchJeepneyRouteFragment(jeepneyRouteFragment)
-
-                // Expand the bottom sheet to show the routes
                 expand()
-
+                // Set bottom sheet to 30% after searching route location
+                val displayMetrics = context.resources.displayMetrics
+                val screenHeight = displayMetrics.heightPixels
+                val peekHeight = (screenHeight * 0.3).toInt()
+                bottomSheetBehavior.peekHeight = peekHeight
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                mapManager?.zoomToShowMarkersWithBottomPadding(0.3)
             } else {
-                Toast.makeText(context, "Please enter a location to search", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Please enter both initial and destination locations", Toast.LENGTH_SHORT).show()
             }
-        }
-
-        searchAndClearFragment.setOnVoiceSearchListener {
-            // Implement voice search functionality
-            Toast.makeText(context, "Voice search not implemented", Toast.LENGTH_SHORT).show()
         }
 
         searchAndClearFragment.setOnClearRouteListener {
@@ -149,88 +140,105 @@ class BottomSheetManager(
             Toast.makeText(context, "Route cleared", Toast.LENGTH_SHORT).show()
         }
 
-        // Set up favorites fragment listeners
+        searchAndClearFragment.setOnDirectRouteRequestedListener { initialLat, initialLon, destLat, destLon ->
+            // Always remove the overlay before drawing a new route
+            mapView?.let { map ->
+                customLocationOverlay?.let { map.overlays.remove(it) }
+                customLocationOverlay = null
+            }
+            // Hide suggestions in the fragment and bottom sheet after direct route
+            searchAndClearFragment.hideSuggestions()
+            bottomSheet.findViewById<View?>(R.id.search_suggestion_container)?.visibility = View.GONE
+            // Draw direct route using OSRM API and PolylineDecoder
+            val start = org.osmdroid.util.GeoPoint(initialLat, initialLon)
+            val end = org.osmdroid.util.GeoPoint(destLat, destLon)
+            routeOverlay?.let { overlay ->
+                searchService.getRoute(
+                    startPoint = start,
+                    endPoint = end,
+                    routeOverlay = overlay,
+                    onRouteCalculated = { _, _ -> },
+                    onError = { msg -> Toast.makeText(context, "Route error: $msg", Toast.LENGTH_SHORT).show() }
+                )
+            }
+            mapManager?.addMarker(start, "Origin")
+            mapManager?.addMarker(end, "Destination")
+            mapManager?.zoomToShowMarkersWithBottomPadding(0.3)
+            // Set bottom sheet to 30% after searching route location
+            val displayMetrics = context.resources.displayMetrics
+            val screenHeight = displayMetrics.heightPixels
+            val peekHeight = (screenHeight * 0.3).toInt()
+            bottomSheetBehavior.peekHeight = peekHeight
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
         favoritesFragment.setOnHomeLocationListener {
-            // Handle home location click
             Toast.makeText(context, "Navigate to home", Toast.LENGTH_SHORT).show()
-            // You could add code to navigate to a saved home location
         }
 
         favoritesFragment.setOnWorkLocationListener {
-            // Handle work location click
             Toast.makeText(context, "Navigate to work", Toast.LENGTH_SHORT).show()
-            // You could add code to navigate to a saved work location
         }
 
         favoritesFragment.setOnAddLocationListener {
-            // Handle add location click
             Toast.makeText(context, "Add new favorite location", Toast.LENGTH_SHORT).show()
-            // You could add code to add the current location as a favorite
         }
 
-        // Set up recents fragment listener
-        recentsFragment.setOnRecentLocationListener { locationName ->
-            Toast.makeText(context, "Navigate to $locationName", Toast.LENGTH_SHORT).show()
-            // Search for this location
-            onSearchQuery(locationName)
+        recentsFragment.setOnRecentLocationListener { recentRoute ->
+            searchAndClearFragment.setInitialAndDestination(
+                recentRoute.initialName, recentRoute.initialLat, recentRoute.initialLon,
+                recentRoute.destName, recentRoute.destLat, recentRoute.destLon
+            )
+            // Set bottom sheet to 30% after searching route location
+            val displayMetrics = context.resources.displayMetrics
+            val screenHeight = displayMetrics.heightPixels
+            val peekHeight = (screenHeight * 0.3).toInt()
+            bottomSheetBehavior.peekHeight = peekHeight
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
-        // Set up action buttons fragment listeners
         actionButtonsFragment.setOnMarkLocationListener {
             onMarkLocation()
             Toast.makeText(context, "Marked your current location", Toast.LENGTH_SHORT).show()
         }
 
         actionButtonsFragment.setOnReportIssueListener {
-            // Handle report issue click
             Toast.makeText(context, "Report an issue", Toast.LENGTH_SHORT).show()
-            // You could open a form to report an issue
         }
     }
 
+    // ✅ Updated to include jeepneyRouteOverlay
     private fun launchJeepneyRouteFragment(fragment: JeepneyRouteFragment) {
-        // Set the map view and route overlay
-        if (mapView != null && routeOverlay != null) {
-            fragment.setMapView(mapView!!, routeOverlay!!)
+        if (mapView != null && routeOverlay != null && jeepneyRouteOverlay != null) {
+            fragment.setMapView(mapView!!, routeOverlay!!, jeepneyRouteOverlay!!)
         }
 
-        // Hide all default containers
-        bottomSheet.findViewById<View>(R.id.search_and_clear_container).visibility = View.GONE
         bottomSheet.findViewById<View>(R.id.favorites_container).visibility = View.GONE
         bottomSheet.findViewById<View>(R.id.recents_container).visibility = View.GONE
         bottomSheet.findViewById<View>(R.id.action_buttons_container).visibility = View.GONE
         bottomSheet.findViewById<View>(R.id.search_suggestion_container).visibility = View.GONE
 
-        // Show the jeepney route container
         bottomSheet.findViewById<View>(R.id.jeepney_route_container).visibility = View.VISIBLE
 
-        // Replace the fragment in the jeepney route container
         fragmentManager.beginTransaction()
             .replace(R.id.jeepney_route_container, fragment, "JeepneyRouteFragment")
             .commit()
 
-        // Store reference to the fragment
         this.jeepneyRouteFragment = fragment
     }
 
     fun showDefaultView() {
-        // Hide the jeepney route container
         bottomSheet.findViewById<View>(R.id.jeepney_route_container).visibility = View.GONE
 
-        // Show all default containers
         bottomSheet.findViewById<View>(R.id.search_and_clear_container).visibility = View.VISIBLE
         bottomSheet.findViewById<View>(R.id.favorites_container).visibility = View.VISIBLE
         bottomSheet.findViewById<View>(R.id.recents_container).visibility = View.VISIBLE
         bottomSheet.findViewById<View>(R.id.action_buttons_container).visibility = View.VISIBLE
 
-        // Clear the reference
         this.jeepneyRouteFragment = null
-
-        // Clear search text
         clearSearchText()
     }
 
-    // Method to update the user's current location
     fun updateUserLocation(latitude: Double, longitude: Double) {
         userCurrentLocation = Pair(latitude, longitude)
     }
@@ -243,16 +251,32 @@ class BottomSheetManager(
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
-    fun getState(): Int {
-        return bottomSheetBehavior.state
-    }
+    fun getState(): Int = bottomSheetBehavior.state
 
     fun clearSearchText() {
         searchAndClearFragment.clearSearchText()
     }
 
-    // New method to set search text programmatically
     fun setSearchText(text: String) {
         searchAndClearFragment.setSearchText(text)
+    }
+
+    // --- TESTING: Show JeepneyRouteFragment with a single route ---
+    fun showSingleJeepneyRoute(route: com.example.para_mobile.model.RouteSearchResult) {
+        val fragment = JeepneyRouteFragment()
+        if (mapView != null && routeOverlay != null && jeepneyRouteOverlay != null) {
+            fragment.setMapView(mapView!!, routeOverlay!!, jeepneyRouteOverlay!!)
+        }
+        fragment.showSingleRoute(route)
+        bottomSheet.findViewById<View>(R.id.favorites_container).visibility = View.GONE
+        bottomSheet.findViewById<View>(R.id.recents_container).visibility = View.GONE
+        bottomSheet.findViewById<View>(R.id.action_buttons_container).visibility = View.GONE
+        bottomSheet.findViewById<View>(R.id.search_suggestion_container).visibility = View.GONE
+        bottomSheet.findViewById<View>(R.id.jeepney_route_container).visibility = View.VISIBLE
+        fragmentManager.beginTransaction()
+            .replace(R.id.jeepney_route_container, fragment, "JeepneyRouteFragment")
+            .commit()
+        this.jeepneyRouteFragment = fragment
+        expand()
     }
 }

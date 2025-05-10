@@ -1,8 +1,13 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0" // Kotlin Serialization version
 }
+
 
 android {
     namespace = "com.example.para_mobile"
@@ -14,8 +19,17 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Create a Properties object and load values from local.properties
+        val properties = Properties()
+        // Use FileInputStream to load properties from local.properties
+        properties.load(FileInputStream(project.rootProject.file("local.properties")))
+
+        // Set values in BuildConfig
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${properties.getProperty("SUPABASE_ANON_KEY")}\"")
+        buildConfigField("String", "SECRET", "\"${properties.getProperty("SECRET")}\"")
+        buildConfigField("String", "SUPABASE_URL", "\"${properties.getProperty("SUPABASE_URL")}\"")
     }
 
     buildTypes {
@@ -27,15 +41,19 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
+        buildConfig = true // ✅ This enables BuildConfig fields like SUPABASE_URL
     }
 }
 
@@ -87,9 +105,11 @@ dependencies {
 
     implementation (libs.play.services.auth) //google
 
-    implementation (libs.play.services.auth.v2050)
     implementation (libs.gotrue.kt)
-    implementation (libs.supabase.kt)
+
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+    implementation("androidx.biometric:biometric:1.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -102,3 +122,4 @@ dependencies {
 
 
 }
+

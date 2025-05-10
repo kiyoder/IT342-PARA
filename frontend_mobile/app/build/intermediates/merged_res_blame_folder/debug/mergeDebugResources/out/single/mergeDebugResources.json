@@ -1,470 +1,494 @@
 [
     {
-        "merged": "com.example.para_mobile.app-debug-64:/layout_fragment_share.xml.flat",
-        "source": "com.example.para_mobile.app-main-66:/layout/fragment_share.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_custom_marker.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_custom_marker.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_launcher_foreground.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_hotel.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_hotel.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_share.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_share.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_launcher_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\font_outfit.ttf.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\font\\outfit.ttf"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_logo_foreground.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_logo_foreground.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_person.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_person.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_info_window_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\info_window_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_wave.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_wave.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_orange_dot.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\orange_dot.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_nav_header.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\nav_header.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_road.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_road.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_rounded_button_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\rounded_button_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_circle_indicator.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_circle_indicator.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\xml\\data_extraction_rules.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_activity_register.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\activity_register.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_aklogo.png.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\aklogo.png"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_category.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_category.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_rounded_input_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\rounded_input_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_action_buttons.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_action_buttons.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_category.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_category.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_logo_foreground.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_logo_foreground.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_about.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_about.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_about.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_about.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_circle_edit_button.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\circle_edit_button.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_history.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_history.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_search_not_found.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_search_not_found.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_park.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_park.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_visibility_off.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_visibility_off.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_restaurant.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_restaurant.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_item_recent_location.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\item_recent_location.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_nav_share.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\nav_share.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_school.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_school.xml"
+        "merged": "com.example.para_mobile.app-debug-66:/layout_fragment_search_and_clear.xml.flat",
+        "source": "com.example.para_mobile.app-main-68:/layout/fragment_search_and_clear.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_item_jeepney_route.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\item_jeepney_route.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\font_quicksand.ttf.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\font\\quicksand.ttf"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_search_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\search_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_search.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_search.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-xhdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_work.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_work.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_clear.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_clear.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\font_outfit.ttf.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\font\\outfit.ttf"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_circle_gray_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\circle_gray_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_initial_location.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_initial_location.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_airport.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_airport.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\xml_network_security_config.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\xml\\network_security_config.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_search.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_search.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_jeepney_code_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\jeepney_code_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_back.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_back.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_add.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_add.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_view_jeepney_finder.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\view_jeepney_finder.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_nav_header_handle.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\nav_header_handle.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_nav_logout.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\nav_logout.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_route_code_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\route_code_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_visibility.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_visibility.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\menu_nav_menu.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\menu\\nav_menu.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_search_and_clear.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_search_and_clear.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_work.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_work.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_no_routes_view.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\no_routes_view.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_email.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_email.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_favorite_outline.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_favorite_outline.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-mdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_mic.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_mic.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_add.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_add.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_mall.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_mall.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_share.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_share.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_email.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_email.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_favorites.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_favorites.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_search_and_clear.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_search_and_clear.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_arrow_back.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_arrow_back.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_logout.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_logout.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_bottom_sheet_container.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\bottom_sheet_container.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\anim_pulse.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\anim\\pulse.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_dotted_lines.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\dotted_lines.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_walking.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_walking.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_loading_overlay.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\loading_overlay.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_nav_settings.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\nav_settings.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_road.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_road.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_bottom_sheet_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\bottom_sheet_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_circle_indicator.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_circle_indicator.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_custom_info_window.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\custom_info_window.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_bottom_sheet_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\bottom_sheet_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_bottom_sheet.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\bottom_sheet.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_arrow_right.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_arrow_right.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\font_bagel.ttf.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\font\\bagel.ttf"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-hdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\font_quicksand.ttf.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\font\\quicksand.ttf"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_custom_info_window.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\custom_info_window.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-xxxhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_route_number_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\route_number_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_arrow_forward.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_arrow_forward.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_launcher_foreground.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_recents.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_recents.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_walking.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_walking.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\xml_network_security_config.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\xml\\network_security_config.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_item_recent_location.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\item_recent_location.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_aklogo.png.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\aklogo.png"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_activity_register.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\activity_register.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_orange_circle_pulse.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\orange_circle_pulse.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_action_buttons.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_action_buttons.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_activity_main.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\activity_main.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_swap_vert.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_swap_vert.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_favorites.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_favorites.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_fingerprint.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_fingerprint.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_activity_login.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\activity_login.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_activity_splash_screen.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\activity_splash_screen.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_profile.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_profile.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_google.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_google.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_rounded_input_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\rounded_input_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_bottom_sheet.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\bottom_sheet.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_search_not_found.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_search_not_found.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_refresh.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_refresh.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\anim_pulse_animation.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\anim\\pulse_animation.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_item_jeepney_route.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\item_jeepney_route.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_settings.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_settings.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_delete.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_delete.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_jeepney_code_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\jeepney_code_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_refresh.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_refresh.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_nav_about.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\nav_about.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_visibility_off.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_visibility_off.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_chevron_right.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_chevron_right.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-anydpi-v26\\ic_launcher.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\font_moliga.otf.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\font\\moliga.otf"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-mdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_nav_settings.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\nav_settings.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_nav_share.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\nav_share.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_search_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\search_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-hdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_profile.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_profile.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_hotel.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_hotel.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-hdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-hdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\anim_pulse_animation.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\anim\\pulse_animation.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_nav_about.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\nav_about.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_mall.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_mall.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_restaurant.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_restaurant.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_jeepney_route.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_jeepney_route.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_orange_dot.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\orange_dot.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_chevron_right_customorange.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_chevron_right_customorange.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-xhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_history.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_history.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_default_location.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_default_location.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_favorite_outline.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_favorite_outline.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_jeepney_routes.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_jeepney_routes.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_nav_header.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\nav_header.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_launcher_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_launcher_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_hospital.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_hospital.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_dotted_line.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\dotted_line.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_dotted_line.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\dotted_line.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_location.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_location.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_lock.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_lock.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_hospital.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_hospital.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_clear.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_clear.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_circle_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\circle_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_activity_login.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\activity_login.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_launcher_foreground_scaled.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_launcher_foreground_scaled.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_location.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_location.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_rounded_button_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\rounded_button_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_circle_gray_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\circle_gray_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_info_window_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\info_window_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_settings.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_settings.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_edit.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_edit.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_building.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_building.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_building.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_building.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_arrow_forward.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_arrow_forward.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_swap_vert.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_swap_vert.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_initial_location.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_initial_location.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_favorite_filled.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_favorite_filled.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_activity_splash_screen.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\activity_splash_screen.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\anim_pulse.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\anim\\pulse.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_chevron_right.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_chevron_right.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-xxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_custom_marker.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_custom_marker.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_edit.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_edit.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_search_suggestion.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_search_suggestion.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_logout.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_logout.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_nav_logout.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\nav_logout.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_home.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_home.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_google.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_google.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_wave.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_wave.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_favorite_filled.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_favorite_filled.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_mic.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_mic.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_chevron_right_customorange.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_chevron_right_customorange.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-xhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_visibility.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_visibility.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_school.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_school.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\xml\\backup_rules.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_search_suggestion.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_search_suggestion.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_arrow_right.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_arrow_right.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_jeepney_route_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\jeepney_route_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_lock.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_lock.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_airport.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_airport.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\font_moliga.otf.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\font\\moliga.otf"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_default_location.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_default_location.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_fingerprint.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_fingerprint.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_nav_header_handle.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\nav_header_handle.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_facebook.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_facebook.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_circle_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\circle_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_fragment_home.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\fragment_home.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_launcher_foreground_scaled.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_launcher_foreground_scaled.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-xxhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_home.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_home.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_back.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_back.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_person.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_person.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\mipmap-mdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_jeepney_routes.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_jeepney_routes.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_home.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_home.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_arrow_back.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_arrow_back.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_orange_button_background.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\orange_button_background.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\xml_data_extraction_rules.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\xml\\data_extraction_rules.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_circle_edit_button.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\circle_edit_button.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_ic_navigate.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\ic_navigate.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_bottom_sheet_container.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\bottom_sheet_container.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\menu_nav_menu.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\menu\\nav_menu.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\layout_item_location.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\layout\\item_location.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_facebook.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_facebook.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_orange_button_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\orange_button_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_park.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_park.xml"
     },
     {
-        "merged": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-64:\\drawable_jeepney_route_background.xml.flat",
-        "source": "C:\\Users\\Nishico\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-66:\\drawable\\jeepney_route_background.xml"
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_fragment_recents.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\fragment_recents.xml"
+    },
+    {
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_delete.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_delete.xml"
+    },
+    {
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_item_route.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\item_route.xml"
+    },
+    {
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\font_bagel.ttf.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\font\\bagel.ttf"
+    },
+    {
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_ic_navigate.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\ic_navigate.xml"
+    },
+    {
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\layout_item_location.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\layout\\item_location.xml"
+    },
+    {
+        "merged": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-debug-66:\\drawable_orange_circle_pulse.xml.flat",
+        "source": "C:\\Users\\acer\\.gradle\\daemon\\8.11.1\\com.example.para_mobile.app-main-68:\\drawable\\orange_circle_pulse.xml"
     }
 ]

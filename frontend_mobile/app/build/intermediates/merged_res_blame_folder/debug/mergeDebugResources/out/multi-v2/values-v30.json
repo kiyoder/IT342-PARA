@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.para_mobile.app-mergeDebugResources-62:/values-v30/values-v30.xml",
+            "outputFile": "com.example.para_mobile.app-mergeDebugResources-64:/values-v30/values-v30.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Nishico\\.gradle\\caches\\8.11.1\\transforms\\3b36026f581691e08cc2f76f4f90c39f\\transformed\\material3-release\\res\\values-v30\\values-v30.xml",
+                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\74f5ddd17a51ebbf1bc7100d56a06486\\transformed\\material3-release\\res\\values-v30\\values-v30.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

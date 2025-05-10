@@ -1,5 +1,6 @@
 package com.example.para_mobile.activity
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -16,6 +17,7 @@ import androidx.cardview.widget.CardView
 import com.example.para_mobile.R
 import com.example.para_mobile.api.RetrofitClient
 import com.example.para_mobile.api.SignupRequest
+import com.example.para_mobile.util.AuthUtil
 import com.example.para_mobile.util.GoogleAuthHelper
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -33,8 +35,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var ivTogglePassword: ImageView
     private lateinit var progressBar: ProgressBar
     private lateinit var cvGoogle: CardView
-    private lateinit var cvFacebook: CardView
-    private val TAG = "RegisterActivity"
 
     // Google Sign-In
     private lateinit var googleAuthHelper: GoogleAuthHelper
@@ -53,7 +53,6 @@ class RegisterActivity : AppCompatActivity() {
         ivTogglePassword = findViewById(R.id.ivTogglePassword)
         progressBar = findViewById(R.id.progressBar)
         cvGoogle = findViewById(R.id.cvGoogle)
-        cvFacebook = findViewById(R.id.cvFacebook)
 
         // Initialize Google Sign-In
         googleAuthHelper = GoogleAuthHelper(this)
@@ -71,11 +70,6 @@ class RegisterActivity : AppCompatActivity() {
         // Google Sign-Up
         cvGoogle.setOnClickListener {
             signUpWithGoogle()
-        }
-
-        // Facebook Sign-Up (placeholder)
-        cvFacebook.setOnClickListener {
-            Toast.makeText(this, "Facebook signup not implemented yet", Toast.LENGTH_SHORT).show()
         }
 
         // Redirect to LoginActivity when the link is clicked
@@ -113,7 +107,7 @@ class RegisterActivity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
         btnRegister.isEnabled = false
 
-        // Create signup request - note we're using SignupRequest now instead of RegisterRequest
+        // Create signup request
         val request = SignupRequest(username, email, password)
 
         RetrofitClient.instance.registerUser(request).enqueue(object : Callback<Map<String, Any>> {
@@ -123,51 +117,30 @@ class RegisterActivity : AppCompatActivity() {
 
                 if (response.isSuccessful && response.body() != null) {
                     val responseBody = response.body()!!
-
-                    // Extract token from response
+                    val user = responseBody["user"] as? Map<*, *>
+                    val userId = user?.get("id") as? String
+                    val username = user?.get("username") as? String
+                    val email = user?.get("email") as? String
                     val accessToken = responseBody["accessToken"] as? String
-
-                    if (accessToken != null) {
-                        // Save token to shared preferences
-                        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
-                        sharedPref.edit().putString("jwt_token", "Bearer $accessToken").apply()
-
-                        // Extract user info if available
-                        @Suppress("UNCHECKED_CAST")
-                        val user = responseBody["user"] as? Map<String, Any>
-                        if (user != null) {
-                            val userId = user["id"] as? String
-                            val username = user["username"] as? String
-                            val email = user["email"] as? String
-
-                            // Save user info
-                            sharedPref.edit()
-                                .putString("user_id", userId)
-                                .putString("username", username)
-                                .putString("email", email)
-                                .apply()
+                    if (accessToken != null) AuthUtil.saveAuthToken(this@RegisterActivity, accessToken)
+                    Toast.makeText(applicationContext, "Registration successful! Please log in.", Toast.LENGTH_LONG).show()
+                    goToLogin()
+                    if (user != null) {
+                        val editor = getSharedPreferences("app_prefs", MODE_PRIVATE).edit()
+                        if (userId != null) {
+                            editor.putString("user_id", userId)
+                            editor.putString("supabase_uid", userId)
                         }
-
-                        Toast.makeText(applicationContext, "Registration Successful!", Toast.LENGTH_LONG).show()
-                        Log.d(TAG, "Registration successful")
-
-                        // Redirect to MainActivity after successful registration
-                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(applicationContext, "Registration successful but token missing", Toast.LENGTH_LONG).show()
-                        // Redirect to LoginActivity if token is missing
-                        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        editor.putString("username", username)
+                        editor.putString("email", email)
+                        editor.apply()
                     }
                 } else {
                     try {
                         val errorBody = response.errorBody()?.string()
-                        Log.e(TAG, "Registration failed: $errorBody")
-                        Toast.makeText(applicationContext, "Registration failed: ${errorBody ?: response.message()}", Toast.LENGTH_LONG).show()
+                        val errorResponse = com.example.para_mobile.api.ErrorResponse.parseError(errorBody)
+                        Log.e(TAG, "Registration failed: ${errorResponse.getErrorMessage()}")
+                        Toast.makeText(applicationContext, errorResponse.getErrorMessage(), Toast.LENGTH_LONG).show()
                     } catch (e: Exception) {
                         Log.e(TAG, "Error parsing error response", e)
                         Toast.makeText(applicationContext, "Registration failed: ${response.message()}", Toast.LENGTH_LONG).show()
@@ -182,6 +155,12 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun goToLogin() {
+        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     // Function to toggle the password visibility
@@ -213,13 +192,59 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             googleAuthHelper.handleSignInResult(
                 task,
                 onSuccess = { account ->
-                    handleGoogleSignUpSuccess(account)
+                    val code = googleAuthHelper.getServerAuthCode(account)
+                    if (code != null) {
+                        progressBar.visibility = View.VISIBLE
+                        RetrofitClient.instance.googleCallback(code).enqueue(object : Callback<Map<String, Any>> {
+                            override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
+                                progressBar.visibility = View.GONE
+                                if (response.isSuccessful && response.body() != null) {
+                                    val responseBody = response.body()!!
+                                    val accessToken = responseBody["accessToken"] as? String
+                                    if (!accessToken.isNullOrEmpty()) {
+                                        AuthUtil.saveAuthToken(this@RegisterActivity, accessToken)
+                                        // Save user info if available
+                                        @Suppress("UNCHECKED_CAST")
+                                        val user = responseBody["user"] as? Map<String, Any>
+                                        if (user != null) {
+                                            val userId = user["id"] as? String
+                                            val username = user["username"] as? String
+                                            val email = user["email"] as? String
+                                            val editor = getSharedPreferences("app_prefs", MODE_PRIVATE).edit()
+                                            if (userId != null) {
+                                                editor.putString("user_id", userId)
+                                                editor.putString("supabase_uid", userId)
+                                            }
+                                            editor.putString("username", username)
+                                            editor.putString("email", email)
+                                            editor.apply()
+                                        }
+                                        // Fetch user profile before redirecting
+                                        fetchUserProfileAndGoToMain()
+                                    } else {
+                                        Toast.makeText(applicationContext, "Google registration successful but token missing", Toast.LENGTH_LONG).show()
+                                        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                } else {
+                                    Toast.makeText(applicationContext, "Google registration failed", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                            override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                                progressBar.visibility = View.GONE
+                                Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_LONG).show()
+                            }
+                        })
+                    } else {
+                        progressBar.visibility = View.GONE
+                        Toast.makeText(this, "Failed to get Google OAuth code", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 onFailure = { errorMessage ->
                     progressBar.visibility = View.GONE
@@ -229,90 +254,38 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleGoogleSignUpSuccess(account: GoogleSignInAccount) {
-        Log.d(TAG, "Google Sign-Up successful: ${account.email}")
-
-        // Get ID token from Google account
-        val idToken = account.idToken
-
-        if (idToken != null) {
-            // Send the token to your backend
-            registerWithBackend(idToken, account.email ?: "", account.displayName ?: "")
-        } else {
-            progressBar.visibility = View.GONE
-            Toast.makeText(this, "Failed to get ID token from Google", Toast.LENGTH_SHORT).show()
+    private fun fetchUserProfileAndGoToMain() {
+        val token = getSharedPreferences("app_prefs", MODE_PRIVATE).getString("jwt_token", null)
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(applicationContext, "Token not available, please log in again", Toast.LENGTH_LONG).show()
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
         }
-    }
-
-    private fun registerWithBackend(idToken: String, email: String, displayName: String) {
-        // Create a request to send to your backend
-        val googleAuthRequest = mapOf(
-            "idToken" to idToken,
-            "email" to email,
-            "displayName" to displayName
-        )
-
-        RetrofitClient.instance.registerWithGoogle(googleAuthRequest).enqueue(object : Callback<Map<String, Any>> {
+        RetrofitClient.instance.getUserProfile(token).enqueue(object : Callback<Map<String, Any>> {
             override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
-                progressBar.visibility = View.GONE
-
                 if (response.isSuccessful && response.body() != null) {
-                    val responseBody = response.body()!!
-
-                    // Extract token from response
-                    val accessToken = responseBody["accessToken"] as? String
-
-                    if (accessToken != null) {
-                        // Save token to shared preferences
-                        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
-                        sharedPref.edit().putString("jwt_token", "Bearer $accessToken").apply()
-
-                        // Extract user info if available
-                        @Suppress("UNCHECKED_CAST")
-                        val user = responseBody["user"] as? Map<String, Any>
-                        if (user != null) {
-                            val userId = user["id"] as? String
-                            val username = user["username"] as? String
-                            val email = user["email"] as? String
-
-                            // Save user info
-                            sharedPref.edit()
-                                .putString("user_id", userId)
-                                .putString("username", username)
-                                .putString("email", email)
-                                .apply()
-                        }
-
-                        Toast.makeText(applicationContext, "Google Registration Successful!", Toast.LENGTH_LONG).show()
-
-                        // Redirect to MainActivity after successful registration
-                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(applicationContext, "Google registration successful but token missing", Toast.LENGTH_LONG).show()
-                        // Redirect to LoginActivity if token is missing
-                        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                } else {
-                    try {
-                        val errorBody = response.errorBody()?.string()
-                        Log.e(TAG, "Google registration failed: $errorBody")
-                        Toast.makeText(applicationContext, "Google registration failed", Toast.LENGTH_LONG).show()
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Error parsing error response", e)
-                        Toast.makeText(applicationContext, "Google registration failed: ${response.message()}", Toast.LENGTH_LONG).show()
-                    }
+                    val profile = response.body()!!
+                    val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+                    val editor = sharedPref.edit()
+                    profile["id"]?.let { editor.putString("user_id", it.toString()) }
+                    profile["username"]?.let { editor.putString("username", it.toString()) }
+                    profile["email"]?.let { editor.putString("email", it.toString()) }
+                    editor.apply()
                 }
+                // Always go to MainActivity
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
             }
-
             override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                Log.e(TAG, "Network error during Google registration", t)
-                Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_LONG).show()
+                // Still go to MainActivity even if profile fetch fails
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
             }
         })
     }

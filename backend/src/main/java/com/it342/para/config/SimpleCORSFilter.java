@@ -19,8 +19,8 @@ public class SimpleCORSFilter implements Filter {
     private static final List<String> allowedOrigins = Arrays.asList(
             "https://it-342-para.vercel.app",
             "http://localhost:5173",
-            "https://it-342-para-cyan.vercel.app");
-
+            "https://it-342-para-cyan.vercel.app",
+            "http://10.0.2.2:8080");
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {

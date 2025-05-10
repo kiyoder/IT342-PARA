@@ -9,7 +9,9 @@ interface NominatimAPI {
     @GET("search")
     fun searchLocation(
         @Query("q") query: String,
-        @Query("format") format: String = "json"
+        @Query("format") format: String = "json",
+        @Query("viewbox") viewbox: String? = null,
+        @Query("bounded") bounded: Int? = null
     ): Call<List<LocationResult>>
 }
 

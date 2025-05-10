@@ -77,6 +77,11 @@ animator mtrl_fab_hide_motion_spec
 animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
+array assume_strong_biometrics_models
+array crypto_fingerprint_fallback_prefixes
+array crypto_fingerprint_fallback_vendors
+array delay_showing_prompt_models
+array hide_fingerprint_instantly_prefixes
 attr SharedValue
 attr SharedValueId
 attr actionBarDivider
@@ -1345,6 +1350,7 @@ color background_floating_material_dark
 color background_floating_material_light
 color background_material_dark
 color background_material_light
+color biometric_error_color
 color black
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
@@ -2224,6 +2230,7 @@ dimen disabled_alpha_material_light
 dimen fastscroll_default_thickness
 dimen fastscroll_margin
 dimen fastscroll_minimum_range
+dimen fingerprint_icon_size
 dimen highlight_alpha_material_colored
 dimen highlight_alpha_material_dark
 dimen highlight_alpha_material_light
@@ -2974,6 +2981,9 @@ drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
 drawable dotted_line
+drawable dotted_lines
+drawable fingerprint_dialog_error
+drawable fingerprint_dialog_fp_icon
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_add
@@ -3146,7 +3156,7 @@ drawable previous
 drawable round_navigation_white_48
 drawable rounded_button_background
 drawable rounded_input_background
-drawable route_code_background
+drawable route_number_background
 drawable search_background
 drawable sharp_add_black_36
 drawable sharp_remove_black_36
@@ -3252,7 +3262,6 @@ id auto
 id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
-id backButton
 id barrier
 id baseline
 id beginOnFirstDraw
@@ -3269,11 +3278,14 @@ id bounceEnd
 id bounceStart
 id btnBack
 id btnChangePassword
+id btnEditEmail
 id btnEditUsername
 id btnLogin
 id btnNavAccent
+id btnPickProfileImage
 id btnRegister
 id btnSaveProfile
+id btnSearchJeepney
 id btnViewProfile
 id btn_close
 id btn_delete_recent
@@ -3302,7 +3314,6 @@ id checked
 id chronometer
 id circle_center
 id clear_route_button
-id clear_search_button
 id clear_text
 id clip_horizontal
 id clip_vertical
@@ -3329,7 +3340,6 @@ id customPanel
 id cut
 id cvBiometrics
 id cvEmail
-id cvFacebook
 id cvGoogle
 id cvPassword
 id cvUsername
@@ -3383,6 +3393,7 @@ id enterAlways
 id enterAlwaysCollapsed
 id etEmail
 id etPassword
+id etProfileEmail
 id etProfileUsername
 id etUsername
 id exitUntilCollapsed
@@ -3395,6 +3406,10 @@ id fill
 id fill_horizontal
 id fill_vertical
 id filled
+id fingerprint_description
+id fingerprint_error
+id fingerprint_icon
+id fingerprint_subtitle
 id fitCenter
 id fitEnd
 id fitStart
@@ -3410,6 +3425,7 @@ id frost
 id fullscreen_header
 id ghost_view
 id ghost_view_holder
+id glide_custom_view_target_tag
 id gone
 id graph
 id graph_wrap
@@ -3440,6 +3456,7 @@ id indeterminate
 id info
 id info_window_subtitle
 id info_window_title
+id initialLocation
 id inspection_slot_table_set
 id invisible
 id inward
@@ -3450,6 +3467,9 @@ id ivProfileImage
 id ivProfilePic
 id ivTogglePassword
 id jeepneyCodeBadge
+id jeepneyCodeInput
+id jeepneyFinderContainer
+id jeepneyFinderTitle
 id jeepney_route_container
 id jumpToEnd
 id jumpToStart
@@ -3467,7 +3487,7 @@ id list_item
 id llLoginLink
 id llRegisterLink
 id locationCard
-id locationInput
+id locationTitleView
 id location_address
 id location_name
 id location_type_icon
@@ -3550,6 +3570,7 @@ id neverCompleteToStart
 id noScroll
 id noState
 id no_results_text_view
+id no_routes_icon
 id none
 id normal
 id north
@@ -3582,6 +3603,7 @@ id progressBar
 id progressBarProfile
 id progress_circular
 id progress_horizontal
+id progress_text
 id radio
 id ratio
 id recent_location_address
@@ -3604,11 +3626,15 @@ id right_icon
 id right_side
 id rounded
 id routeDescription
+id route_distance
+id route_locations
+id route_number
 id routesRecyclerView
 id routesTitle
 id row_index_key
 id save_non_transition_alpha
 id save_overlay_view
+id save_route_button
 id sawtooth
 id scale
 id screen
@@ -3629,6 +3655,7 @@ id search_go_btn
 id search_mag_icon
 id search_plate
 id search_progress_bar
+id search_route_label
 id search_src_text
 id search_suggestion_container
 id search_suggestion_fragment_root
@@ -3686,6 +3713,7 @@ id startToEnd
 id startVertical
 id staticLayout
 id staticPostLayout
+id status_text
 id stop
 id stretch
 id submenuarrow
@@ -3752,7 +3780,6 @@ id tvForgotPassword
 id tvGoToLogin
 id tvGoToRegister
 id tvPasswordLabel
-id tvProfileEmail
 id tvProfilePassword
 id tvProfileTitle
 id tvSocialAccount
@@ -3928,10 +3955,12 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout fingerprint_dialog_layout
 layout fragment_about
 layout fragment_action_buttons
 layout fragment_favorites
 layout fragment_home
+layout fragment_jeepney_route
 layout fragment_jeepney_routes
 layout fragment_logout
 layout fragment_profile
@@ -3945,6 +3974,8 @@ layout ime_secondary_split_test_activity
 layout item_jeepney_route
 layout item_location
 layout item_recent_location
+layout item_route
+layout loading_overlay
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title
@@ -3997,6 +4028,7 @@ layout mtrl_picker_text_input_date_range
 layout mtrl_search_bar
 layout mtrl_search_view
 layout nav_header
+layout no_routes_view
 layout notification_action
 layout notification_action_tombstone
 layout notification_template_custom_big
@@ -4007,6 +4039,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+layout view_jeepney_finder
 menu nav_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
@@ -4085,8 +4118,10 @@ string common_open_on_phone
 string common_signin_button_text
 string common_signin_button_text_long
 string compass
+string confirm_device_credential_password
 string cyclemap
 string default_error_message
+string default_error_msg
 string default_popup_window_title
 string dropdown_menu
 string error_a11y_label
@@ -4095,6 +4130,13 @@ string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string fiets_nl
+string fingerprint_dialog_touch_sensor
+string fingerprint_error_hw_not_available
+string fingerprint_error_hw_not_present
+string fingerprint_error_lockout
+string fingerprint_error_no_fingerprints
+string fingerprint_error_user_canceled
+string fingerprint_not_recognized
 string first_fix_message
 string format_distance_feet
 string format_distance_kilometers
@@ -4107,6 +4149,9 @@ string format_distance_only_meter
 string format_distance_only_mile
 string format_distance_only_nautical_mile
 string format_distance_value_unit
+string generic_error_no_device_credential
+string generic_error_no_keyguard
+string generic_error_user_canceled
 string hello_blank_fragment
 string hide_bottom_view_on_scroll_behavior
 string hills

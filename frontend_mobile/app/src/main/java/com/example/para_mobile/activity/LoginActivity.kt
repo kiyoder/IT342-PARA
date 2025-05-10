@@ -15,13 +15,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.example.para_mobile.api.LoginRequest
 import com.example.para_mobile.R
+import com.example.para_mobile.api.ApiService
 import com.example.para_mobile.api.RetrofitClient
+import com.example.para_mobile.util.AuthUtil
 import com.example.para_mobile.util.GoogleAuthHelper
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,7 +37,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var ivTogglePassword: ImageView
     private lateinit var progressBar: ProgressBar
     private lateinit var cvGoogle: CardView
-    private lateinit var cvFacebook: CardView
     private var isPasswordVisible = false
     private val TAG = "LoginActivity"
 
@@ -44,14 +48,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Check if user is already logged in
-        val token = getSharedPreferences("app_prefs", MODE_PRIVATE).getString("jwt_token", null)
-        if (!token.isNullOrEmpty()) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish() // prevent going back to login
-            return
-        }
-
         // Initialize views
         btnLogin = findViewById(R.id.btnLogin)
         tvGoToRegister = findViewById(R.id.tvGoToRegister)
@@ -60,7 +56,6 @@ class LoginActivity : AppCompatActivity() {
         ivTogglePassword = findViewById(R.id.ivTogglePassword)
         progressBar = findViewById(R.id.progressBar)
         cvGoogle = findViewById(R.id.cvGoogle)
-        cvFacebook = findViewById(R.id.cvFacebook)
 
         // Initialize Google Sign-In
         googleAuthHelper = GoogleAuthHelper(this)
@@ -80,15 +75,14 @@ class LoginActivity : AppCompatActivity() {
             signInWithGoogle()
         }
 
-        // Facebook Sign-In (placeholder)
-        cvFacebook.setOnClickListener {
-            Toast.makeText(this, "Facebook login not implemented yet", Toast.LENGTH_SHORT).show()
-        }
-
         // Redirect to RegisterActivity when the link is clicked
         tvGoToRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+        }
+
+        findViewById<CardView>(R.id.cvBiometrics).setOnClickListener {
+            showBiometricPrompt()
         }
     }
 
@@ -114,14 +108,28 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) {
                     val responseBody = response.body()!!
                     val token = responseBody["accessToken"]
+                    val user = responseBody["user"] as? Map<*, *>
+                    val supabaseUid = user?.get("id") as? String
+                    val email = user?.get("email") as? String
+                    val phone = user?.get("phone") as? String
+                    val username = user?.get("username") as? String
 
-                    if (!token.isNullOrEmpty()) {
-                        saveToken(token)
-
-                        // After login, fetch user profile to get additional info
-                        fetchUserProfile("Bearer $token")
+                    if (!token.isNullOrEmpty() && token.count { it == '.' } == 2) {
+                        AuthUtil.saveAuthToken(this@LoginActivity, token)
+                        val editor = getSharedPreferences("app_prefs", MODE_PRIVATE).edit()
+                        if (supabaseUid != null) {
+                            editor.putString("supabase_uid", supabaseUid)
+                            editor.putString("user_id", supabaseUid)
+                        }
+                        if (email != null) editor.putString("email", email)
+                        if (phone != null) editor.putString("phone", phone)
+                        if (username != null) editor.putString("username", username)
+                        editor.apply()
+                        fetchUserProfileWithFallback("Bearer $token", username, email)
+                        return
                     } else {
-                        Toast.makeText(applicationContext, "Login failed: Invalid token", Toast.LENGTH_LONG).show()
+                        Toast.makeText(applicationContext, "Login failed: Invalid token from server", Toast.LENGTH_LONG).show()
+                        return
                     }
                 } else {
                     try {
@@ -144,56 +152,68 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun fetchUserProfile(token: String) {
+    private fun fetchUserProfileWithFallback(token: String, username: String?, email: String?) {
         RetrofitClient.instance.getUserProfile(token).enqueue(object : Callback<Map<String, Any>> {
             override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                 if (response.isSuccessful && response.body() != null) {
                     val profile = response.body()!!
-
-                    // Save user profile data
                     val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
                     val editor = sharedPref.edit()
-
                     profile["id"]?.let { editor.putString("user_id", it.toString()) }
                     profile["username"]?.let { editor.putString("username", it.toString()) }
                     profile["email"]?.let { editor.putString("email", it.toString()) }
-
                     editor.apply()
-
                     Toast.makeText(applicationContext, "Login Successful!", Toast.LENGTH_LONG).show()
-
-                    // Launch MainActivity and clear back stack
-                    val intent = Intent(applicationContext, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                    finish()
+                    goToMain()
+                } else if (response.code() == 404) {
+                    // Profile not found, try to create it
+                    createProfileIfMissing(token, username, email)
                 } else {
-                    // Even if profile fetch fails, we can still proceed to main activity
-                    // since we have the token
-                    Log.w(TAG, "Failed to fetch user profile, proceeding anyway")
-
-                    Toast.makeText(applicationContext, "Login Successful!", Toast.LENGTH_LONG).show()
-
-                    val intent = Intent(applicationContext, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                    finish()
+                    // Fallback: keep username/email from registration
+                    val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+                    val editor = sharedPref.edit()
+                    if (!username.isNullOrEmpty()) editor.putString("username", username)
+                    if (!email.isNullOrEmpty()) editor.putString("email", email)
+                    editor.apply()
+                    Toast.makeText(applicationContext, "Login Successful! (profile fallback)", Toast.LENGTH_LONG).show()
+                    goToMain()
                 }
             }
-
             override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
-                Log.e(TAG, "Failed to fetch user profile", t)
-
-                // Even if profile fetch fails, we can still proceed to main activity
-                // since we have the token
-                Toast.makeText(applicationContext, "Login Successful!", Toast.LENGTH_LONG).show()
-
-                val intent = Intent(applicationContext, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
+                // Fallback: keep username/email from registration
+                val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+                val editor = sharedPref.edit()
+                if (!username.isNullOrEmpty()) editor.putString("username", username)
+                if (!email.isNullOrEmpty()) editor.putString("email", email)
+                editor.apply()
+                Toast.makeText(applicationContext, "Login Successful! (profile fallback)", Toast.LENGTH_LONG).show()
+                goToMain()
             }
         })
+    }
+
+    private fun createProfileIfMissing(token: String, username: String?, email: String?) {
+        if (username.isNullOrEmpty() || email.isNullOrEmpty()) {
+            goToMain()
+            return
+        }
+        val updates = mapOf("username" to username, "email" to email)
+        RetrofitClient.instance.updateUserProfile(token, updates).enqueue(object : Callback<Map<String, Any>> {
+            override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
+                // Try to fetch profile again
+                fetchUserProfileWithFallback(token, username, email)
+            }
+            override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                goToMain()
+            }
+        })
+    }
+
+    private fun goToMain() {
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     private fun togglePasswordVisibility() {
@@ -210,12 +230,6 @@ class LoginActivity : AppCompatActivity() {
         etPassword.setSelection(etPassword.text.length) // Keep cursor at the end
     }
 
-    private fun saveToken(token: String) {
-        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        sharedPref.edit().putString("jwt_token", "Bearer $token").apply()
-        Log.d(TAG, "Token saved successfully")
-    }
-
     // Google Sign-In methods
     private fun signInWithGoogle() {
         progressBar.visibility = View.VISIBLE
@@ -225,13 +239,58 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             googleAuthHelper.handleSignInResult(
                 task,
                 onSuccess = { account ->
-                    handleGoogleSignInSuccess(account)
+                    val code = googleAuthHelper.getServerAuthCode(account)
+                    if (code != null) {
+                        progressBar.visibility = View.VISIBLE
+                        RetrofitClient.instance.googleCallback(code).enqueue(object : Callback<Map<String, Any>> {
+                            override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
+                                progressBar.visibility = View.GONE
+                                if (response.isSuccessful && response.body() != null) {
+                                    val responseBody = response.body()!!
+                                    val accessToken = responseBody["accessToken"] as? String
+                                    if (!accessToken.isNullOrEmpty()) {
+                                        AuthUtil.saveAuthToken(this@LoginActivity, accessToken)
+                                        // Save user info if available
+                                        @Suppress("UNCHECKED_CAST")
+                                        val user = responseBody["user"] as? Map<String, Any>
+                                        if (user != null) {
+                                            val userId = user["id"] as? String
+                                            val username = user["username"] as? String
+                                            val email = user["email"] as? String
+                                            val supabaseUid = user["id"] as? String
+                                            val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+                                            val editor = sharedPref.edit()
+                                            editor.putString("user_id", userId)
+                                            editor.putString("username", username)
+                                            editor.putString("email", email)
+                                            if (supabaseUid != null) {
+                                                editor.putString("supabase_uid", supabaseUid)
+                                                editor.putString("user_id", supabaseUid)
+                                            }
+                                            editor.apply()
+                                        }
+                                        // Fetch user profile before redirecting
+                                        fetchUserProfileAndGoToMain()
+                                    } else {
+                                        Toast.makeText(applicationContext, "Google login successful but token missing", Toast.LENGTH_LONG).show()
+                                    }
+                                } else {
+                                    Toast.makeText(applicationContext, "Google login failed", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                            override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                                progressBar.visibility = View.GONE
+                                Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_LONG).show()
+                            }
+                        })
+                    } else {
+                        Toast.makeText(this, "Failed to get Google OAuth code", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 onFailure = { errorMessage ->
                     progressBar.visibility = View.GONE
@@ -241,62 +300,80 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleGoogleSignInSuccess(account: GoogleSignInAccount) {
-        Log.d(TAG, "Google Sign-In successful: ${account.email}")
-
-        // Get ID token from Google account
-        val idToken = account.idToken
-
-        if (idToken != null) {
-            // Send the token to your backend
-            authenticateWithBackend(idToken, account.email ?: "", account.displayName ?: "")
-        } else {
-            progressBar.visibility = View.GONE
-            Toast.makeText(this, "Failed to get ID token from Google", Toast.LENGTH_SHORT).show()
+    private fun fetchUserProfileAndGoToMain() {
+        val token = getSharedPreferences("app_prefs", MODE_PRIVATE).getString("jwt_token", null)
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(applicationContext, "Token not available, please log in again", Toast.LENGTH_LONG).show()
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
         }
-    }
-
-    private fun authenticateWithBackend(idToken: String, email: String, displayName: String) {
-        // Create a request to send to your backend
-        val googleAuthRequest = mapOf(
-            "idToken" to idToken,
-            "email" to email,
-            "displayName" to displayName
-        )
-
-        RetrofitClient.instance.loginWithGoogle(googleAuthRequest).enqueue(object : Callback<Map<String, String>> {
-            override fun onResponse(call: Call<Map<String, String>>, response: Response<Map<String, String>>) {
-                progressBar.visibility = View.GONE
-
+        RetrofitClient.instance.getUserProfile(token).enqueue(object : Callback<Map<String, Any>> {
+            override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                 if (response.isSuccessful && response.body() != null) {
-                    val responseBody = response.body()!!
-                    val token = responseBody["accessToken"]
-
-                    if (!token.isNullOrEmpty()) {
-                        saveToken(token)
-
-                        // After login, fetch user profile to get additional info
-                        fetchUserProfile("Bearer $token")
-                    } else {
-                        Toast.makeText(applicationContext, "Google login failed: Invalid token", Toast.LENGTH_LONG).show()
-                    }
-                } else {
-                    try {
-                        val errorBody = response.errorBody()?.string()
-                        Log.e(TAG, "Google login failed: $errorBody")
-                        Toast.makeText(applicationContext, "Google login failed", Toast.LENGTH_LONG).show()
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Error parsing error response", e)
-                        Toast.makeText(applicationContext, "Google login failed: ${response.message()}", Toast.LENGTH_LONG).show()
-                    }
+                    val profile = response.body()!!
+                    val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+                    val editor = sharedPref.edit()
+                    profile["id"]?.let { editor.putString("user_id", it.toString()) }
+                    profile["username"]?.let { editor.putString("username", it.toString()) }
+                    profile["email"]?.let { editor.putString("email", it.toString()) }
+                    editor.apply()
                 }
+                // Always go to MainActivity
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
             }
-
-            override fun onFailure(call: Call<Map<String, String>>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                Log.e(TAG, "Network error during Google login", t)
-                Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_LONG).show()
+            override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                // Still go to MainActivity even if profile fetch fails
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
             }
         })
+    }
+
+    private fun showBiometricPrompt() {
+        val biometricManager = BiometricManager.from(this)
+        when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
+            BiometricManager.BIOMETRIC_SUCCESS -> {
+                val executor = ContextCompat.getMainExecutor(this)
+                val promptInfo = BiometricPrompt.PromptInfo.Builder()
+                    .setTitle("Biometric Login")
+                    .setSubtitle("Log in using your biometrics")
+                    .setNegativeButtonText("Cancel")
+                    .build()
+
+                val biometricPrompt = BiometricPrompt(this, executor,
+                    object : BiometricPrompt.AuthenticationCallback() {
+                        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                            super.onAuthenticationSucceeded(result)
+                            val token = getSharedPreferences("app_prefs", MODE_PRIVATE).getString("jwt_token", null)
+                            if (!token.isNullOrEmpty()) {
+                                goToMain()
+                            } else {
+                                Toast.makeText(applicationContext, "No saved session. Please log in first.", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                            super.onAuthenticationError(errorCode, errString)
+                            Toast.makeText(applicationContext, "Authentication error: $errString", Toast.LENGTH_SHORT).show()
+                        }
+                        override fun onAuthenticationFailed() {
+                            super.onAuthenticationFailed()
+                            Toast.makeText(applicationContext, "Authentication failed", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                biometricPrompt.authenticate(promptInfo)
+            }
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE,
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE,
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                Toast.makeText(this, "Biometric features are not available/enrolled on this device.", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }

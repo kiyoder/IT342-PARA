@@ -300,6 +300,36 @@ class MapManager(private val context: Context, private val mapView: MapView, pri
         }
     }
 
+    fun zoomToShowMarkersWithBottomPadding(bottomPaddingPercent: Double = 0.3) {
+        if (markers.size < 2) return
+        // Calculate bounding box
+        var north = -90.0
+        var south = 90.0
+        var east = -180.0
+        var west = 180.0
+        for (marker in markers) {
+            val pos = marker.position
+            north = maxOf(north, pos.latitude)
+            south = minOf(south, pos.latitude)
+            east = maxOf(east, pos.longitude)
+            west = minOf(west, pos.longitude)
+        }
+        val latPadding = (north - south) * 0.1
+        val lonPadding = (east - west) * 0.1
+        val boundingBox = org.osmdroid.util.BoundingBox(
+            north + latPadding,
+            east + lonPadding,
+            south - latPadding,
+            west - lonPadding
+        )
+        // Animate to bounding box
+        mapView.zoomToBoundingBox(boundingBox, true, 100)
+        // Scroll map up to account for bottom sheet
+        val height = mapView.height
+        val yOffset = (height * bottomPaddingPercent).toInt()
+        mapView.scrollBy(0, yOffset)
+    }
+
     fun removeAllMarkers() {
         try {
             for (marker in markers) {

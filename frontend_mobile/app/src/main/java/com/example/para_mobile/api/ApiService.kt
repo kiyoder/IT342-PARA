@@ -1,13 +1,8 @@
 package com.example.para_mobile.api
 
-import com.example.para_mobile.model.JeepneyRoute
+import com.example.para_mobile.model.RouteSearchResult
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Query
+import retrofit2.http.*
 
 data class SignupRequest(
     val username: String,
@@ -16,16 +11,16 @@ data class SignupRequest(
 )
 
 data class LoginRequest(
-    val email: String,  // Changed from username to email
+    val email: String,
     val password: String
 )
 
 interface ApiService {
-    // Register User - Updated to match backend endpoint
+    // Register User
     @POST("api/auth/signup")
     fun registerUser(@Body request: SignupRequest): Call<Map<String, Any>>
 
-    // Login User - Updated to match backend endpoint
+    // Login User
     @POST("api/auth/login")
     fun loginUser(@Body request: LoginRequest): Call<Map<String, String>>
 
@@ -36,7 +31,7 @@ interface ApiService {
     @POST("api/auth/register-with-google")
     fun registerWithGoogle(@Body request: Map<String, String>): Call<Map<String, Any>>
 
-    // Validate token
+    // Validate token — still requires manual header
     @GET("api/auth/validate-token")
     fun validateToken(@Header("Authorization") token: String): Call<Map<String, Any>>
 
@@ -58,14 +53,40 @@ interface ApiService {
         @Body passwordData: Map<String, String>
     ): Call<Map<String, Any>>
 
-    // Get All Routes
-    @GET("api/routes/all")
-    fun getAllRoutes(@Header("Authorization") token: String): Call<List<JeepneyRoute>>
+    // ✅ Get all jeepney routes
+    @GET("api/routes")
+    fun getAllRoutes(): Call<List<RouteSearchResult>>
 
-    // Lookup Route by route number
+    // ✅ Lookup route by routeNumber (query param)
     @GET("api/routes/lookup")
     fun lookupRoute(
         @Header("Authorization") token: String,
         @Query("routeNumber") routeNumber: String
-    ): Call<JeepneyRoute>
+    ): Call<RouteSearchResult>
+
+    // ✅ Create route
+    @POST("api/routes")
+    fun createRoute(
+        @Header("Authorization") token: String,
+        @Body route: RouteSearchResult
+    ): Call<RouteSearchResult>
+
+    // ✅ Update route
+    @PUT("api/routes/{id}")
+    fun updateRoute(
+        @Header("Authorization") token: String,
+        @Path("id") routeId: Long,
+        @Body route: RouteSearchResult
+    ): Call<Map<String, Any>>
+
+    // ✅ Delete route
+    @DELETE("api/routes/{id}")
+    fun deleteRoute(
+        @Header("Authorization") token: String,
+        @Path("id") routeId: Long
+    ): Call<Map<String, Any>>
+
+    // Google OAuth callback
+    @GET("api/auth/google-callback")
+    fun googleCallback(@Query("code") code: String): Call<Map<String, Any>>
 }
