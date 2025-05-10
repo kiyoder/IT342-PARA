@@ -20,7 +20,7 @@ class GoogleAuthHelper(private val context: Context) {
     init {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
-            .requestIdToken("YOUR_WEB_CLIENT_ID") // Replace with your web client ID from Google Cloud Console
+            .requestServerAuthCode("354306507425-9ggbb5ds4h17kjgedlbmn2tnfvbtc5v7.apps.googleusercontent.com") // Replace with your web client ID from Google Cloud Console
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(context, gso)
@@ -53,5 +53,10 @@ class GoogleAuthHelper(private val context: Context) {
     // Check if user is already signed in
     fun getLastSignedInAccount(): GoogleSignInAccount? {
         return GoogleSignIn.getLastSignedInAccount(context)
+    }
+
+    // Add a helper to get the server auth code
+    fun getServerAuthCode(account: GoogleSignInAccount): String? {
+        return account.serverAuthCode
     }
 }

@@ -9,19 +9,21 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.para_mobile.R
-import com.example.para_mobile.adapter.RecentLocationAdapter
+import com.example.para_mobile.adapter.RecentRouteAdapter
 import com.example.para_mobile.model.LocationResult
+import com.example.para_mobile.model.RecentRoute
 import com.google.gson.Gson
 
 class RecentsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: RecentLocationAdapter
+    private lateinit var adapter: RecentRouteAdapter
     private lateinit var noRecentsText: TextView
-    private var recentLocations: MutableList<LocationResult> = mutableListOf()
+    private var recentRoutes: MutableList<RecentRoute> = mutableListOf()
 
-    private var onRecentLocationListener: ((String) -> Unit)? = null
+    private var onRecentLocationListener: ((RecentRoute) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,105 +36,50 @@ class RecentsFragment : Fragment() {
 
         // Set up RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = RecentLocationAdapter(
-            recentLocations,
-            onClick = { selected ->
-                onRecentLocationListener?.invoke(selected.display_name)
-            },
-            onDelete = { locationToDelete ->
-                deleteRecentLocation(locationToDelete)
-            }
-        )
+        adapter = RecentRouteAdapter(recentRoutes) { route -> onRecentLocationListener?.invoke(route) }
         recyclerView.adapter = adapter
 
-        // Load recent locations
-        loadRecentLocations()
+        // Load recent routes
+        loadRecentRoutes()
 
         return view
     }
 
-    fun setOnRecentLocationListener(listener: (String) -> Unit) {
+    fun setOnRecentLocationListener(listener: (RecentRoute) -> Unit) {
         onRecentLocationListener = listener
     }
 
-    private fun saveRecentLocation(location: LocationResult) {
-        val prefs = requireContext().getSharedPreferences("recents", Context.MODE_PRIVATE)
+    private fun saveRecentRoute(route: RecentRoute) {
+        val userId = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE).getString("user_id", null)
+        val prefs = requireContext().getSharedPreferences("recents_$userId", Context.MODE_PRIVATE)
         val editor = prefs.edit()
-
         val gson = Gson()
-        val recentSet = prefs.getStringSet("locations", mutableSetOf())?.toMutableSet() ?: mutableSetOf()
-
-        val json = gson.toJson(location)
-        recentSet.removeIf { it.contains(location.display_name) } // prevent duplicates
+        val recentSet = prefs.getStringSet("routes", mutableSetOf())?.toMutableSet() ?: mutableSetOf()
+        val json = gson.toJson(route)
+        recentSet.removeIf { it.contains(route.destName) } // prevent duplicates by destination
         recentSet.add(json)
-
-        // Optional: limit to 5 most recent
         val trimmed = recentSet.toList().takeLast(5).toSet()
-
-        editor.putStringSet("locations", trimmed)
+        editor.putStringSet("routes", trimmed)
         editor.apply()
-
-        // Refresh the list
-        loadRecentLocations()
+        loadRecentRoutes()
     }
 
-    private fun deleteRecentLocation(location: LocationResult) {
-        val prefs = requireContext().getSharedPreferences("recents", Context.MODE_PRIVATE)
-        val editor = prefs.edit()
-
+    private fun loadRecentRoutes() {
+        val userId = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE).getString("user_id", null)
+        val prefs = requireContext().getSharedPreferences("recents_$userId", Context.MODE_PRIVATE)
         val gson = Gson()
-        val recentSet = prefs.getStringSet("locations", mutableSetOf())?.toMutableSet() ?: mutableSetOf()
-
-        // Find and remove the location
-        val toRemove = recentSet.find { json ->
-            try {
-                val loc = gson.fromJson(json, LocationResult::class.java)
-                loc.place_id == location.place_id
-            } catch (e: Exception) {
-                false
-            }
+        val recentSet = prefs.getStringSet("routes", emptySet())?.toList()?.reversed() ?: listOf()
+        val loadedRoutes = recentSet.mapNotNull { json ->
+            try { gson.fromJson(json, RecentRoute::class.java) } catch (e: Exception) { null }
         }
-
-        if (toRemove != null) {
-            recentSet.remove(toRemove)
-            editor.putStringSet("locations", recentSet)
-            editor.apply()
-
-            // Refresh the list
-            loadRecentLocations()
-        }
-    }
-
-    // Optional: expose this to allow external update (e.g., after new location is added)
-    fun updateRecents(newList: List<LocationResult>) {
-        recentLocations.clear()
-        recentLocations.addAll(newList)
-        adapter.updateData(recentLocations)
-        updateEmptyState()
-    }
-
-    private fun loadRecentLocations() {
-        val prefs = requireContext().getSharedPreferences("recents", Context.MODE_PRIVATE)
-        val gson = Gson()
-
-        val recentSet = prefs.getStringSet("locations", emptySet())?.toList()?.reversed() ?: listOf()
-
-        val loadedLocations = recentSet.mapNotNull { json ->
-            try {
-                gson.fromJson(json, LocationResult::class.java)
-            } catch (e: Exception) {
-                null // skip malformed entries
-            }
-        }
-
-        recentLocations.clear()
-        recentLocations.addAll(loadedLocations)
-        adapter.updateData(recentLocations)
+        recentRoutes.clear()
+        recentRoutes.addAll(loadedRoutes)
+        adapter.notifyDataSetChanged()
         updateEmptyState()
     }
 
     private fun updateEmptyState() {
-        if (recentLocations.isEmpty()) {
+        if (recentRoutes.isEmpty()) {
             noRecentsText.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE
         } else {
@@ -142,11 +89,11 @@ class RecentsFragment : Fragment() {
     }
 
     fun refreshRecents() {
-        loadRecentLocations()
+        loadRecentRoutes()
     }
 
-    // Public method to add a location from outside the fragment
-    fun addLocation(location: LocationResult) {
-        saveRecentLocation(location)
+    // Public method to add a route from outside the fragment
+    fun addRoute(route: RecentRoute) {
+        saveRecentRoute(route)
     }
 }

@@ -3,6 +3,7 @@ package com.example.para_mobile.activity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -33,25 +34,43 @@ import com.example.para_mobile.fragment.SettingsFragment
 import com.example.para_mobile.fragment.ShareFragment
 import com.google.android.material.navigation.NavigationView
 import androidx.annotation.RequiresPermission
-import com.example.para_mobile.model.JeepneyRoute
 import com.example.para_mobile.util.CustomLocationOverlay
 import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider
 import com.example.para_mobile.fragment.JeepneyRouteFragment
 import com.example.para_mobile.helper.PolylineDecoder
+import com.example.para_mobile.service.RouteService
+import com.example.para_mobile.util.JeepneyRouteOverlay
 import com.example.para_mobile.util.RouteOverlay
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import android.widget.EditText
+import android.widget.LinearLayout
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+// Add these imports for coroutines
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, com.example.para_mobile.fragment.SearchAndClearFragment.OnRequestCurrentLocationListener {
 
     private lateinit var mapView: MapView
     lateinit var mapManager: MapManager
     private lateinit var locationService: LocationService
-    private lateinit var searchService: SearchService
+    lateinit var searchService: SearchService
     lateinit var bottomSheetManager: BottomSheetManager
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var bottomSheet: View
     private lateinit var sharedPrefs: SharedPreferences
+
+    // Add these properties for jeepney route functionality
+    private lateinit var jeepneyRouteOverlay: JeepneyRouteOverlay
+    private lateinit var routeService: RouteService
+
+    private var pendingLocationCallback: ((GeoPoint) -> Unit)? = null
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1001
+
+    private var customLocationOverlay: CustomLocationOverlay? = null
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,13 +102,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Set up route overlay
         val routeOverlay = RouteOverlay(mapView)
 
-        // 🧪 Hardcoded route test (Cebu City Hall to SM City Cebu)
-        val cebuPolyline = "o{daFz{lzVd@l@`@v@t@fAd@h@x@r@dBxAtCbBpBhA`@Z"
-        val decodedPoints = PolylineDecoder.decode(cebuPolyline)
-        Log.d("PolylineTest", "Decoded Cebu points: $decodedPoints")
+        // Initialize jeepney route overlay and route service
+        jeepneyRouteOverlay = JeepneyRouteOverlay(mapView)
+        routeService = RouteService(this)
 
-        // Draw the route
-        routeOverlay.drawRoute(decodedPoints)
+        // Use the included Jeepney Finder card from the layout
+        val finderView = findViewById<View>(R.id.jeepneyFinderContainer)
+        val jeepneyCodeInput = finderView.findViewById<EditText>(R.id.jeepneyCodeInput)
+        val btnSearchJeepney = finderView.findViewById<ImageButton>(R.id.btnSearchJeepney)
+        btnSearchJeepney.setOnClickListener {
+            val routeNumber = jeepneyCodeInput.text.toString().trim()
+            if (routeNumber.isNotEmpty()) {
+                testShowJeepneyRouteByNumber(routeNumber)
+            } else {
+                Toast.makeText(this, "Please enter a jeepney code", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         // Get and display user location
         getUserLocation()
@@ -138,7 +166,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         hamburgerButton.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
-
 
         // Set up the navigation header with user info
         setupNavHeader()
@@ -281,6 +308,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Initialize MapView
         mapView = findViewById(R.id.mapView)
 
+        // Initialize location and search services
+        locationService = LocationService(this)
+        searchService = SearchService()
+
         // Initialize bottom sheet manager FIRST
         bottomSheet = findViewById(R.id.bottom_sheet)
         bottomSheetManager = BottomSheetManager(
@@ -293,15 +324,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             ) { getUserLocation() },
             onClearRoute = {
                 mapManager.clearRoute(bottomSheetManager)
-            }
+                jeepneyRouteOverlay.clearRoute() // Also clear jeepney route
+            },
+            searchService = searchService
         )
 
         // Now you can initialize mapManager and pass bottomSheetManager into it
         mapManager = MapManager(this, mapView, bottomSheetManager)
 
-        // Initialize location and search services
-        locationService = LocationService(this)
-        searchService = SearchService()
+        // Initialize jeepney route overlay and route service
+        jeepneyRouteOverlay = JeepneyRouteOverlay(mapView)
+        routeService = RouteService(this)
+
+        // Pass the jeepney route overlay to the bottom sheet manager
+        bottomSheetManager.setMapView(mapView, mapManager.routeOverlay, jeepneyRouteOverlay)
+        // Pass mapManager to bottomSheetManager
+        bottomSheetManager.setMapManager(mapManager)
     }
 
     private fun requestPermissionsIfNecessary(permissions: Array<String>) {
@@ -322,12 +360,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 getUserLocation()
             }
         }
+        // Handle location permission request for current location callback
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                // Permission granted, retry the pending callback
+                pendingLocationCallback?.let { callback ->
+                    locationService.getCurrentLocation { geoPoint ->
+                        callback(geoPoint)
+                    }
+                    pendingLocationCallback = null
+                }
+            } else {
+                // Permission denied, show a message or handle as needed
+                Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show()
+                pendingLocationCallback = null
+            }
+        }
+    }
+
+    // Helper function to check location permissions
+    private fun hasLocationPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+               ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun getUserLocation() {
+        if (!hasLocationPermission()) {
+            Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show()
+            return
+        }
         locationService.getCurrentLocation { geoPoint ->
             geoPoint?.let { location ->
+                // Remove previous overlay if present
+                if (customLocationOverlay != null) {
+                    mapView.overlays.remove(customLocationOverlay)
+                }
                 // Create a simple static provider
                 val staticLocationProvider = object : IMyLocationProvider {
                     override fun startLocationProvider(myLocationConsumer: IMyLocationConsumer?): Boolean {
@@ -350,9 +418,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     override fun destroy() {}
                 }
 
-                val customLocationOverlay = CustomLocationOverlay(this, mapView, staticLocationProvider)
-                customLocationOverlay.enableMyLocation()
-                customLocationOverlay.startPulseAnimation()
+                customLocationOverlay = CustomLocationOverlay(this, mapView, staticLocationProvider)
+                customLocationOverlay?.enableMyLocation()
+                customLocationOverlay?.startPulseAnimation()
 
                 mapView.overlays.add(customLocationOverlay)
                 mapView.controller.setCenter(location)
@@ -383,6 +451,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     // Updated searchLocation method to calculate and display route
     @SuppressLint("MissingPermission")
     private fun searchLocation(query: String) {
+        // Remove the custom location overlay before a new search/route
+        if (customLocationOverlay != null) {
+            mapView.overlays.remove(customLocationOverlay)
+            customLocationOverlay = null
+        }
+        // Remove all route markers before a new search/route
+        mapManager.removeAllMarkers()
+        // Clear the previous route before drawing a new one
+        mapManager.routeOverlay.clearRoute()
+
         searchService.searchLocation(
             query = query,
             onSuccess = { location ->
@@ -395,11 +473,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 mapManager.addMarker(destinationPoint, location.display_name)
 
                 // Get current location and calculate route
-                locationService.getLastLocation { currentPoint ->
-                    currentPoint?.let {
-                        // Calculate and display route
-                        getAndDisplayRoute(it, destinationPoint)
+                if (hasLocationPermission()) {
+                    locationService.getLastLocation { currentPoint ->
+                        currentPoint?.let {
+                            // Calculate and display route
+                            getAndDisplayRoute(it, destinationPoint)
+                        }
                     }
+                } else {
+                    Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show()
                 }
 
                 // Collapse the bottom sheet after successful search
@@ -437,14 +519,82 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     // Method to clear the route
+    @SuppressLint("MissingPermission")
     private fun clearRoute() {
-        mapManager.clearRoute(bottomSheetManager)
+        // Remove custom location overlay
+        if (customLocationOverlay != null) {
+            mapView.overlays.remove(customLocationOverlay)
+            customLocationOverlay = null
+        }
+        // Remove all route markers
+        mapManager.removeAllMarkers()
+        // Clear the route overlay
+        mapManager.routeOverlay.clearRoute()
+        // Also clear jeepney route overlay
+        jeepneyRouteOverlay.clearRoute()
+        // Clear search text in the bottom sheet
         bottomSheetManager.clearSearchText()
+        // Show recents in the bottom sheet and expand it
+        bottomSheetManager.showDefaultView()
+        bottomSheetManager.expand()
+        // Center and animate map on user's current location
+        if (hasLocationPermission()) {
+            locationService.getCurrentLocation { geoPoint ->
+                geoPoint?.let {
+                    mapView.controller.animateTo(it)
+                    mapView.controller.setZoom(18.0)
+                }
+            }
+        }
+    }
+
+    // Add this method to display a jeepney route
+    private fun displayJeepneyRoute(relationId: String, routeColor: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Show loading indicator
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@MainActivity, "Loading route...", Toast.LENGTH_SHORT).show()
+                }
+
+                // Get route coordinates
+                val routePoints = routeService.getRouteByRelationId(relationId)
+
+                withContext(Dispatchers.Main) {
+                    if (routePoints.isNotEmpty()) {
+                        // Draw the route on the map
+                        jeepneyRouteOverlay.drawRoute(routePoints, routeColor)
+
+                        // Hide loading indicator
+                        Toast.makeText(this@MainActivity, "Route loaded successfully", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@MainActivity, "Failed to load route", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error displaying jeepney route", e)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@MainActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    // Add this method to your MainActivity
+    private fun debugSpecificRoute(relationId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            routeService.debugRoute(relationId)
+        }
     }
 
     override fun onResume() {
         super.onResume()
         mapView.onResume()
+        // Always refresh nav header with latest info
+        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val username = sharedPref.getString("username", "Username")
+        val email = sharedPref.getString("email", "emailaddress")
+        updateNavHeader(username, email)
     }
 
     override fun onPause() {
@@ -452,47 +602,73 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mapView.onPause()
     }
 
-    // Add this function to your MainActivity class
-    fun testSimpleRoute() {
-        // Define two points that are close to each other (about 1-2 km apart)
-        // These are example coordinates in Cebu City - adjust to your location
-        val startPoint = GeoPoint(10.3157, 123.8854) // Cebu City center
-        val endPoint = GeoPoint(10.3100, 123.8900)   // A short distance away
-
-        // Log the test
-        Log.d("RouteTest", "Testing simple route between: $startPoint and $endPoint")
-
-        // Show a toast to indicate testing
-        Toast.makeText(this, "Testing simple route...", Toast.LENGTH_SHORT).show()
-
-        // Calculate and display the route
-        getAndDisplayRoute(startPoint, endPoint)
+    // Dialog for manual lat/lon input
+    private fun showManualLocationInputDialog() {
+        val layout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            val latInput = EditText(context).apply { hint = "Latitude"; inputType = android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL or android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_SIGNED }
+            val lonInput = EditText(context).apply { hint = "Longitude"; inputType = android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL or android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_SIGNED }
+            addView(latInput)
+            addView(lonInput)
+        }
+        AlertDialog.Builder(this)
+            .setTitle("Enter Initial Location")
+            .setView(layout)
+            .setPositiveButton("OK") { _, _ ->
+                val latText = (layout.getChildAt(0) as EditText).text.toString()
+                val lonText = (layout.getChildAt(1) as EditText).text.toString()
+                try {
+                    val lat = latText.toDouble()
+                    val lon = lonText.toDouble()
+                    val geoPoint = GeoPoint(lat, lon)
+                    mapView.controller.setCenter(geoPoint)
+                    mapView.controller.setZoom(18.0)
+                    Toast.makeText(this, "Map centered to manual location", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Invalid coordinates", Toast.LENGTH_SHORT).show()
+                    showManualLocationInputDialog() // Retry
+                }
+            }
+            .setNegativeButton("Cancel") { _, _ ->
+                // Optionally, you can re-prompt or do nothing
+            }
+            .setCancelable(false)
+            .show()
     }
 
-    //NEw codes added on 27/04/2025
-    fun onRouteSelected(route: JeepneyRoute, startPoint: GeoPoint, endPoint: GeoPoint) {
-        // Add markers for the start and end points
-        val startMarker = mapManager.addMarker(startPoint, "Start: ${route.routeNumber}")
-        val endMarker = mapManager.addMarker(endPoint, "End: ${route.routeNumber}")
-
-        // Move the map to show the start point
-        mapManager.moveToLocation(startPoint.latitude, startPoint.longitude)
-
-        // Show a toast with route info
-        Toast.makeText(
-            this,
-            "Showing route: ${route.routeNumber} (${route.locations})", // Directly use the String
-            Toast.LENGTH_SHORT
-        ).show()
+    // Implementation for SearchAndClearFragment.OnRequestCurrentLocationListener
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
+    override fun onRequestCurrentLocation(callback: (GeoPoint) -> Unit) {
+        if (hasLocationPermission()) {
+            locationService.getCurrentLocation { geoPoint ->
+                callback(geoPoint)
+            }
+        } else {
+            // Request permission and store the callback for later use
+            pendingLocationCallback = callback
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        }
     }
 
-
-    // Updated method to load the JeepneyRouteFragment
-    fun loadJeepneyRouteFragment(fragment: JeepneyRouteFragment) {
-        // Set the map view and route overlay
-        fragment.setMapView(mapView, mapManager.routeOverlay)
-
-        // We don't need to replace the fragment_container anymore
-        // as the fragment will be loaded into the bottom sheet
+    // --- TESTING: Search and display a jeepney route by number ---
+    private fun testShowJeepneyRouteByNumber(routeNumber: String) {
+        routeService.lookupRouteByNumber(routeNumber) { route ->
+            if (route != null) {
+                runOnUiThread {
+                    bottomSheetManager.showSingleJeepneyRoute(route)
+                }
+            } else {
+                runOnUiThread {
+                    Toast.makeText(this, "Route not found or error", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }

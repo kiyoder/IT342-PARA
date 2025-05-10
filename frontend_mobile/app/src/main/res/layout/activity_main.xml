@@ -16,6 +16,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Jeepney Finder at the top -->
+        <include
+            layout="@layout/view_jeepney_finder"
+            android:id="@+id/jeepneyFinderContainer" />
+
         <!-- Toolbar at the top -->
         <!--<androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"

@@ -4,7 +4,7 @@
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="21">
       <module name="PARA-web" target="23" />
     </bytecodeTargetLevel>
   </component>

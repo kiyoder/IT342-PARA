@@ -12,7 +12,11 @@ import org.osmdroid.util.GeoPoint
 
 class LocationService(private val context: Context) {
 
-    private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+    private val fusedLocationClient: FusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(context)
+
+    // Cebu City Sports Complex
+    private val defaultLocation = GeoPoint(10.3004222, 123.8952833)
 
     fun hasLocationPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
@@ -22,37 +26,39 @@ class LocationService(private val context: Context) {
     }
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
-    fun getCurrentLocation(callback: (GeoPoint?) -> Unit) {
+    fun getCurrentLocation(callback: (GeoPoint) -> Unit) {
         if (hasLocationPermission()) {
             fusedLocationClient.getCurrentLocation(
                 Priority.PRIORITY_HIGH_ACCURACY,
                 null
             ).addOnSuccessListener { location ->
-                location?.let {
-                    val userGeoPoint = GeoPoint(it.latitude, it.longitude)
-                    callback(userGeoPoint)
-                } ?: callback(null)
+                if (location != null) {
+                    callback(GeoPoint(location.latitude, location.longitude))
+                } else {
+                    callback(defaultLocation)
+                }
             }.addOnFailureListener {
-                callback(null)
+                callback(defaultLocation)
             }
         } else {
-            callback(null)
+            callback(defaultLocation)
         }
     }
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
-    fun getLastLocation(callback: (GeoPoint?) -> Unit) {
+    fun getLastLocation(callback: (GeoPoint) -> Unit) {
         if (hasLocationPermission()) {
-            fusedLocationClient.getLastLocation().addOnSuccessListener { location ->
-                location?.let {
-                    val userGeoPoint = GeoPoint(it.latitude, it.longitude)
-                    callback(userGeoPoint)
-                } ?: callback(null)
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    callback(GeoPoint(location.latitude, location.longitude))
+                } else {
+                    callback(defaultLocation)
+                }
             }.addOnFailureListener {
-                callback(null)
+                callback(defaultLocation)
             }
         } else {
-            callback(null)
+            callback(defaultLocation)
         }
     }
 }

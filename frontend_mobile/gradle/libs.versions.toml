@@ -26,6 +26,7 @@ playServicesAuthVersion = "20.5.0"
 playServicesLocation = "18.0.0"
 playServicesLocationVersion = "21.0.1"
 retrofit = "2.9.0"
+supabaseAndroid = "1.0.0"
 supabaseKt = "1.2.0"
 supabaseKtVersion = "1.0.0"
 
@@ -62,6 +63,7 @@ play-services-auth-v2050 = { module = "com.google.android.gms:play-services-auth
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-location-v2101 = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocationVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+supabase-android = { module = "io.supabase:supabase-android", version.ref = "supabaseAndroid" }
 supabase-gotrue = { module = "io.github.jan.supabase:gotrue", version.ref = "gotrue" }
 supabase-kt = { module = "io.github.jan-tennert.supabase:supabase-kt", version.ref = "supabaseKt" }
 
