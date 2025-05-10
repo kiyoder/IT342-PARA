@@ -3,6 +3,7 @@ package com.it342.para.controller;
 import com.it342.para.dto.LoginRequest;
 import com.it342.para.dto.SetUsernameRequest;
 import com.it342.para.dto.SignupRequest;
+import com.it342.para.dto.UserDTO;
 
 import com.it342.para.service.SupabaseService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = { "http://localhost:5173",
+        "https://it-342-para-cyan.vercel.app", "https://it-342-para.vercel.app" }, allowedHeaders = "*", exposedHeaders = {"Authorization", "Content-Disposition"}, maxAge = 3600)
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final SupabaseService supabaseService;
-
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
@@ -34,8 +35,7 @@ public class AuthController {
             // 1. Create user in Supabase (auth.users)
             Map<String, Object> supabaseUser = supabaseService.signUpWithEmailPassword(
                     signupRequest.getEmail(),
-                    signupRequest.getPassword()
-            );
+                    signupRequest.getPassword());
             logger.info("Supabase user created successfully");
 
             // Extract user ID
@@ -52,13 +52,12 @@ public class AuthController {
 
             logger.info("Access token received: {}", accessToken.substring(0, 15) + "...");
 
-
             // 3. Create profile using the user's access token
             boolean profileCreated = supabaseService.createProfileInSupabase(
                     supabaseUid,
                     signupRequest.getUsername(),
                     signupRequest.getEmail(),
-                    accessToken  // This is crucial!
+                    accessToken // This is crucial!
             );
 
             if (!profileCreated) {
@@ -67,18 +66,15 @@ public class AuthController {
 
             logger.info("Profile created successfully for user: {}", supabaseUid);
 
-            // 4. Return user data and token
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("id", supabaseUid);
-            userData.put("email", signupRequest.getEmail());
-            userData.put("username", signupRequest.getUsername());
-
+            // 4. Create UserDTO and return response
+            UserDTO userDTO = new UserDTO(
+                    supabaseUid,
+                    signupRequest.getUsername(),
+                    signupRequest.getEmail());
             return ResponseEntity.ok(Map.of(
                     "message", "Signup successful",
-                    "user", userData,
-                    "accessToken", accessToken
-            ));
-
+                    "user", userDTO,
+                    "accessToken", accessToken));
 
         } catch (RuntimeException ex) {
             logger.error("Error during signup process", ex);
@@ -96,14 +92,14 @@ public class AuthController {
         }
     }
 
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
             logger.info("Processing login request for email: {}", loginRequest.getEmail());
 
             // 1. Login user in Supabase
-            Map<String, Object> tokenResponse = supabaseService.loginWithEmailPassword(loginRequest.getEmail(), loginRequest.getPassword());
+            Map<String, Object> tokenResponse = supabaseService.loginWithEmailPassword(loginRequest.getEmail(),
+                    loginRequest.getPassword());
 
             String accessToken = (String) tokenResponse.get("access_token");
             logger.info("Login successful, access token generated");
@@ -124,8 +120,7 @@ public class AuthController {
     @PostMapping("/set-username")
     public ResponseEntity<?> setUsername(
             @RequestBody SetUsernameRequest request,
-            @RequestHeader("Authorization") String authHeader
-    ) {
+            @RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");
 
@@ -142,31 +137,30 @@ public class AuthController {
                         request.getSupabaseUid(),
                         request.getUsername(),
                         email,
-                        token
-                );
-                if (!created) throw new RuntimeException("Profile creation failed");
+                        token);
+                if (!created)
+                    throw new RuntimeException("Profile creation failed");
             } else {
                 // 3b. Update existing profile
                 boolean updated = supabaseService.updateProfile(
                         request.getSupabaseUid(),
                         request.getUsername(),
                         request.getEmail(),
-                        token
-                );
-                if (!updated) throw new RuntimeException("Profile update failed");
+                        token);
+                if (!updated)
+                    throw new RuntimeException("Profile update failed");
             }
 
-
+            // Create UserDTO for response
+            UserDTO userDTO = new UserDTO(
+                    request.getSupabaseUid(),
+                    request.getUsername(),
+                    email);
 
             return ResponseEntity.ok(Map.of(
                     "message", "Username set successfully",
                     "accessToken", token,
-                    "user", Map.of(
-                            "id", request.getSupabaseUid(),
-                            "email", email,
-                            "username", request.getUsername()
-                    )
-            ));
+                    "user", userDTO));
         } catch (Exception e) {
             logger.error("Error setting username", e);
             return ResponseEntity.internalServerError()
@@ -187,21 +181,21 @@ public class AuthController {
             // Get profile data
             Map<String, Object> profile = supabaseService.getProfileFromSupabase(userId, token);
 
+            String username = profile != null ? (String) profile.get("username") : "";
+            String email = (String) user.get("email");
+
+            // Create UserDTO for response
+            UserDTO userDTO = new UserDTO(userId, username, email);
+
             return ResponseEntity.ok(Map.of(
                     "valid", true,
-                    "user", Map.of(
-                            "id", userId,
-                            "email", user.get("email"),
-                            "username", profile != null ? profile.get("username") : ""
-                    )
-            ));
+                    "user", userDTO));
         } catch (Exception e) {
             logger.error("Token validation failed", e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of(
                             "valid", false,
-                            "error", e.getMessage()
-                    ));
+                            "error", e.getMessage()));
         }
     }
 }

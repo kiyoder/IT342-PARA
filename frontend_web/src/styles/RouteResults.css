@@ -1,0 +1,175 @@
+/* Route Results Panel Styles */
+.route-results-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 33%; /* Take up a third of the screen */
+  height: 100vh;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.panel-header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  padding: 50px 20px 50px 20px;
+}
+
+.panel-header h2 {
+  margin: 0;
+  color: #ff7f00;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.journey-info {
+  padding: 20px 50px 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #666;
+  border-bottom: 1px solid #eee;
+}
+
+.direction-icon {
+  color: #ff7f00;
+  font-weight: bold;
+  padding: 20px 50px 20px 50px;
+}
+
+.loading-state,
+.error-message {
+  padding: 20px;
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+}
+
+.route-list {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  padding: 20px 50px;
+}
+
+.route-item {
+  color: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.route-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.route-item.selected {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.route-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+
+  justify-content: center;
+}
+
+.route-number {
+  font-size: 20px;
+  font-weight: bold;
+  padding-right: 20px;
+}
+
+.route-number i {
+  font-size: 18px;
+  font-weight: normal;
+  opacity: 0.9;
+}
+
+.route-distance {
+  font-size: 16px;
+  margin-top: 8px;
+  padding: 6px 20px 6px 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.panel-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.no-routes-message {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+.save-button {
+  transition: transform 0.2s ease;
+  z-index: 10;
+}
+
+.save-button:hover {
+  transform: scale(1.2);
+}
+
+/* Login prompt */
+.login-prompt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1100;
+  text-align: center;
+}
+
+.login-prompt-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.login-prompt-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-button {
+  background-color: #ff7f00;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #eee;
+  color: #333;
+}

@@ -1,0 +1,122 @@
+@font-face {
+  font-family: "Bagel";
+  src: url("../assets/font/bagel.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.saved-routes-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  background-color: #f8f9fa;
+  overflow: hidden;
+}
+
+.saved-routes-content {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem; /* Added margin to bring content down from ceiling */
+}
+
+.saved-routes-title {
+  font-family: "Bagel", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ff3b10;
+  margin: 1rem 0 2.5rem; /* Increased bottom margin */
+  text-align: center;
+  width: 100%;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  flex: 1;
+}
+
+.error-message {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #e53935;
+  margin: 1rem;
+}
+
+.retry-btn {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #ff3b10;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.retry-btn:hover {
+  background-color: #e63409;
+}
+
+.saved-routes-list {
+  padding: 0 1rem;
+  width: 100%;
+  max-width: 1200px;
+  display: grid; /* Changed from flex to grid */
+  grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns */
+  gap: 3rem; /* Increased gap between items */
+  justify-items: center; /* Center items horizontally */
+}
+
+.route-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+@media (min-width: 768px) {
+  .saved-routes-content {
+    padding: 2rem;
+  }
+
+  .saved-routes-list {
+    padding: 0 2rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .saved-routes-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .saved-routes-list {
+    grid-template-columns: 1fr; /* 1 column on small screens */
+  }
+
+  .saved-routes-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+}

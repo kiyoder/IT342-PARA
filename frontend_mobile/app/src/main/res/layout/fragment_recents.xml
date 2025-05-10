@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recents_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/recents_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recent Locations"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="12dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recent_locations_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:overScrollMode="never" />
+
+    <TextView
+        android:id="@+id/tv_no_recents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No recent locations"
+        android:textSize="14sp"
+        android:textColor="#757575"
+        android:gravity="center"
+        android:padding="16dp"
+        android:visibility="gone" />
+</LinearLayout>

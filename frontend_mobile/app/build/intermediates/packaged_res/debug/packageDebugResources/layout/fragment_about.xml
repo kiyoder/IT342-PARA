@@ -1,0 +1,65 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".fragment.AboutFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <!-- Container for Title + Back Button -->
+        <RelativeLayout
+            android:id="@+id/titleContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tvAboutTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="About the App"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/theme"
+                android:layout_centerHorizontal="true" />
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/tvAboutTitle"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Back"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                tools:ignore="TouchTargetSizeCheck" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvAboutContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleContainer"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:lineSpacingExtra="4dp"
+            android:text="PARA is designed to make commuting in the Philippines more efficient and commuter-friendly. Using GPS, our app helps you find your current location and suggests the shortest, most efficient jeepney routes to your destination. You can also save your frequently traveled routes for quick access — making your daily commute smarter and more convenient." />
+
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvAboutContent"
+            android:layout_marginTop="24dp"
+            android:text="Version 1.0.0"
+            android:textColor="#888888"
+            android:layout_centerHorizontal="true"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+</ScrollView>

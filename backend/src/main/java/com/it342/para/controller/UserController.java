@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", exposedHeaders = "Authorization")
+@CrossOrigin(origins = { "http://localhost:5173",
+        "https://it-342-para-cyan.vercel.app", "https://it-342-para.vercel.app" }, allowedHeaders = "*", exposedHeaders = {"Authorization", "Content-Disposition"}, maxAge = 3600)
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
@@ -29,15 +30,19 @@ public class UserController {
             Map<String, Object> user = supabaseService.getUserFromToken(token);
             String uid = (String) user.get("id");
 
+
+            logger.info("Fetching profile for user: {}", uid);
             Map<String, Object> profile = supabaseService.getProfileFromSupabase(uid, token);
 
             if (profile == null) {
+                logger.warn("Profile not found for user: {}", uid);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(Map.of(
                                 "error", "Profile not found",
                                 "userId", uid
                         ));
             }
+            logger.info("Profile data: {}", profile);
             logger.info("Successfully retrieved profile for user ID: {}", uid);
 
 
@@ -119,4 +124,6 @@ public class UserController {
             ));
         }
     }
+
+
 }

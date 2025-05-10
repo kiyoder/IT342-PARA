@@ -1,0 +1,116 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirmation-modal {
+  position: fixed;
+  bottom: 5%;
+  right: 25%;
+  background-color: white;
+  border-radius: 20px;
+  padding: 24px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  animation: modal-appear 0.3s ease-out;
+}
+
+@keyframes modal-appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.confirmation-modal h3 {
+  color: #ff5733;
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-size: 22px;
+}
+
+.confirmation-modal p {
+  color: #333;
+  margin: 0;
+  padding: 0 0 15px 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.modal-location-details {
+  background-color: white;
+  border: 2px solid #ff5733;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.modal-location-name {
+  font-weight: bold;
+  color: #ff5733;
+  font-size: 18px;
+  margin-bottom: 4px;
+  font-family: "Poppins", sans-serif;
+}
+
+.modal-location-address {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-family: "Poppins", sans-serif;
+}
+
+.modal-location-distance {
+  color: #777;
+  font-size: 14px;
+  font-style: italic;
+  font-family: "Poppins", sans-serif;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.cancel-btn:hover {
+  background-color: #c20101;
+  color: white;
+}
+
+.confirm-btn {
+  background-color: #ff5733;
+  color: white;
+}
+
+.confirm-btn:hover {
+  background-color: #108101;
+}

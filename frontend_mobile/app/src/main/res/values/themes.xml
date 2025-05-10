@@ -1,9 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.PARAmobile" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.PARAmobile" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- make the status‐ and nav‐bars transparent -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <!-- force the Material3 TopAppBar to be transparent -->parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorOnPrimary">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Add this style to your existing themes.xml file -->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.PARAmobile" parent="Base.Theme.PARAmobile" />
+
 </resources>
+
