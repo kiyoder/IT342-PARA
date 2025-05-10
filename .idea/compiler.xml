@@ -7,10 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="para" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="PARA-mobile.app" target="21" />
       <module name="PARA-web" target="23" />
     </bytecodeTargetLevel>
   </component>
