@@ -72,6 +72,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private var customLocationOverlay: CustomLocationOverlay? = null
 
+    // Add this property for GoogleAuthHelper
+    private lateinit var googleAuthHelper: com.example.para_mobile.util.GoogleAuthHelper
+
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -169,6 +172,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // Set up the navigation header with user info
         setupNavHeader()
+
+        // Initialize GoogleAuthHelper
+        googleAuthHelper = com.example.para_mobile.util.GoogleAuthHelper(this)
     }
 
     // Set up the navigation header with user info and profile button
@@ -268,16 +274,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .setTitle("Logout")
             .setMessage("Are you sure you want to logout?")
             .setPositiveButton("Yes") { _, _ ->
-                // Handle logout logic: Clear the authentication token from SharedPreferences
+                // Handle logout logic: Clear all session data from SharedPreferences
                 val editor = sharedPrefs.edit()
-                editor.remove("jwt_token")  // Remove the JWT token using the correct key
-                editor.remove("username")   // Also remove username
-                editor.remove("email")      // Also remove email
-                editor.remove("user_id")    // Also remove user ID
+                editor.remove("jwt_token")
+                editor.remove("username")
+                editor.remove("email")
+                editor.remove("user_id")
+                editor.remove("supabase_uid")
+                editor.remove("phone")
+                editor.remove("routes") // If you store routes as a StringSet
                 editor.apply()
 
                 // Clear cache (optional)
                 cacheDir.deleteRecursively() // Clears the app's cache
+
+                // Google sign out (if user used Google login)
+                googleAuthHelper.signOut {
+                    // Optionally log or handle completion
+                }
 
                 // Optionally, show a Toast message confirming logout
                 Toast.makeText(this, "Logging out...", Toast.LENGTH_SHORT).show()

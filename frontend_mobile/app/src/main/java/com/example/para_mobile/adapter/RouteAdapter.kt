@@ -82,7 +82,7 @@ class RouteAdapter(
             routeNumberBackground.setBackgroundColor(Color.parseColor(colorHex))
 
             // Check if this route is saved
-            val routeKey = "${route.routeNumber}:${route.startLocation}:${route.endLocation}"
+            val routeKey = "${route.routeNumber}:${route.distance}"
             val isSaved = savedRoutes.contains(routeKey)
 
             // Set the appropriate icon

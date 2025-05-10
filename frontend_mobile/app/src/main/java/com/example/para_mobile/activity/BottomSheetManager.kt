@@ -115,8 +115,6 @@ class BottomSheetManager(
                 bottomSheet.findViewById<View?>(R.id.search_suggestion_container)?.visibility = View.GONE
                 val jeepneyRouteFragment = JeepneyRouteFragment()
                 jeepneyRouteFragment.setRouteData(
-                    initialName,
-                    destName,
                     initialLat,
                     initialLon,
                     destLat,

@@ -120,7 +120,6 @@ class JeepneyRouteFragment : Fragment() {
         routeAdapter.setOnRouteClickListener { route, position ->
             val colorIndex = position % routeColors.size
             val routeColor = routeColors[colorIndex]
-
             CoroutineScope(Dispatchers.Main).launch {
                 try {
                     if (route.routeSegments.isNotEmpty()) {
@@ -292,11 +291,9 @@ class JeepneyRouteFragment : Fragment() {
 
     private fun showNoRoutesView(show: Boolean) {
         val parent = view as? ViewGroup
-        val fromToCard = parent?.findViewById<View>(R.id.fromToCard)
         if (show) {
-            if (parent != null && noRoutesView.parent == null && fromToCard != null) {
-                val index = parent.indexOfChild(fromToCard)
-                parent.addView(noRoutesView, index + 1)
+            if (parent != null && noRoutesView.parent == null) {
+                parent.addView(noRoutesView)
             }
             noRoutesView.visibility = View.VISIBLE
         } else {
