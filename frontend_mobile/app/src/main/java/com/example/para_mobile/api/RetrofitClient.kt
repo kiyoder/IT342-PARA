@@ -35,7 +35,8 @@ object RetrofitClient {
             .addInterceptor { chain ->
                 val builder = chain.request().newBuilder()
                 authToken?.let {
-                    val formattedToken = if (!it.startsWith("Bearer ")) "Bearer $it" else it
+                    val cleanToken = it.trim().removePrefix("Bearer").trim()
+                    val formattedToken = "Bearer $cleanToken"
                     Log.d("RetrofitClient", "Adding Authorization header: $formattedToken")
                     builder.addHeader("Authorization", formattedToken)
                 }

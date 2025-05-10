@@ -38,10 +38,14 @@ public class SupabaseJwtFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7).trim();
+        logger.info("Processing JWT token: " + token.substring(0, Math.min(token.length(), 20)) + "...");
+
+
 
         try {
             // Validate token with Supabase
             Map<String, Object> user = supabaseService.getUserFromToken(token);
+            logger.info("User authenticated: " + user.get("email"));
 
             // Create authentication object
             UsernamePasswordAuthenticationToken authentication =
@@ -54,8 +58,8 @@ public class SupabaseJwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (Exception e) {
-            logger.error("JWT validation failed", e);
-            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token");
+            logger.error("JWT validation failed for token:"+ token + " Error: " + e.getMessage());
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid token: " + e.getMessage());
             return;
         }
 
