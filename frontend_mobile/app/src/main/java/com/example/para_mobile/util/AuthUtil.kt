@@ -5,9 +5,15 @@ import com.example.para_mobile.api.RetrofitClient
 
 object AuthUtil {
     fun saveAuthToken(context: Context, accessToken: String) {
-        val token = if (accessToken.startsWith("Bearer ")) accessToken else "Bearer $accessToken"
+
+
+        // Ensure we're not double-prefixing "Bearer"
+        val token = accessToken.removePrefix("Bearer ").trim()
         val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        sharedPref.edit().putString("jwt_token", token).apply()
+        sharedPref.edit().apply {
+            putString("jwt_token", token)
+            apply()
+        }
         RetrofitClient.setAuthToken(token)
     }
 } 

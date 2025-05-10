@@ -45,6 +45,7 @@ import com.example.para_mobile.util.RouteOverlay
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.widget.EditText
 import android.widget.LinearLayout
+import com.example.para_mobile.api.RetrofitClient
 
 // Add these imports for coroutines
 import kotlinx.coroutines.CoroutineScope
@@ -87,6 +88,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             finish()
             return
         }
+
+        // Ensure token is properly formatted for API calls
+        RetrofitClient.setAuthToken(token)
+
+
 
         setContentView(R.layout.activity_main)
 

@@ -153,7 +153,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun fetchUserProfileWithFallback(token: String, username: String?, email: String?) {
-        RetrofitClient.instance.getUserProfile(token).enqueue(object : Callback<Map<String, Any>> {
+
+        // Ensure token doesn't have double "Bearer" prefix
+        val cleanToken = token.removePrefix("Bearer ").trim()
+
+        RetrofitClient.instance.getUserProfile("Bearer $cleanToken").enqueue(object : Callback<Map<String, Any>> {
             override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                 if (response.isSuccessful && response.body() != null) {
                     val profile = response.body()!!

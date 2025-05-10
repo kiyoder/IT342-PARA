@@ -4,7 +4,7 @@
             "outputFile": "com.example.para_mobile.app-mergeDebugResources-64:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\f6119e05f0e703b3cee9d501980cdc2f\\transformed\\appcompat-1.7.0\\res\\values-watch-v20\\values-watch-v20.xml",
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\f6119e05f0e703b3cee9d501980cdc2f\\transformed\\appcompat-1.7.0\\res\\values-watch-v20\\values-watch-v20.xml",
                     "from": {
                         "startLines": "2,5,8",
                         "startColumns": "4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\90f075ba86f37c7290551e3f23d6b2b6\\transformed\\play-services-auth-21.3.0\\res\\values-watch-v20\\values.xml",
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\90f075ba86f37c7290551e3f23d6b2b6\\transformed\\play-services-auth-21.3.0\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",

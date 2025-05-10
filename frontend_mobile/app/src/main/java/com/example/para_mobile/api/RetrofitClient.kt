@@ -35,21 +35,22 @@ object RetrofitClient {
             .addInterceptor { chain ->
                 val builder = chain.request().newBuilder()
                 authToken?.let {
-                    val formattedToken = if (it.startsWith("Bearer ")) it else "Bearer $it"
+                    val formattedToken = if (!it.startsWith("Bearer ")) "Bearer $it" else it
                     Log.d("RetrofitClient", "Adding Authorization header: $formattedToken")
                     builder.addHeader("Authorization", formattedToken)
                 }
                 // Add Supabase apikey header to all requests
                 builder.addHeader("apikey", SUPABASE_API_KEY)
-                // Add id header if available
-                val context = com.example.para_mobile.ParaMobileApp.instance.applicationContext
-                val supabaseUid = getSupabaseUid(context)
-                if (!supabaseUid.isNullOrEmpty()) {
-                    builder.addHeader("id", supabaseUid)
-                }
-                // Add these two headers
                 builder.addHeader("Content-Type", "application/json")
                 builder.addHeader("Accept", "application/json")
+
+//                // Add id header if available
+//                val context = com.example.para_mobile.ParaMobileApp.instance.applicationContext
+//                val supabaseUid = getSupabaseUid(context)
+//                if (!supabaseUid.isNullOrEmpty()) {
+//                    builder.addHeader("id", supabaseUid)
+//                }
+
                 chain.proceed(builder.build())
             }
             .connectTimeout(30, TimeUnit.SECONDS)

@@ -10,296 +10,296 @@
 10
 11    <!-- Permissions -->
 12    <uses-permission android:name="android.permission.INTERNET" />
-12-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:6:5-67
-12-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:6:22-64
+12-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:6:5-67
+12-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:6:22-64
 13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-13-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:7:5-79
-13-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:7:22-76
+13-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:7:5-79
+13-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:7:22-76
 14    <uses-permission
-14-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:8:5-11:40
+14-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:8:5-11:40
 15        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-15-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:9:9-65
+15-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:9:9-65
 16        android:maxSdkVersion="32" />
-16-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:10:9-35
+16-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:10:9-35
 17    <uses-permission
-17-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:12:5-14:38
+17-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:12:5-14:38
 18        android:name="android.permission.READ_EXTERNAL_STORAGE"
-18-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:13:9-64
+18-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:13:9-64
 19        android:maxSdkVersion="32" />
-19-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:14:9-35
+19-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:14:9-35
 20    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-20-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:15:5-81
-20-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:15:22-78
+20-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:15:5-81
+20-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:15:22-78
 21    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-21-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:16:5-85
-21-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:16:22-82
+21-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:16:5-85
+21-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:16:22-82
 22    <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- suppress DeprecatedClassUsageInspection -->
-22-->[androidx.biometric:biometric:1.1.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\3165812ea43451f02de544138f7316e4\transformed\biometric-1.1.0\AndroidManifest.xml:24:5-72
-22-->[androidx.biometric:biometric:1.1.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\3165812ea43451f02de544138f7316e4\transformed\biometric-1.1.0\AndroidManifest.xml:24:22-69
+22-->[androidx.biometric:biometric:1.1.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\3165812ea43451f02de544138f7316e4\transformed\biometric-1.1.0\AndroidManifest.xml:24:5-72
+22-->[androidx.biometric:biometric:1.1.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\3165812ea43451f02de544138f7316e4\transformed\biometric-1.1.0\AndroidManifest.xml:24:22-69
 23    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-23-->[androidx.biometric:biometric:1.1.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\3165812ea43451f02de544138f7316e4\transformed\biometric-1.1.0\AndroidManifest.xml:27:5-74
-23-->[androidx.biometric:biometric:1.1.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\3165812ea43451f02de544138f7316e4\transformed\biometric-1.1.0\AndroidManifest.xml:27:22-71
+23-->[androidx.biometric:biometric:1.1.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\3165812ea43451f02de544138f7316e4\transformed\biometric-1.1.0\AndroidManifest.xml:27:5-74
+23-->[androidx.biometric:biometric:1.1.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\3165812ea43451f02de544138f7316e4\transformed\biometric-1.1.0\AndroidManifest.xml:27:22-71
 24
 25    <permission
-25-->[androidx.core:core:1.16.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:22:5-24:47
+25-->[androidx.core:core:1.16.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:22:5-24:47
 26        android:name="com.example.para_mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-26-->[androidx.core:core:1.16.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:23:9-81
+26-->[androidx.core:core:1.16.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:23:9-81
 27        android:protectionLevel="signature" />
-27-->[androidx.core:core:1.16.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:24:9-44
+27-->[androidx.core:core:1.16.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:24:9-44
 28
 29    <uses-permission android:name="com.example.para_mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-29-->[androidx.core:core:1.16.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:26:5-97
-29-->[androidx.core:core:1.16.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:26:22-94
+29-->[androidx.core:core:1.16.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:26:5-97
+29-->[androidx.core:core:1.16.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:26:22-94
 30
 31    <supports-screens
-31-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:11:5-14:40
+31-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:11:5-14:40
 32        android:anyDensity="true"
-32-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:12:9-34
+32-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:12:9-34
 33        android:largeScreens="true"
-33-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:13:9-36
+33-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:13:9-36
 34        android:normalScreens="true" />
-34-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:14:9-37
+34-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:14:9-37
 35
 36    <uses-feature
-36-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:16:5-18:36
+36-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:16:5-18:36
 37        android:name="android.hardware.location.network"
-37-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:17:9-57
+37-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:17:9-57
 38        android:required="false" />
-38-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:18:9-33
+38-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:18:9-33
 39    <uses-feature
-39-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:19:5-21:36
+39-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:19:5-21:36
 40        android:name="android.hardware.location.gps"
-40-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:20:9-53
+40-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:20:9-53
 41        android:required="false" />
-41-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:21:9-33
+41-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:21:9-33
 42    <uses-feature
-42-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:22:5-24:36
+42-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:22:5-24:36
 43        android:name="android.hardware.telephony"
-43-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:23:9-50
+43-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:23:9-50
 44        android:required="false" />
-44-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:24:9-33
+44-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:24:9-33
 45    <uses-feature
-45-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:25:5-27:36
+45-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:25:5-27:36
 46        android:name="android.hardware.wifi"
-46-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:26:9-45
+46-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:26:9-45
 47        android:required="false" />
-47-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\acer\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:27:9-33
+47-->[org.osmdroid:osmdroid-android:6.1.10] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\c5fa7a8b99e7147a4f1fabb127f1c0ba\transformed\osmdroid-android-6.1.10\AndroidManifest.xml:27:9-33
 48
 49    <application
-49-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:18:5-66:19
+49-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:18:5-66:19
 50        android:name="com.example.para_mobile.ParaMobileApp"
-50-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:19:9-38
+50-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:19:9-38
 51        android:allowBackup="true"
-51-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:20:9-35
+51-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:20:9-35
 52        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-52-->[androidx.core:core:1.16.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:28:18-86
+52-->[androidx.core:core:1.16.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\3a65ad2c7140f7a7c299389eedb02411\transformed\core-1.16.0\AndroidManifest.xml:28:18-86
 53        android:dataExtractionRules="@xml/data_extraction_rules"
-53-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:21:9-65
+53-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:21:9-65
 54        android:debuggable="true"
 55        android:extractNativeLibs="false"
 56        android:fullBackupContent="@xml/backup_rules"
-56-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:22:9-54
+56-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:22:9-54
 57        android:icon="@mipmap/ic_launcher"
-57-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:23:9-43
+57-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:23:9-43
 58        android:label="@string/app_name"
-58-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:24:9-41
+58-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:24:9-41
 59        android:networkSecurityConfig="@xml/network_security_config"
-59-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:25:9-69
+59-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:25:9-69
 60        android:requestLegacyExternalStorage="true"
-60-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:30:9-52
+60-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:30:9-52
 61        android:roundIcon="@mipmap/ic_launcher_round"
-61-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:26:9-54
+61-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:26:9-54
 62        android:supportsRtl="true"
-62-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:27:9-35
+62-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:27:9-35
 63        android:testOnly="true"
 64        android:theme="@style/Theme.PARAmobile"
-64-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:28:9-48
+64-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:28:9-48
 65        android:usesCleartextTraffic="true" >
-65-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:29:9-44
+65-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:29:9-44
 66
 67        <!-- SplashActivity (New launcher activity) -->
 68        <activity
-68-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:34:9-42:20
+68-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:34:9-42:20
 69            android:name="com.example.para_mobile.activity.SplashActivity"
-69-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:35:13-52
+69-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:35:13-52
 70            android:exported="true"
-70-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:36:13-36
+70-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:36:13-36
 71            android:theme="@style/SplashTheme" >
-71-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:37:13-47
+71-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:37:13-47
 72            <intent-filter>
-72-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:38:13-41:29
+72-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:38:13-41:29
 73                <action android:name="android.intent.action.MAIN" />
-73-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:39:17-69
-73-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:39:25-66
+73-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:39:17-69
+73-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:39:25-66
 74
 75                <category android:name="android.intent.category.LAUNCHER" />
-75-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:40:17-77
-75-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:40:27-74
+75-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:40:17-77
+75-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:40:27-74
 76            </intent-filter>
 77        </activity>
 78
 79        <!-- LoginActivity (No longer the launcher) -->
 80        <activity
-80-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:46:9-51:20
+80-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:46:9-51:20
 81            android:name="com.example.para_mobile.activity.LoginActivity"
-81-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:47:13-51
+81-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:47:13-51
 82            android:exported="true"
-82-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:48:13-36
+82-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:48:13-36
 83            android:windowSoftInputMode="stateHidden|adjustResize" >
-83-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:49:13-67
+83-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:49:13-67
 84        </activity>
 85
 86        <!-- MainActivity (Opened after login success) -->
 87        <activity
-87-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:54:9-56:39
+87-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:54:9-56:39
 88            android:name="com.example.para_mobile.activity.MainActivity"
-88-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:55:13-50
+88-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:55:13-50
 89            android:exported="true" />
-89-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:56:13-36
+89-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:56:13-36
 90
 91        <!-- Registration Activity -->
 92        <activity
-92-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:59:9-61:40
+92-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:59:9-61:40
 93            android:name="com.example.para_mobile.activity.RegisterActivity"
-93-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:60:13-54
+93-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:60:13-54
 94            android:exported="false" />
-94-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:61:13-37
+94-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:61:13-37
 95
 96        <uses-library
-96-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:63:9-65:40
+96-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:63:9-65:40
 97            android:name="org.apache.http.legacy"
-97-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:64:13-50
+97-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:64:13-50
 98            android:required="false" />
-98-->C:\Users\acer\AndroidStudioProjects\PARA-final\frontend_mobile\app\src\main\AndroidManifest.xml:65:13-37
+98-->C:\Users\yoshi\StudioProjects\IT342-PARA\frontend_mobile\app\src\main\AndroidManifest.xml:65:13-37
 99
 100        <activity
-100-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\036638a4715c7373fd40c7a2776d7758\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+100-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\036638a4715c7373fd40c7a2776d7758\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
 101            android:name="androidx.compose.ui.tooling.PreviewActivity"
-101-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\036638a4715c7373fd40c7a2776d7758\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+101-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\036638a4715c7373fd40c7a2776d7758\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
 102            android:exported="true" />
-102-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\036638a4715c7373fd40c7a2776d7758\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+102-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\036638a4715c7373fd40c7a2776d7758\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
 103        <activity
-103-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\362e02bd9f22af3af08eae9d4f08a39a\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:23:9-25:39
+103-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\362e02bd9f22af3af08eae9d4f08a39a\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:23:9-25:39
 104            android:name="androidx.activity.ComponentActivity"
-104-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\362e02bd9f22af3af08eae9d4f08a39a\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:24:13-63
+104-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\362e02bd9f22af3af08eae9d4f08a39a\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:24:13-63
 105            android:exported="true" />
-105-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\362e02bd9f22af3af08eae9d4f08a39a\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:25:13-36
+105-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\362e02bd9f22af3af08eae9d4f08a39a\transformed\ui-test-manifest-1.7.0\AndroidManifest.xml:25:13-36
 106        <activity
-106-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:23:9-27:75
+106-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:23:9-27:75
 107            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
-107-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:24:13-93
+107-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:24:13-93
 108            android:excludeFromRecents="true"
-108-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:25:13-46
+108-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:25:13-46
 109            android:exported="false"
-109-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:26:13-37
+109-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:26:13-37
 110            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-110-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:27:13-72
+110-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:27:13-72
 111        <!--
 112            Service handling Google Sign-In user revocation. For apps that do not integrate with
 113            Google Sign-In, this service will never be started.
 114        -->
 115        <service
-115-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:33:9-37:51
+115-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:33:9-37:51
 116            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
-116-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:34:13-89
+116-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:34:13-89
 117            android:exported="true"
-117-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:35:13-36
+117-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:35:13-36
 118            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
-118-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:36:13-107
+118-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:36:13-107
 119            android:visibleToInstantApps="true" />
-119-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:37:13-48
+119-->[com.google.android.gms:play-services-auth:21.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\90f075ba86f37c7290551e3f23d6b2b6\transformed\play-services-auth-21.3.0\AndroidManifest.xml:37:13-48
 120
 121        <activity
-121-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\410e4dab84eba58ee72e4cc52289edbb\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
+121-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\410e4dab84eba58ee72e4cc52289edbb\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
 122            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-122-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\410e4dab84eba58ee72e4cc52289edbb\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
+122-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\410e4dab84eba58ee72e4cc52289edbb\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
 123            android:exported="false"
-123-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\410e4dab84eba58ee72e4cc52289edbb\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
+123-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\410e4dab84eba58ee72e4cc52289edbb\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
 124            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-124-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\410e4dab84eba58ee72e4cc52289edbb\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
+124-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\410e4dab84eba58ee72e4cc52289edbb\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
 125
 126        <meta-data
-126-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\b6855bab8d39134b0164d51cbb28d717\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
+126-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\b6855bab8d39134b0164d51cbb28d717\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
 127            android:name="com.google.android.gms.version"
-127-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\b6855bab8d39134b0164d51cbb28d717\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
+127-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\b6855bab8d39134b0164d51cbb28d717\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
 128            android:value="@integer/google_play_services_version" />
-128-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\b6855bab8d39134b0164d51cbb28d717\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
+128-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\b6855bab8d39134b0164d51cbb28d717\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
 129
 130        <provider
-130-->[androidx.emoji2:emoji2:1.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+130-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
 131            android:name="androidx.startup.InitializationProvider"
-131-->[androidx.emoji2:emoji2:1.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+131-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
 132            android:authorities="com.example.para_mobile.androidx-startup"
-132-->[androidx.emoji2:emoji2:1.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+132-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
 133            android:exported="false" >
-133-->[androidx.emoji2:emoji2:1.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+133-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
 134            <meta-data
-134-->[androidx.emoji2:emoji2:1.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+134-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
 135                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-135-->[androidx.emoji2:emoji2:1.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+135-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
 136                android:value="androidx.startup" />
-136-->[androidx.emoji2:emoji2:1.3.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+136-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\bcf6420fb6c0150214e42dfe27bbc6a6\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
 137            <meta-data
-137-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\b704d7910bf67512626c8351985cdd4d\transformed\gotrue-kt-debug\AndroidManifest.xml:14:13-16:52
+137-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\b704d7910bf67512626c8351985cdd4d\transformed\gotrue-kt-debug\AndroidManifest.xml:14:13-16:52
 138                android:name="io.github.jan.supabase.gotrue.SupabaseInitializer"
-138-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\b704d7910bf67512626c8351985cdd4d\transformed\gotrue-kt-debug\AndroidManifest.xml:15:17-81
+138-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\b704d7910bf67512626c8351985cdd4d\transformed\gotrue-kt-debug\AndroidManifest.xml:15:17-81
 139                android:value="androidx.startup" />
-139-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\b704d7910bf67512626c8351985cdd4d\transformed\gotrue-kt-debug\AndroidManifest.xml:16:17-49
+139-->[io.github.jan-tennert.supabase:gotrue-kt-android-debug:1.2.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\b704d7910bf67512626c8351985cdd4d\transformed\gotrue-kt-debug\AndroidManifest.xml:16:17-49
 140            <meta-data
-140-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\acer\.gradle\caches\8.11.1\transforms\b0a89bef5d9aa681dbc6aa8490e5afca\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:29:13-31:52
+140-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\b0a89bef5d9aa681dbc6aa8490e5afca\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:29:13-31:52
 141                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-141-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\acer\.gradle\caches\8.11.1\transforms\b0a89bef5d9aa681dbc6aa8490e5afca\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:30:17-78
+141-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\b0a89bef5d9aa681dbc6aa8490e5afca\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:30:17-78
 142                android:value="androidx.startup" />
-142-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\acer\.gradle\caches\8.11.1\transforms\b0a89bef5d9aa681dbc6aa8490e5afca\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:31:17-49
+142-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\b0a89bef5d9aa681dbc6aa8490e5afca\transformed\lifecycle-process-2.8.7\AndroidManifest.xml:31:17-49
 143            <meta-data
-143-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+143-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
 144                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-144-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+144-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
 145                android:value="androidx.startup" />
-145-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+145-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
 146            <meta-data
-146-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\2c0a8719e5f36b81c1f3b38010cf7f44\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:31:13-33:52
+146-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\2c0a8719e5f36b81c1f3b38010cf7f44\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:31:13-33:52
 147                android:name="com.russhwolf.settings.SettingsInitializer"
-147-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\2c0a8719e5f36b81c1f3b38010cf7f44\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:32:17-74
+147-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\2c0a8719e5f36b81c1f3b38010cf7f44\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:32:17-74
 148                android:value="androidx.startup" />
-148-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\2c0a8719e5f36b81c1f3b38010cf7f44\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:33:17-49
+148-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.0.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\2c0a8719e5f36b81c1f3b38010cf7f44\transformed\multiplatform-settings-no-arg-debug\AndroidManifest.xml:33:17-49
 149        </provider>
 150
 151        <receiver
-151-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+151-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
 152            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-152-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+152-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
 153            android:directBootAware="false"
-153-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+153-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
 154            android:enabled="true"
-154-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+154-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
 155            android:exported="true"
-155-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+155-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
 156            android:permission="android.permission.DUMP" >
-156-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+156-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
 157            <intent-filter>
-157-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+157-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
 158                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-158-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
-158-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+158-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+158-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
 159            </intent-filter>
 160            <intent-filter>
-160-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+160-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
 161                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-161-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
-161-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+161-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+161-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
 162            </intent-filter>
 163            <intent-filter>
-163-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+163-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
 164                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-164-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
-164-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+164-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+164-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
 165            </intent-filter>
 166            <intent-filter>
-166-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+166-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
 167                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-167-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
-167-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\acer\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+167-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+167-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\yoshi\.gradle\caches\8.11.1\transforms\afb0431ed9ac8af42a0e766d3ef78860\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
 168            </intent-filter>
 169        </receiver>
 170    </application>

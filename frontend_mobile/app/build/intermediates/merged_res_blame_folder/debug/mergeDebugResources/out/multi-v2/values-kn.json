@@ -4,24 +4,7 @@
             "outputFile": "com.example.para_mobile.app-mergeDebugResources-64:/values-kn/values-kn.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\3165812ea43451f02de544138f7316e4\\transformed\\biometric-1.1.0\\res\\values-kn\\values-kn.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,164,252,383,515,654,788,925,1074,1174,1324,1472",
-                        "endColumns": "108,87,130,131,138,133,136,148,99,149,147,127",
-                        "endOffsets": "159,247,378,510,649,783,920,1069,1169,1319,1467,1595"
-                    },
-                    "to": {
-                        "startLines": "68,70,75,76,77,78,79,80,81,82,83,84",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "6996,7201,7635,7766,7898,8037,8171,8308,8457,8557,8707,8855",
-                        "endColumns": "108,87,130,131,138,133,136,148,99,149,147,127",
-                        "endOffsets": "7100,7284,7761,7893,8032,8166,8303,8452,8552,8702,8850,8978"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\74f5ddd17a51ebbf1bc7100d56a06486\\transformed\\material3-release\\res\\values-kn\\values-kn.xml",
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\74f5ddd17a51ebbf1bc7100d56a06486\\transformed\\material3-release\\res\\values-kn\\values-kn.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -38,24 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\3a65ad2c7140f7a7c299389eedb02411\\transformed\\core-1.16.0\\res\\values-kn\\values-kn.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,256,357,463,564,672,800",
-                        "endColumns": "97,102,100,105,100,107,127,100",
-                        "endOffsets": "148,251,352,458,559,667,795,896"
-                    },
-                    "to": {
-                        "startLines": "38,39,40,41,42,43,44,205",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "3529,3627,3730,3831,3937,4038,4146,20410",
-                        "endColumns": "97,102,100,105,100,107,127,100",
-                        "endOffsets": "3622,3725,3826,3932,4033,4141,4269,20506"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\f6119e05f0e703b3cee9d501980cdc2f\\transformed\\appcompat-1.7.0\\res\\values-kn\\values-kn.xml",
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\f6119e05f0e703b3cee9d501980cdc2f\\transformed\\appcompat-1.7.0\\res\\values-kn\\values-kn.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -72,7 +38,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\b1dbf5e720920d4bcce1e75aa01aaa10\\transformed\\material-1.9.0\\res\\values-kn\\values-kn.xml",
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\3a65ad2c7140f7a7c299389eedb02411\\transformed\\core-1.16.0\\res\\values-kn\\values-kn.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,153,256,357,463,564,672,800",
+                        "endColumns": "97,102,100,105,100,107,127,100",
+                        "endOffsets": "148,251,352,458,559,667,795,896"
+                    },
+                    "to": {
+                        "startLines": "38,39,40,41,42,43,44,205",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "3529,3627,3730,3831,3937,4038,4146,20410",
+                        "endColumns": "97,102,100,105,100,107,127,100",
+                        "endOffsets": "3622,3725,3826,3932,4033,4141,4269,20506"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\b1dbf5e720920d4bcce1e75aa01aaa10\\transformed\\material-1.9.0\\res\\values-kn\\values-kn.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -91,24 +74,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\60440fe5fcda6f0d5ac757ef9ac249ff\\transformed\\ui-release\\res\\values-kn\\values-kn.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,202,286,382,482,571,655,748,839,924,1006,1092,1171,1246,1324,1401,1478,1547",
-                        "endColumns": "96,83,95,99,88,83,92,90,84,81,85,78,74,77,76,76,68,117",
-                        "endOffsets": "197,281,377,477,566,650,743,834,919,1001,1087,1166,1241,1319,1396,1473,1542,1660"
-                    },
-                    "to": {
-                        "startLines": "48,49,69,71,72,86,87,195,196,198,199,201,202,203,204,206,207,208",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "4579,4676,7105,7289,7389,9049,9133,19592,19683,19850,19932,20101,20180,20255,20333,20511,20588,20657",
-                        "endColumns": "96,83,95,99,88,83,92,90,84,81,85,78,74,77,76,76,68,117",
-                        "endOffsets": "4671,4755,7196,7384,7473,9128,9221,19678,19763,19927,20013,20175,20250,20328,20405,20583,20652,20770"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\64f247e6396b1bb339141d905e845110\\transformed\\foundation-release\\res\\values-kn\\values-kn.xml",
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\64f247e6396b1bb339141d905e845110\\transformed\\foundation-release\\res\\values-kn\\values-kn.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -125,7 +91,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\410e4dab84eba58ee72e4cc52289edbb\\transformed\\play-services-base-18.5.0\\res\\values-kn\\values.xml",
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\60440fe5fcda6f0d5ac757ef9ac249ff\\transformed\\ui-release\\res\\values-kn\\values-kn.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,202,286,382,482,571,655,748,839,924,1006,1092,1171,1246,1324,1401,1478,1547",
+                        "endColumns": "96,83,95,99,88,83,92,90,84,81,85,78,74,77,76,76,68,117",
+                        "endOffsets": "197,281,377,477,566,650,743,834,919,1001,1087,1166,1241,1319,1396,1473,1542,1660"
+                    },
+                    "to": {
+                        "startLines": "48,49,69,71,72,86,87,195,196,198,199,201,202,203,204,206,207,208",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "4579,4676,7105,7289,7389,9049,9133,19592,19683,19850,19932,20101,20180,20255,20333,20511,20588,20657",
+                        "endColumns": "96,83,95,99,88,83,92,90,84,81,85,78,74,77,76,76,68,117",
+                        "endOffsets": "4671,4755,7196,7384,7473,9128,9221,19678,19763,19927,20013,20175,20250,20328,20405,20583,20652,20770"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\410e4dab84eba58ee72e4cc52289edbb\\transformed\\play-services-base-18.5.0\\res\\values-kn\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -142,7 +125,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\acer\\.gradle\\caches\\8.11.1\\transforms\\b6855bab8d39134b0164d51cbb28d717\\transformed\\play-services-basement-18.4.0\\res\\values-kn\\values.xml",
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\b6855bab8d39134b0164d51cbb28d717\\transformed\\play-services-basement-18.4.0\\res\\values-kn\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -156,6 +139,23 @@
                         "startOffsets": "5768",
                         "endColumns": "145",
                         "endOffsets": "5909"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\yoshi\\.gradle\\caches\\8.11.1\\transforms\\3165812ea43451f02de544138f7316e4\\transformed\\biometric-1.1.0\\res\\values-kn\\values-kn.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,164,252,383,515,654,788,925,1074,1174,1324,1472",
+                        "endColumns": "108,87,130,131,138,133,136,148,99,149,147,127",
+                        "endOffsets": "159,247,378,510,649,783,920,1069,1169,1319,1467,1595"
+                    },
+                    "to": {
+                        "startLines": "68,70,75,76,77,78,79,80,81,82,83,84",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "6996,7201,7635,7766,7898,8037,8171,8308,8457,8557,8707,8855",
+                        "endColumns": "108,87,130,131,138,133,136,148,99,149,147,127",
+                        "endOffsets": "7100,7284,7761,7893,8032,8166,8303,8452,8552,8702,8850,8978"
                     }
                 }
             ]
