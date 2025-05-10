@@ -244,9 +244,10 @@ public class SupabaseService {
             logger.info("Getting user from token");
             HttpHeaders headers = new HttpHeaders();
             headers.set("apikey", supabaseApiKey);
+            headers.set("Accept", "application/json");
+            headers.set("Authorization", "Bearer " + jwt.trim());
 
-            String authToken = jwt.startsWith("Bearer ") ? jwt : "Bearer " + jwt;
-            headers.set("Authorization", "Bearer " + authToken);
+
 
             ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                     url,
