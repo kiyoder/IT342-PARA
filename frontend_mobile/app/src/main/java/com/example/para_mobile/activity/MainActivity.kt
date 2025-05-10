@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
 
+
         setContentView(R.layout.activity_main)
 
         // Initialize SharedPreferences

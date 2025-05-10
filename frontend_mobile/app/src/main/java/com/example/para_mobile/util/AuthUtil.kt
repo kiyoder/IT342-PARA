@@ -1,6 +1,7 @@
 package com.example.para_mobile.util
 
 import android.content.Context
+import android.util.Log
 import com.example.para_mobile.api.RetrofitClient
 
 object AuthUtil {
@@ -15,5 +16,7 @@ object AuthUtil {
             apply()
         }
         RetrofitClient.setAuthToken(token)
+        Log.d("AuthUtil", "Saved and set auth token: ${token.take(10)}...")
+
     }
 } 

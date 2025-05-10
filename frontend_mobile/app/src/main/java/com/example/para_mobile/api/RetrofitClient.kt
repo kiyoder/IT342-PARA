@@ -45,12 +45,6 @@ object RetrofitClient {
                 builder.addHeader("Content-Type", "application/json")
                 builder.addHeader("Accept", "application/json")
 
-//                // Add id header if available
-//                val context = com.example.para_mobile.ParaMobileApp.instance.applicationContext
-//                val supabaseUid = getSupabaseUid(context)
-//                if (!supabaseUid.isNullOrEmpty()) {
-//                    builder.addHeader("id", supabaseUid)
-//                }
 
                 chain.proceed(builder.build())
             }
