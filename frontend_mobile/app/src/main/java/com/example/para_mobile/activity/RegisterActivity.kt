@@ -1,5 +1,6 @@
 package com.example.para_mobile.activity
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -34,8 +35,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var ivTogglePassword: ImageView
     private lateinit var progressBar: ProgressBar
     private lateinit var cvGoogle: CardView
-    private lateinit var cvFacebook: CardView
-    private val TAG = "RegisterActivity"
 
     // Google Sign-In
     private lateinit var googleAuthHelper: GoogleAuthHelper
@@ -54,7 +53,6 @@ class RegisterActivity : AppCompatActivity() {
         ivTogglePassword = findViewById(R.id.ivTogglePassword)
         progressBar = findViewById(R.id.progressBar)
         cvGoogle = findViewById(R.id.cvGoogle)
-        cvFacebook = findViewById(R.id.cvFacebook)
 
         // Initialize Google Sign-In
         googleAuthHelper = GoogleAuthHelper(this)
@@ -72,11 +70,6 @@ class RegisterActivity : AppCompatActivity() {
         // Google Sign-Up
         cvGoogle.setOnClickListener {
             signUpWithGoogle()
-        }
-
-        // Facebook Sign-Up (placeholder)
-        cvFacebook.setOnClickListener {
-            Toast.makeText(this, "Facebook signup not implemented yet", Toast.LENGTH_SHORT).show()
         }
 
         // Redirect to LoginActivity when the link is clicked

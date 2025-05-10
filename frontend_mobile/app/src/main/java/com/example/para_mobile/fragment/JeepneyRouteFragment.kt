@@ -27,8 +27,6 @@ class JeepneyRouteFragment : Fragment() {
     // UI Components
     private lateinit var clearRouteButton: ImageButton
     private lateinit var routesRecyclerView: RecyclerView
-    private lateinit var initialLocationText: TextView
-    private lateinit var destinationText: TextView
     private lateinit var loadingOverlay: View
     private lateinit var progressText: TextView
     private lateinit var noRoutesView: View
@@ -56,8 +54,6 @@ class JeepneyRouteFragment : Fragment() {
     private var initialLon: Double = 0.0
     private var destinationLat: Double = 0.0
     private var destinationLon: Double = 0.0
-    private var initialLocationName: String = ""
-    private var destinationName: String = ""
 
     // Progress tracking
     private var progress: Int = 0
@@ -89,8 +85,6 @@ class JeepneyRouteFragment : Fragment() {
         // Initialize UI components
         clearRouteButton = view.findViewById(R.id.clear_route_button)
         routesRecyclerView = view.findViewById(R.id.routesRecyclerView)
-        initialLocationText = view.findViewById(R.id.initial_location_placeholder)
-        destinationText = view.findViewById(R.id.destination_placeholder)
 
         loadingOverlay = LayoutInflater.from(context).inflate(R.layout.loading_overlay, container, false)
         progressText = loadingOverlay.findViewById(R.id.progress_text)
@@ -161,23 +155,16 @@ class JeepneyRouteFragment : Fragment() {
     }
 
     fun setRouteData(
-        initialLocationName: String,
-        destinationName: String,
         initialLat: Double,
         initialLon: Double,
         destinationLat: Double,
         destinationLon: Double
     ) {
         val applyData = {
-            this.initialLocationName = initialLocationName
-            this.destinationName = destinationName
             this.initialLat = initialLat
             this.initialLon = initialLon
             this.destinationLat = destinationLat
             this.destinationLon = destinationLon
-
-            initialLocationText.text = "From: $initialLocationName"
-            destinationText.text = "To: $destinationName"
 
             searchRoutes()
         }
@@ -190,8 +177,7 @@ class JeepneyRouteFragment : Fragment() {
     }
 
     private fun searchRoutes() {
-        Log.d(TAG, "Starting route search from $initialLocationName to $destinationName")
-        Log.d(TAG, "Coordinates: ($initialLat, $initialLon) to ($destinationLat, $destinationLon)")
+        Log.d(TAG, "Starting route search from ($initialLat, $initialLon) to ($destinationLat, $destinationLon)")
         showLoading(true)
         fetchAllRoutes()
     }
@@ -266,7 +252,7 @@ class JeepneyRouteFragment : Fragment() {
     }
 
     private fun handleSaveRoute(route: RouteSearchResult, isSaved: Boolean) {
-        val routeKey = "${route.routeNumber}:${initialLocationName}:${destinationName}"
+        val routeKey = "${route.routeNumber}:${initialLat}:${destinationLat}"
         if (isSaved) {
             savedRoutes.add(routeKey)
             Toast.makeText(context, "Route saved", Toast.LENGTH_SHORT).show()
@@ -295,32 +281,32 @@ class JeepneyRouteFragment : Fragment() {
             if (parent != null && loadingOverlay.parent == null) {
                 parent.addView(loadingOverlay)
             }
+            loadingOverlay.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            loadingOverlay.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            loadingOverlay.bringToFront()
             loadingOverlay.visibility = View.VISIBLE
-            routesRecyclerView.visibility = View.GONE
-            noRoutesView.visibility = View.GONE
         } else {
             loadingOverlay.visibility = View.GONE
-            routesRecyclerView.visibility = View.VISIBLE
         }
     }
 
     private fun showNoRoutesView(show: Boolean) {
         val parent = view as? ViewGroup
+        val fromToCard = parent?.findViewById<View>(R.id.fromToCard)
         if (show) {
-            if (parent != null && noRoutesView.parent == null) {
-                parent.addView(noRoutesView)
+            if (parent != null && noRoutesView.parent == null && fromToCard != null) {
+                val index = parent.indexOfChild(fromToCard)
+                parent.addView(noRoutesView, index + 1)
             }
             noRoutesView.visibility = View.VISIBLE
-            routesRecyclerView.visibility = View.GONE
         } else {
             noRoutesView.visibility = View.GONE
-            routesRecyclerView.visibility = View.VISIBLE
         }
     }
 
     private fun updateProgress(current: Int, total: Int) {
         val percentage = (current * 100) / total
-        progressText.text = "Scanning routes: $percentage%"
+        progressText.text = "$percentage%"
     }
 
     fun setOnRouteSelectedListener(listener: (RouteSearchResult, String) -> Unit) {

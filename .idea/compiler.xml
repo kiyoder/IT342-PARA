@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+<<<<<<< HEAD
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
         </processorPath>
@@ -14,6 +15,12 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="21">
+=======
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="PARA-mobile.app" target="21" />
+>>>>>>> e6ea88a6b01cca7273ee1c2bbd541cebf61b27a6
       <module name="PARA-web" target="23" />
     </bytecodeTargetLevel>
   </component>

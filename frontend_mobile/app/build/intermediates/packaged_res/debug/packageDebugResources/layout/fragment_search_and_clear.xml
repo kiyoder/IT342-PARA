@@ -5,6 +5,20 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!-- Title View - Outside and to the left of the card -->
+    <TextView
+        android:id="@+id/locationTitleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Search Location"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:gravity="start" />
+
     <!-- Location Selector Section -->
     <androidx.cardview.widget.CardView
         android:id="@+id/locationCard"

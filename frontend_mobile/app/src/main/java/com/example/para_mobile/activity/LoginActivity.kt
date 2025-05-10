@@ -24,6 +24,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 
 class LoginActivity : AppCompatActivity() {
 
@@ -34,7 +37,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var ivTogglePassword: ImageView
     private lateinit var progressBar: ProgressBar
     private lateinit var cvGoogle: CardView
-    private lateinit var cvFacebook: CardView
     private var isPasswordVisible = false
     private val TAG = "LoginActivity"
 
@@ -54,7 +56,6 @@ class LoginActivity : AppCompatActivity() {
         ivTogglePassword = findViewById(R.id.ivTogglePassword)
         progressBar = findViewById(R.id.progressBar)
         cvGoogle = findViewById(R.id.cvGoogle)
-        cvFacebook = findViewById(R.id.cvFacebook)
 
         // Initialize Google Sign-In
         googleAuthHelper = GoogleAuthHelper(this)
@@ -74,15 +75,14 @@ class LoginActivity : AppCompatActivity() {
             signInWithGoogle()
         }
 
-        // Facebook Sign-In (placeholder)
-        cvFacebook.setOnClickListener {
-            Toast.makeText(this, "Facebook login not implemented yet", Toast.LENGTH_SHORT).show()
-        }
-
         // Redirect to RegisterActivity when the link is clicked
         tvGoToRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+        }
+
+        findViewById<CardView>(R.id.cvBiometrics).setOnClickListener {
+            showBiometricPrompt()
         }
     }
 
@@ -334,5 +334,46 @@ class LoginActivity : AppCompatActivity() {
                 finish()
             }
         })
+    }
+
+    private fun showBiometricPrompt() {
+        val biometricManager = BiometricManager.from(this)
+        when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
+            BiometricManager.BIOMETRIC_SUCCESS -> {
+                val executor = ContextCompat.getMainExecutor(this)
+                val promptInfo = BiometricPrompt.PromptInfo.Builder()
+                    .setTitle("Biometric Login")
+                    .setSubtitle("Log in using your biometrics")
+                    .setNegativeButtonText("Cancel")
+                    .build()
+
+                val biometricPrompt = BiometricPrompt(this, executor,
+                    object : BiometricPrompt.AuthenticationCallback() {
+                        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                            super.onAuthenticationSucceeded(result)
+                            val token = getSharedPreferences("app_prefs", MODE_PRIVATE).getString("jwt_token", null)
+                            if (!token.isNullOrEmpty()) {
+                                goToMain()
+                            } else {
+                                Toast.makeText(applicationContext, "No saved session. Please log in first.", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                            super.onAuthenticationError(errorCode, errString)
+                            Toast.makeText(applicationContext, "Authentication error: $errString", Toast.LENGTH_SHORT).show()
+                        }
+                        override fun onAuthenticationFailed() {
+                            super.onAuthenticationFailed()
+                            Toast.makeText(applicationContext, "Authentication failed", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                biometricPrompt.authenticate(promptInfo)
+            }
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE,
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE,
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                Toast.makeText(this, "Biometric features are not available/enrolled on this device.", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }

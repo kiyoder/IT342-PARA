@@ -77,6 +77,11 @@ animator mtrl_fab_hide_motion_spec
 animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
+array assume_strong_biometrics_models
+array crypto_fingerprint_fallback_prefixes
+array crypto_fingerprint_fallback_vendors
+array delay_showing_prompt_models
+array hide_fingerprint_instantly_prefixes
 attr SharedValue
 attr SharedValueId
 attr actionBarDivider
@@ -1345,6 +1350,7 @@ color background_floating_material_dark
 color background_floating_material_light
 color background_material_dark
 color background_material_light
+color biometric_error_color
 color black
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
@@ -2224,6 +2230,7 @@ dimen disabled_alpha_material_light
 dimen fastscroll_default_thickness
 dimen fastscroll_margin
 dimen fastscroll_minimum_range
+dimen fingerprint_icon_size
 dimen highlight_alpha_material_colored
 dimen highlight_alpha_material_dark
 dimen highlight_alpha_material_light
@@ -2975,6 +2982,8 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable dotted_line
 drawable dotted_lines
+drawable fingerprint_dialog_error
+drawable fingerprint_dialog_fp_icon
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_add
@@ -3331,7 +3340,6 @@ id customPanel
 id cut
 id cvBiometrics
 id cvEmail
-id cvFacebook
 id cvGoogle
 id cvPassword
 id cvUsername
@@ -3349,7 +3357,6 @@ id design_menu_item_action_area_stub
 id design_menu_item_text
 id design_navigation_view
 id destinationInput
-id destination_placeholder
 id dialog_button
 id dimensions
 id direct
@@ -3395,11 +3402,14 @@ id expanded_menu
 id fade
 id favoriteButton
 id favorites_container
-id fetch_routes_button
 id fill
 id fill_horizontal
 id fill_vertical
 id filled
+id fingerprint_description
+id fingerprint_error
+id fingerprint_icon
+id fingerprint_subtitle
 id fitCenter
 id fitEnd
 id fitStart
@@ -3411,8 +3421,6 @@ id floating
 id forever
 id fragment_container
 id fragment_container_view_tag
-id fromIcon
-id fromToCard
 id frost
 id fullscreen_header
 id ghost_view
@@ -3449,7 +3457,6 @@ id info
 id info_window_subtitle
 id info_window_title
 id initialLocation
-id initial_location_placeholder
 id inspection_slot_table_set
 id invisible
 id inward
@@ -3474,13 +3481,13 @@ id legacy
 id light
 id line1
 id line3
-id lineBetween
 id linear
 id listMode
 id list_item
 id llLoginLink
 id llRegisterLink
 id locationCard
+id locationTitleView
 id location_address
 id location_name
 id location_type_icon
@@ -3753,7 +3760,6 @@ id title
 id titleContainer
 id titleDividerNoCustom
 id title_template
-id toIcon
 id toggle
 id top
 id topPanel
@@ -3949,6 +3955,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout fingerprint_dialog_layout
 layout fragment_about
 layout fragment_action_buttons
 layout fragment_favorites
@@ -4111,8 +4118,10 @@ string common_open_on_phone
 string common_signin_button_text
 string common_signin_button_text_long
 string compass
+string confirm_device_credential_password
 string cyclemap
 string default_error_message
+string default_error_msg
 string default_popup_window_title
 string dropdown_menu
 string error_a11y_label
@@ -4121,6 +4130,13 @@ string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string fiets_nl
+string fingerprint_dialog_touch_sensor
+string fingerprint_error_hw_not_available
+string fingerprint_error_hw_not_present
+string fingerprint_error_lockout
+string fingerprint_error_no_fingerprints
+string fingerprint_error_user_canceled
+string fingerprint_not_recognized
 string first_fix_message
 string format_distance_feet
 string format_distance_kilometers
@@ -4133,6 +4149,9 @@ string format_distance_only_meter
 string format_distance_only_mile
 string format_distance_only_nautical_mile
 string format_distance_value_unit
+string generic_error_no_device_credential
+string generic_error_no_keyguard
+string generic_error_user_canceled
 string hello_blank_fragment
 string hide_bottom_view_on_scroll_behavior
 string hills
